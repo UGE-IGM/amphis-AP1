@@ -1,9 +1,10 @@
 # courspython
-Récupération du cours de python du source forge igm
 
+Vous trouverez des liens sur des Notebook Jupyter que vous pouvez lancer directement sans installation.
 
 
 1-valeurs-variables-types [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/UGE-IGM/courspython/master?filepath=%2FCours%2F1-valeurs-variables-types%2F1-valeurs-variables-types.ipynb)
+
 
 2-conditionnelles  [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/UGE-IGM/courspython/master?filepath=Cours%2F2-conditionnelles%2F2-conditionnelles.ipynb)
 
