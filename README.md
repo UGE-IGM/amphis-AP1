@@ -4,6 +4,8 @@ Récupération du cours de python du source forge igm
 
 1-valeurs-variables-types [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/UGE-IGM/courspython/master?filepath=%2FCours%2F1-valeurs-variables-types.ipynb)
 
+1-valeurs-variables-types [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/UGE-IGM/courspython/master?filepath=%2FCours%2F1-valeurs-variables-types.ipynb)
+
 2-conditionnelles  [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/UGE-IGM/courspython/master?filepath=Cours%2F2-conditionnelles%2F2-conditionnelles.ipynb)
 
 3-boucles [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/UGE-IGM/courspython/master?filepath=Cours%2F3-boucles%2F3-boucles.ipynb)
