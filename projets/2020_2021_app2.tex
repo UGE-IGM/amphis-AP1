@@ -40,96 +40,107 @@ Le code source du programme de jeu de paris {\tt Bet \& Risk} a été perdu à c
 \section{Bet \& Risk}
 
 Les ingénieurs ont aussi perdu la spécification du langage, mais heureusement, ils ont retrouvé un exemple
-d'une suite d'instructions et son résultat :
+d'une suite d'instructions et son résultat (voir Fig. \ref{fichier retrouve}. Les lignes y étant inscrite en bleue
+sont les entrées du joueur, les lignes en rouge sont les sorties du programme.
 
 \setlength{\columnseprule}{0.4pt}
 \setlength{\marginparwidth}{0pt}
 
-\begin{multicols}{2}
-\begin{verbatim}
-<<< graine
-42
-<<< lancer
->>> Vous avez tiré un 6
->>> La banque a tiré un 1
->>> Votre mise ?
-2
->>> Vous avez maintenant tiré un 1
->>> La banque a aussi tiré un 6 et un 3
-Votre somme : 7
-Celle de la banque : 9
->>> Perdu !
->>> Quitte ou double ?
-quitte
-<<< consulter
->>> Vous avez 8€
-<<< lancer
->>> Vous avez tiré un 2
->>> La banque a tiré un 2
->>> Votre mise ?
-0
->>> Pas possible !
->>> Pour info, vous avez 8€
->>> Votre mise ?
-1
->>> Vous avez maintenant tiré un 2
->>> La banque a aussi tiré un 6 et un 1
-Votre somme : 4
-Celle de la banque : 8
->>> Perdu !
->>> Quitte ou double ?
-double
->>> Vous avez maintenant tiré un 6
->>> La banque a aussi tiré un 6
-Votre somme : 8
-Celle de la banque : 12
->>> Perdu !
->>> Quitte ou double ?
-quitte
-<<< lancer
->>> Vous avez tiré un 5
->>> La banque a tiré un 1
->>> Votre mise ?
-10
->>> Pas possible !
->>> Pour info, vous avez 6€
->>> Votre mise ?
-6
->>> Vous avez maintenant tiré un 5
->>> La banque a aussi tiré un 4 et un 1
-Votre somme : 10
-Celle de la banque : 5
->>> Gagné !
-<<< lancer
->>> Vous avez tiré un 1
->>> La banque a tiré un 1
->>> Votre mise ?
-3
->>> Vous avez maintenant tiré un 2
->>> La banque a aussi tiré un 2 et un 5
-Votre somme : 3
-Celle de la banque : 7
->>> Perdu !
->>> Quitte ou double ?
-double
->>> Vous avez maintenant tiré un 5
->>> La banque a aussi tiré un 1
-Votre somme : 7
-Celle de la banque : 7
->>> Egalité !
->>> Quitte ou double ?
-double
->>> Vous avez maintenant tiré un 5
->>> La banque a aussi tiré un 2
-Votre somme : 10
-Celle de la banque : 7
->>> Gagné !
-<<< consulter
->>> Vous avez 24€
-<<< terminer
-Bravo, vous avez doublé votre mise initiale !
-\end{verbatim}
-\end{multicols}
+\begin{figure}
+	\begin{center}
+		\begin{minipage}{10cm}
+			\begin{multicols}{2}
+				\noindent
+				{\color{blue}{\verb!graine!}}\\
+				{\color{blue}{\verb!42!}}\\
+				{\color{blue}{\verb!lancer!}}\\
+				{\color{red}{\verb!Vous avez tiré un 6!}}\\
+				{\color{red}{\verb!La banque a tiré un 1!}}\\
+				{\color{red}{\verb!Votre mise ?!}}\\
+				{\color{blue}{\verb!2!}}\\
+				{\color{red}{\verb!Vous avez maintenant tiré un 1!}}\\
+				{\color{red}{\verb!La banque a aussi tiré un 6 et un 3!}}\\
+				{\color{red}{\verb!Votre somme : 7!}}\\
+				{\color{red}{\verb!Celle de la banque : 9!}}\\
+				{\color{red}{\verb!Perdu !!}}\\
+				{\color{red}{\verb!Quitte ou double ?!}}\\
+				{\color{blue}{\verb!quitte!}}\\
+				{\color{blue}{\verb!consulter!}}\\
+				{\color{red}{\verb!Vous avez 8€!}}\\
+				{\color{red}{\verb!lancer!}}\\
+				{\color{red}{\verb!Vous avez tiré un 2!}}\\
+				{\color{red}{\verb!La banque a tiré un 2!}}\\
+				{\color{red}{\verb!Votre mise ?!}}\\
+				{\color{red}{\verb!0!}}\\
+				{\color{red}{\verb!Pas possible !!}}\\
+				{\color{red}{\verb!Pour info, vous avez 8€!}}\\
+				{\color{red}{\verb!Votre mise ?!}}\\
+				{\color{blue}{\verb!1!}}\\
+				{\color{red}{\verb!Vous avez maintenant tiré un 2!}}\\
+				{\color{red}{\verb!La banque a aussi tiré un 6 et un 1!}}\\
+				{\color{red}{\verb!Votre somme : 4!}}\\
+				{\color{red}{\verb!Celle de la banque : 8!}}\\
+				{\color{red}{\verb!Perdu !!}}\\
+				{\color{red}{\verb!Quitte ou double ?!}}\\
+				{\color{blue}{\verb!!double}}\\
+				{\color{red}{\verb!Vous avez maintenant tiré un 6!}}\\
+				{\color{red}{\verb!La banque a aussi tiré un 6!}}\\
+				{\color{red}{\verb!Votre somme : 8!}}\\
+				{\color{red}{\verb!Celle de la banque : 12!}}\\
+				{\color{red}{\verb!Perdu !!}}\\
+				{\color{red}{\verb!Quitte ou double ?!}}\\
+				{\color{blue}{\verb!quitte!}}\\
+				{\color{blue}{\verb!lancer!}}\\
+				{\color{red}{\verb!Vous avez tiré un 5!}}\\
+				{\color{red}{\verb!La banque a tiré un 1!}}\\
+				{\color{red}{\verb!Votre mise ?!}}\\
+				{\color{blue}{\verb!10!}}\\
+				{\color{red}{\verb!Pas possible !!}}\\
+				{\color{red}{\verb!Pour info, vous avez 6€!}}\\
+				{\color{red}{\verb!Votre mise ?!}}\\
+				{\color{blue}{\verb!6!}}\\
+				{\color{red}{\verb!Vous avez maintenant tiré un 5!}}\\
+				{\color{red}{\verb!La banque a aussi tiré un 4 et un 1!}}\\
+				{\color{red}{\verb!Votre somme : 10!}}\\
+				{\color{red}{\verb!Celle de la banque : 5!}}\\
+				{\color{red}{\verb!Gagné !!}}\\
+				{\color{blue}{\verb!lancer!}}\\
+				{\color{red}{\verb!Vous avez tiré un 1!}}\\
+				{\color{red}{\verb!La banque a tiré un 1!}}\\
+				{\color{red}{\verb!Votre mise ?!}}\\
+				{\color{blue}{\verb!3!}}\\
+				{\color{red}{\verb!Vous avez maintenant tiré un 2!}}\\
+				{\color{red}{\verb!La banque a aussi tiré un 2 et un 5!}}\\
+				{\color{red}{\verb!Votre somme : 3!}}\\
+				{\color{red}{\verb!Celle de la banque : 7!}}\\
+				{\color{blue}{\verb!Perdu !!}}\\
+				{\color{red}{\verb!Quitte ou double ?!}}\\
+				{\color{blue}{\verb!double!}}\\
+				{\color{red}{\verb!Vous avez maintenant tiré un 5!}}\\
+				{\color{red}{\verb!La banque a aussi tiré un 1!}}\\
+				{\color{red}{\verb!Votre somme : 7!}}\\
+				{\color{red}{\verb!Celle de la banque : 7!}}\\
+				{\color{red}{\verb!Egalité !!}}\\
+				{\color{red}{\verb!Quitte ou double ?!}}\\
+				{\color{blue}{\verb!double!}}\\
+				{\color{red}{\verb!Vous avez maintenant tiré un 5!}}\\
+				{\color{red}{\verb!La banque a aussi tiré un 2!}}\\
+				{\color{red}{\verb!Votre somme : 10!}}\\
+				{\color{red}{\verb!Celle de la banque : 7!}}\\
+				{\color{red}{\verb!Gagné !!}}\\
+				{\color{blue}{\verb!consulter!}}\\
+				{\color{red}{\verb!Vous avez 24€!}}\\
+				{\color{red}{\verb!terminer!}}\\
+				{\color{red}{\verb!Bravo, vous avez doublé votre mise initiale !!}}\\
+			\end{multicols}
+		\end{minipage}
+	\end{center}
+	\caption{Fichier retrouvé par les ingénieurs et retracant une exécution du programme \\
+				\emph{Bet \& Risk}}
+	\label{fichier retrouve}
+\end{figure}
+
+\bigskip
 
 Malgré tout, les ingénieurs ont aussi quelques souvenirs du fonctionnement du programme :
 
@@ -189,10 +200,6 @@ lorsque cet objectif n'était pas atteint, par contre s'il était atteint, un me
 \end{center}
 
 
-\paragraph{Le prompt.} Le prompt d'entrée est {\tt <}{\tt <}{\tt <}, alors que le prompt de sortie est {\tt >}{\tt >}{\tt >}.
-A aucun moment, le prompt d'entrée n'est entré par l'utilisateur.
-
-
 \bigskip
 \null
 \bigskip
@@ -209,6 +216,10 @@ A aucun moment, le prompt d'entrée n'est entré par l'utilisateur.
 	\begin{minipage}{10cm}
 		\textsc	{Reécrire le code source en Python du jeu {\tt Bet \& Risk} de manière à respecter
 					le rendu retrouvé et les souvenirs des ingénieurs.}
+
+		\vspace{0.5cm}
+
+		\textsc	{Dans une première version, le ``quitte ou double'' ne sera pas implémenté.}
 	\end{minipage}
 \end{center}
 
@@ -296,7 +307,8 @@ le texte \texttt{Bonjour}.
 Dans le cas de l'exemple retrouvé par les ingénieurs, le fichier d'entrée et de sortie sont :
 
 \begin{multicols}{2}
-\begin{verbatim}
+	{\color{blue}{
+				\begin{verbatim}
 graine
 42
 lancer
@@ -318,7 +330,8 @@ double
 consulter
 terminer
 
-\end{verbatim}
+			\end{verbatim}
+	}				}
 
 \begin{center}
 	\phantom{Bravo, vous avez doublé votre mise initiale !}
@@ -330,33 +343,34 @@ terminer
 \end{center}
 
 
-\begin{verbatim}
->>> Vous avez tiré un 6
->>> La banque a tiré un 1
->>> Votre mise ?
->>> Vous avez maintenant tiré un 1
->>> La banque a aussi tiré un 6 et un 3
+	{\color{red}{
+			\begin{verbatim}
+Vous avez tiré un 6
+La banque a tiré un 1
+Votre mise ?
+Vous avez maintenant tiré un 1
+La banque a aussi tiré un 6 et un 3
 Votre somme : 7
 Celle de la banque : 9
->>> Perdu !
->>> Quitte ou double ?
->>> Vous avez 8€
->>> Vous avez tiré un 2
->>> La banque a tiré un 2
->>> Votre mise ?
->>> Pas possible !
->>> Pour info, vous avez 8€
->>> Votre mise ?
->>> Vous avez maintenant tiré un 2
->>> La banque a aussi tiré un 6 et un 1
+Perdu !
+Quitte ou double ?
+Vous avez 8€
+Vous avez tiré un 2
+La banque a tiré un 2
+Votre mise ?
+Pas possible !
+Pour info, vous avez 8€
+Votre mise ?
+Vous avez maintenant tiré un 2
+La banque a aussi tiré un 6 et un 1
 Votre somme : 4
 Celle de la banque : 8
 ...
->>> Gagné !
->>> Vous avez 24€
+Gagné !
+Vous avez 24€
 Bravo, vous avez doublé votre mise initiale !
-\end{verbatim}
-
+			\end{verbatim}
+	}			}
 \begin{center}
 	\phantom{Bravo, vous avez doublé votre mise initiale !}
 	\textit{Le fichier obtenu en sortie}
