@@ -10,13 +10,11 @@ Vous trouverez des liens sur des Notebook Jupyter que vous pouvez lancer directe
 
 3-boucles [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/UGE-IGM/courspython/master?filepath=Cours%2F3-boucles%2F3-boucles.ipynb)
 
-4-fonctions [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/UGE-IGM/courspython/master?filepath=Cours%2F4-fonctions%2F4-fonctions.ipynb)
-
-4-fonctions [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/UGE-IGM/courspython/master?filepath=Cours%2F4-fonctions%2F4-fonctions_partie_1.ipynb)
+4-fonctions_Partie_1 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/UGE-IGM/courspython/master?filepath=Cours%2F4-fonctions%2F4-fonctions_partie_1.ipynb)
 
 5-listes [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/UGE-IGM/courspython/master?filepath=Cours%2F5-listes%2F5-listes.ipynb)
 
-6-fonctions [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/UGE-IGM/courspython/master?filepath=Cours%2F4-fonctions%2F4-fonctions_partie_2.ipynb)
+6-fonctions_Partie_2 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/UGE-IGM/courspython/master?filepath=Cours%2F4-fonctions%2F4-fonctions_partie_2.ipynb)
 
 7-iterables [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/UGE-IGM/courspython/master?filepath=Cours%2F6-iterables%2F6-iterables.ipynb)
 
