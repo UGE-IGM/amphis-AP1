@@ -12,9 +12,13 @@ Vous trouverez des liens sur des Notebook Jupyter que vous pouvez lancer directe
 
 4-fonctions [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/UGE-IGM/courspython/master?filepath=Cours%2F4-fonctions%2F4-fonctions.ipynb)
 
+4-fonctions [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/UGE-IGM/courspython/master?filepath=Cours%2F4-fonctions%2F4-fonctions_partie_1.ipynb)
+
 5-listes [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/UGE-IGM/courspython/master?filepath=Cours%2F5-listes%2F5-listes.ipynb)
 
-6-iterables [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/UGE-IGM/courspython/master?filepath=Cours%2F6-iterables%2F6-iterables.ipynb)
+6-fonctions [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/UGE-IGM/courspython/master?filepath=Cours%2F4-fonctions%2F4-fonctions_partie_2.ipynb)
 
-7-dictionnaires [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/UGE-IGM/courspython/master?filepath=Cours%2F7-dictionnaires%2F7-dictionnaires.ipynb)
+7-iterables [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/UGE-IGM/courspython/master?filepath=Cours%2F6-iterables%2F6-iterables.ipynb)
+
+8-dictionnaires [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/UGE-IGM/courspython/master?filepath=Cours%2F7-dictionnaires%2F7-dictionnaires.ipynb)
 
