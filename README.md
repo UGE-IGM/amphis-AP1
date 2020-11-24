@@ -14,7 +14,7 @@ Vous trouverez des liens sur des Notebook Jupyter que vous pouvez lancer directe
 
 5-listes [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/UGE-IGM/courspython/master?filepath=Cours%2F5-listes%2F5-listes.ipynb)
 
-6-fonctions_Partie_2 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/UGE-IGM/courspython/master?filepath=Cours%2F4-fonctions%2F6-fonctions_partie_2.ipynb)
+6-fonctions_Partie_2 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/UGE-IGM/courspython/master?filepath=%2FCours%2F4-fonctions%2F6-fonctions_partie_2.ipynb)
 
 7-iterables [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/UGE-IGM/courspython/master?filepath=Cours%2F6-iterables%2F6-iterables.ipynb)
 
