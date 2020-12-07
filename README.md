@@ -20,7 +20,7 @@ Vous trouverez des liens sur des Notebook Jupyter que vous pouvez lancer directe
 
 7-iterables [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/UGE-IGM/courspython/master?filepath=Cours%2F6-iterables%2F6-iterables.ipynb)
 
-7-iterables [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/UGE-IGM/courspython/master?filepath=Cours%2F6-iterables%2F6-function-optionalarguments.ipynb)
+7-argument d'appel de fonction [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/UGE-IGM/courspython/master?filepath=Cours%2F6-iterables%2F6-function-optionalarguments.ipynb)
 
 
 8-dictionnaires [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/UGE-IGM/courspython/master?filepath=Cours%2F7-dictionnaires%2F7-dictionnaires.ipynb)
