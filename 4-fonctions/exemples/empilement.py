@@ -1,3 +1,4 @@
+# Observer comment évoluent les espaces de noms.
 def f(x):
     temp_f = 1
     return g(x) + temp_f

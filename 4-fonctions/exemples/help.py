@@ -1,3 +1,4 @@
+# Fonctionnement de la documentation Python (docstring) et des tests automatiques (doctest)
 def triple(n):
   """
   Fonction calculant le triple du nombre n (int ou float)

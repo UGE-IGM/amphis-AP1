@@ -1,3 +1,4 @@
+# Utilisation du mot-clé global pour modifier des variables globales.
 x = 12
 
 def test(a):

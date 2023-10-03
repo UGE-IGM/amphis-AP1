@@ -1,5 +1,8 @@
 # fonction à deux paramètres produisant un résultat
 def minimum(a, b):
+    """
+    Renvoie le minimum de a et b
+    """
     if a >= b:
         return a
     else:
