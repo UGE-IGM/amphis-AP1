@@ -1,10 +1,13 @@
 def f(x):
-    return g(x) + 1
+    temp_f = 1
+    return g(x) + temp_f
 
 def g(x):
-    return h(x) + 2
+    temp_g = 2
+    return h(x) + temp_g
 
 def h(x):
-    return x + 3
+    temp_h = 3
+    return x + temp_h
 
-f(8)
+print(f(8))
