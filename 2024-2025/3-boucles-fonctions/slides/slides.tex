@@ -1,0 +1,338 @@
+\documentclass[x11names,svgnames]{beamer}
+
+\usetheme{metropolis}
+\setbeamertemplate{caption}{\raggedright\insertcaption\par}
+\setbeamercolor{block title}{fg=LightSkyBlue4}
+\newenvironment<>{importantblock}[1]{%
+  \begin{actionenv}#2%
+    \def\insertblocktitle{#1}%
+    \par%
+    \mode<presentation>{%
+      \setbeamercolor{block title}{%
+        use=normal text,
+        fg=normal text.fg,
+        bg=normal text.bg!80!fg
+      }
+      \setbeamercolor{block body}{
+        use={block title, normal text},
+        bg=block title.bg!50!normal text.bg
+      }
+    }%
+    \usebeamertemplate{block begin}}
+  {\par\usebeamertemplate{block end}\end{actionenv}}
+\newenvironment<>{decisionblock}[1][Statement of the problem]{%
+  \begin{actionenv}#2%
+    \def\insertblocktitle{#1}%
+    \par%
+    \mode<presentation>{%
+      \setbeamercolor{block title}{%
+        use=normal text,
+        fg=normal text.fg,
+        bg=normal text.bg!80!fg
+      }
+      \setbeamercolor{block body}{
+        use={block title, normal text},
+        bg=block title.bg!50!normal text.bg
+      }
+    }%
+    \usebeamertemplate{block begin}}
+  {\par\usebeamertemplate{block end}\end{actionenv}}
+\usepackage{fontspec}
+\usepackage[french, frenchkw]{algorithm2e}
+\SetKwFor{Pc}{Pour chaque}{faire}{fin}
+\SetKwProg{Fn}{Fonction}{:}{}
+\usepackage{textcomp}
+\usepackage{minted}
+\usepackage{pdfpages}
+\usepackage{qrcode}
+\usepackage[francais]{babel}
+\usepackage{xspace}
+\usepackage[normalem]{ulem}
+\usepackage[backend=biber,style=authoryear,url=false]{biblatex}
+\addbibresource{Bibliography.bib} % Bibliography file
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{pifont}% http://ctan.org/pkg/pifont
+\newcommand{\cmark}{\ding{51}}%
+\newcommand{\xmark}{\ding{55}}%
+\usepackage{marvosym}
+\usepackage{tikz}
+\usetikzlibrary{calc, positioning, arrows, automata, fadings, decorations.pathmorphing, shapes, patterns, tikzmark, fit, chains, snakes, shapes.multipart}
+% https://tex.stackexchange.com/questions/401884/how-do-i-change-hyperlinks-color-only
+\hypersetup{
+  colorlinks,
+  allcolors=.,
+  urlcolor=DarkBlue,
+}
+
+
+\author{}
+\date{Lundi 25 septembre 2023}
+
+\title{\includegraphics[width=0.75\textwidth]{../../img/logo-igm.png} \\ Algorithmique et Programmation 1}
+\institute{L1 Mathématiques - L1 Informatique \\ Semestre 1}
+
+\begin{document}
+
+\maketitle
+
+\section{Chapitre 4 : Fonctions}
+
+\begin{frame}{Conclusions de l'activité}
+  \begin{itemize}
+  \item Chaque chef de rang a exécuté la même consigne
+  \item Qui dépend possiblement du numéro de rangée
+  \end{itemize}
+
+  En pseudo-code, ça pourrait donner :
+
+  \begin{algorithm}[H]
+    \Pc{rangée $r$}{
+      \emph{dessiner\textunderscore ligne}(r)\;
+    }
+  \end{algorithm}
+
+  \begin{algorithm}[H]
+    \Fn{dessiner\textunderscore ligne(r)}{
+    i $\leftarrow$ 0\;
+    \Tq{$i < n$}{
+      Faire lever une feuille rose\;
+      Avancer d'un.e étudiant.e\;
+      i $\leftarrow i + 1$
+    }
+    }
+  \end{algorithm}
+  
+\end{frame}
+
+\begin{frame}
+  \begin{block}{Fonction}
+    \vspace{0pt}
+    En informatique, une fonction est :
+    \begin{itemize}
+    \item Un morceau de programme
+    \item Portant en général \emph{un nom}
+    \item Prenant un ou plusieurs \emph{paramètres} (ou zéro)
+    \item Renvoyant un résultat (la plupart du temps)
+    \end{itemize}
+  \end{block}
+  \MVRightarrow{} Ça ressemble beaucoup aux fonctions vues en mathématiques !
+\end{frame}
+
+\begin{frame}
+  \frametitle{À quoi ça sert ?}
+
+  \begin{block}{Lisibilité}
+    \begin{itemize}
+    \item Isoler les parties du programme selon ce qu'elles font
+    \item Éviter trop d'imbrications entre \mintinline{python}{if} et \mintinline{python}{while}
+    \end{itemize}
+  \end{block}
+
+  \pause
+
+  \begin{block}{Modularité et robustesse}
+    \begin{itemize}
+    \item Réutiliser le code plusieurs fois
+    \item Faciliter la correction des bugs
+    \end{itemize}
+  \end{block}
+
+  \pause
+  \begin{block}{Généricité}
+    \begin{itemize}
+    \item Changer la valeur des paramètres
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\begin{frame}{Fonctions prédéfinies}
+  \MVRightarrow{} On en a déjà vu !
+
+  \begin{exampleblock}{Exemples}
+    \begin{itemize}
+    \pause
+  \item \mintinline{python}{print(s)} : afficher la chaîne de caractères \mintinline{python}{s}
+  \item \mintinline{python}{input(s)} : afficher la chaîne de caractères \mintinline{python}{s} et attendre une entrée utilisateur
+  \item \mintinline{python}{int(x)} : convertit l'objet \mintinline{python}{x} en entier
+  \item \mintinline{python}{len(x)} : renvoie la longueur de l'objet \mintinline{python}{x}
+  \end{itemize}
+\end{exampleblock}
+
+\pause
+
+\begin{block}{Modules}
+  \vspace{0pt}
+  Bibliothèque de fonctions, de types et d'objets
+\end{block}
+
+\begin{exampleblock}{Exemples}
+  \pause
+  \begin{itemize}
+  \item \mintinline{python}{randint(a,b)} (module \mintinline{python}{randint}) : renvoie un entier aléatoire compris entre \mintinline{python}{a} et \mintinline{python}{b}
+  \end{itemize}
+  \end{exampleblock}
+  
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Définition et appel de fonction}
+
+  \begin{block}{Définir une fonction}
+    \vspace{0pt}
+    La syntaxe pour définir une fonction est :
+    
+\begin{minted}{python}
+def nom_fonction(parametre_1, ..., parametre_n):
+    # corps de la fonction
+    # utilisant parametre_1, ..., parametre_n
+    ...
+    # peut renvoyer un résultat :
+    return resultat
+\end{minted}
+  \end{block}
+  \pause
+  \begin{block}{Appeler une fonction}
+    \vspace{0pt}
+    On peut ensuite \emph{appeler} la fonction \mintinline{python}{nom_fonction} das le code :
+\begin{minted}{python}
+resultat = nom_fonction(expression_1, ..., expression_n)
+\end{minted}
+  \end{block}
+\end{frame}
+
+\section{Exemples}
+
+\begin{frame}[fragile]{Fonction à paramètres et résultats}
+  Calculer le maximum de deux entiers :
+  \pause
+\begin{minted}{python}
+def maximum(a,b):
+    if a >= b:
+        return a
+    else:
+        return b
+\end{minted}
+\pause
+  \begin{block}{Entraînement}
+    \begin{itemize}
+    \item Ouvrir le programme \texttt{maximum.py}
+    \item Décrire l'exécution pas à pas du programme (avec état de la mémoire)
+    \item On peut aussi essayer avec \href{https://pythontutor.com/}{Python Tutor}
+    \item Dresser un tableau de valeurs de l'exécution du programme
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Fonction sans paramètres}
+  Simuler un lancé de dés, et compter combien de coups il faut pour faire un 6
+  \pause
+\begin{minted}{python}
+from random import randint
+def lance_de():
+    return randint(1,6)
+
+compteur = 1
+while lance_de() != 6:
+    compteur = compteur + 1
+print('Obtenu un 6 en', compteur, 'jets de dé.')
+\end{minted}
+  \pause
+  Ce que ça donne sur \href{https://pythontutor.com/}{Python Tutor}.
+\end{frame}
+
+\begin{frame}[fragile]{Fonction sans valeur de retour}
+  Dessiner un carré fait du caractère \mintinline{python}{caractere} :
+  \pause
+\begin{minted}{python}
+def dessine_carre(n, caractere):
+    i = 0
+    while i < n:
+        j = 0
+        while j < n:
+            print(caractere, end = '')
+            j += 1
+        print('\n', end = '')
+        i += 1
+    return
+\end{minted}
+  \pause
+Ce que ça donne sur \href{https://pythontutor.com/}{Python Tutor}.
+\end{frame}
+\begin{frame}[fragile]{Erreur fréquente : confusion \begin{tabular}{l}paramètre / saisie \\ retour / affichage\end{tabular}}
+
+  \begin{block}{Paramètre / saisie}
+\begin{minted}{python}
+def maximum(a,b):
+    a = int(input()) # NON !
+    b = int(input()) # NON !
+    if a >= b:
+        return a
+    else:
+        return b
+\end{minted}
+  \end{block}
+
+  \begin{block}{Retour / affichage}
+\begin{minted}{python}
+def maximum(a,b):
+    if a >= b:
+        print(a) # NON !
+    else:
+        print(b) # NON !
+\end{minted}
+  \end{block}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Composition de fonctions}
+  
+  On peut appeler une fonction dans une fonction ! (et ainsi de suite)
+\end{frame}
+
+\begin{frame}[fragile]{Dessiner un carré : variante}
+\begin{minted}{python}
+def dessine_ligne(n, caractere):
+    j = 0
+    while j < n:
+        print(caractere, end = '')
+        j += 1
+    print('\n', end = '')
+    return
+
+def dessine_carre(n, caractere):
+    i = 0
+    while i < n:
+        dessine_ligne(n,caractere)
+        i += 1
+    return
+\end{minted}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Fonctions et espaces de nom}
+  \begin{itemize}
+  \item les paramètres et variables définies dans le corps d'une fonction sont indépendantes des autres variables du programme
+  \item elles n'existent plus une fois l'exécution de la fonction terminée
+  \item on les appelle des variables \emph{locales}
+\end{itemize}
+
+Par conséquent, on peut renommer les variables d'une fonction.
+
+$\rightarrow{}$ Démonstration sur Thonny (\texttt{maximum.py}).
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{(Contre-)exemple : intervertir des variables}
+  \begin{itemize}
+  \item changer les valeurs de `a` et `b` dans la fonction n'a pas d'effet sur `x` et `y` dans le programme principal !
+    \item la variable `temp` n'existe plus après l'exécution de la fonction
+  \end{itemize}
+\end{frame}
+\end{document}
+
+%%% Local Variables:
+%%% TeX-engine: xetex
+%%% TeX-command-extra-options: "-shell-escape"
+%%% End:

@@ -1,0 +1,43 @@
+\RequirePackage{luatex85}
+\documentclass[tikz, border=4]{standalone}
+\usepackage{tikz}
+\usetikzlibrary{quotes,arrows,positioning}
+
+\begin{document}
+
+\definecolor{bleu}{RGB}{0,74,155}
+\definecolor{gris}{RGB}{155,155,155}
+
+\tikzstyle{val}=[rectangle,draw]
+\tikzstyle{var}=[rectangle,rounded corners=1.5ex,draw,bleu,minimum size=3ex]
+\tikzstyle{aff}=[->,thick]
+\tikzstyle{vrai}=[left,"vrai"]
+\tikzstyle{faux}=[right,"faux"]
+
+
+\tikzset{
+  every node/.style={font=\footnotesize},
+  instr/.style={rectangle,draw=black!70},
+  test/.style={rectangle,rounded corners,draw=bleu!70,text=bleu},
+  every edge/.style={>=stealth,semithick,bend angle=45,draw,->},
+  every edge quotes/.style={inner sep=.5em,font=\scriptsize,color=orange},
+  vrai/.style={left,"vrai"},
+  faux/.style={right,"faux"},
+}
+
+\begin{tikzpicture}[scale=1.3]	
+    \node[instr] (debut) at (0,0) {d\'ebut};
+    \node[test] (test) at (0,-1)  {condition};
+    \node[instr] (instr1) at (0,-2)  {bloc};
+    \node[instr] (suite) at (0,-3)  {suite};
+
+    \draw (instr1) edge (test)
+          (instr1) edge[left, "break", dashed] (suite)
+          (instr1) edge[left, bend left=90, looseness=2,
+                        "continue", dashed] (test)
+          (test) edge[vrai,bend right] (instr1)
+                 edge[faux,bend left] (suite)
+          (debut) edge (test);
+\end{tikzpicture}
+
+\end{document}

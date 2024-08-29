@@ -1,0 +1,43 @@
+\documentclass[tikz,border=4,convert={density=300,outext=.png}]{standalone}
+\usepackage{tikz}
+\usetikzlibrary{quotes,arrows,positioning}
+
+\begin{document}
+
+\definecolor{bleu}{RGB}{0,74,155}
+\definecolor{gris}{RGB}{155,155,155}
+
+\tikzstyle{val}=[rectangle,draw]
+\tikzstyle{var}=[rectangle,rounded corners=1.5ex,draw,bleu,minimum size=3ex]
+\tikzstyle{aff}=[->,thick]
+
+\tikzset{
+  every node/.style={font=\footnotesize},
+  instr/.style={rectangle,draw=black!70},
+  test/.style={rectangle,rounded corners,draw=bleu!70,text=bleu},
+  every edge/.style={>=stealth,semithick,bend angle=45,draw,->},
+  every edge quotes/.style={inner sep=.5em,font=\scriptsize,color=orange},
+  vrai/.style={left,"vrai"},
+  faux/.style={right,"faux"},
+}
+
+% \tikzset{
+%     every picture/.style={line width=1pt}, 
+%     every edge quotes/.style={auto},
+%     >=stealth,
+%     bullet/.style={circle,fill=black,inner sep=2pt},
+% %    scale=.5,
+% %    transform shape,
+%     label position=left
+% }
+
+\begin{tikzpicture}
+\node [var] (var1) at (1,0) {\bf x};
+\node [val] (val1) at (3,0) {\bf 42};
+\node [var] (var2) at (1,-1) {\bf y};
+%\node [val] (val2) at (3,-1) {\bf 43};
+\draw [aff] (var1) -- (val1);
+%\draw [aff] (var2) -- (val1);
+\end{tikzpicture}
+
+\end{document}
