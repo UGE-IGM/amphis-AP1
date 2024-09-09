@@ -1,5 +1,5 @@
 # Programme 'pancakes'
-# date : 06/09/2022
+# date : 09/09/2024
 # auteurs : équipe AP1
 
 nom_recette = 'des pancakes'
