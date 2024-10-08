@@ -11,4 +11,4 @@ def h(x):
     temp_h = 3
     return x + temp_h
 
-print(f(8))
+print(f(2))

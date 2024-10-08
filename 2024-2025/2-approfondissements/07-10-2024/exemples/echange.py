@@ -6,8 +6,9 @@ def echange(a, b):
     temp = a
     a = b
     b = temp
+    return a, b
 
-x = 1
-y = 2
-echange(x, y)
-print(x, y)
+t = 1
+u = 2
+t, u = echange(t, u)
+print(t, u)
