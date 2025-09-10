@@ -1,15 +1,15 @@
 ---
-title: "Test Notes de cours eisvogel"
+title: "Algorithmique et Programmation 1 \n Notes de cours séquence 1"
+titlepage: true
 author: "Marie"
 date: \today
 lang: fr
 fontsize: 12pt
 geometry: margin=2.5cm
 toc: true
-toc-depth: 3
+toc-depth: 2
 ---
 
-# Algorithmique et programmation 1
 
 ## Préambule
 
@@ -155,7 +155,7 @@ Mais pas de panique, nous allons voir tout cela en détail en CM !
 
 C'est parti pour expliciter les premières briques dans le langage Python. La suite est un catalogue présentant les outils et notions pratiques à connaître pour comprendre et écrire de premiers programmes en Python.
 
-### Types de valeurs 
+## Types de valeurs 
 
 Toutes les valeurs en Python possèdent un **type**. Le type d'une valeur définit les **opérations** possibles.
 Les types de base sont :
@@ -165,7 +165,7 @@ Les types de base sont :
 * les chaines de caractères (`str`)
 * un type de valeur indéfinie (`NoneType`)
 
-#### Nombres entiers (`int`)
+### Nombres entiers (`int`)
 
 
 ```python
@@ -239,7 +239,7 @@ Les types de base sont :
 
 
 
-#### Nombres décimaux (`float`)
+### Nombres décimaux (`float`)
 
 
 ```python
@@ -301,7 +301,7 @@ Les types de base sont :
 
 
 
-#### Booléens (`bool`)
+### Booléens (`bool`)
 
 Ce type permet de représenter les deux valeurs de vérité « vrai » et « faux ». 
 
@@ -348,7 +348,7 @@ true  # provoque une exception (une erreur)
     NameError: name 'true' is not defined
 
 
-#### Chaînes de caractères (`str`)
+### Chaînes de caractères (`str`)
 
 Une chaine de caractères est une succession de symboles (lettres, chiffres, ou autres) entre guillemet
 
@@ -369,7 +369,7 @@ Une chaine de caractères est une succession de symboles (lettres, chiffres, ou 
 
 
 ```python
-# Chaînes longues
+#### Chaînes longues
 """Ce plat est supposé être dégusté au petit-déjeuner 
 mais convient aussi comme dessert. Les pancakes sont 
 traditionnellement accommodés avec du sirop d'érable 
@@ -404,7 +404,7 @@ print("sauts\nde\nligne")
 
 
 ```python
-# tabulation, touche ⇥
+#### tabulation, touche ⇥
 print("Du\tsur\ntexte\t2 colonnes")
 ```
 
@@ -413,7 +413,7 @@ print("Du\tsur\ntexte\t2 colonnes")
 print("D'autres symboles spéciaux : \' \" \\")
 ```
 
-#### Valeur indéfinie (`NoneType`)
+### Valeur indéfinie (`NoneType`)
 
 
 ```python
@@ -422,13 +422,13 @@ None  # ça a l'air inutile mais en fait c'est bien pratique
 
 
 
-### Opérations 
+## Opérations 
 
 Le type d'un objet détermine les **opérations** qu'on peut lui appliquer. 
 
 C'est un principe *très important* en Python.
 
-#### Opérations sur les nombres
+### Opérations sur les nombres
 
 Addition (`a + b`), soustraction (`a - b`), multiplication (`a * b`), puissance (`a ** b`)
 - sur deux `int` et produisant un `int`
@@ -527,7 +527,7 @@ On peut aussi utiliser des parenthèses :
 (4 + 2) * 1.5
 ```
 
-#### Opérations sur les chaînes de caractères
+### Opérations sur les chaînes de caractères
 
 Concaténation : `s + t`
 
@@ -746,7 +746,7 @@ int('1.25')
 
 
 
-### Variables et affectations 
+## Variables et affectations 
 
 Une **variable** est un *nom* servant à désigner une valeur
 - Une variable est remplacée par sa valeur dans les calculs
@@ -790,7 +790,7 @@ foo
 
 
 
-### Modèle de mémoire de Python 
+## Modèle de mémoire de Python 
 
 *Modèle de mémoire : une image simplifiée de la manière dont fonctionne la mémoire de l'interpréteur Python*
 
@@ -800,13 +800,13 @@ Deux zones principales :
 
 Dans Python Tutor : pile à gauche, tas à droite
 
-##### Le tas
+#### Le tas
 
 Le tas est comme un *très* gros cahier dans lequel sont décrits les objets manipulés par un programme
 - Chaque objet décrit dans le cahier commence à un certain numéro de page, qu'on appelle son *adresse*
 - Certaines pages sont blanches, d'autres sont remplies
 
-##### La pile
+#### La pile
 
 La pile est comme l'index du cahier
 
@@ -989,7 +989,7 @@ Indiquer parmi les mots suivants ceux qui ne sont pas des noms valides pour une 
 
 
 
-### Saisie et affichage 
+## Saisie et affichage 
 
 Fonction de saisie : `x = input("Veuillez rentrer ...")`
   
@@ -1038,7 +1038,7 @@ print("Je multiplie toutes les quantités par", rapport)
 
 
 
-## Structures de contrôle 
+# Structures de contrôle 
 
 Les programmes et algorithmes les plus simples consistent à exécuter des instructions les unes après les autres, en **séquence**. C'est néanmoins très vite limité : il arrive fréquemment qu'on ait envie d'agir d'une certaine façon dans un cas et d'une autre dans un autre. Typiquement, on voudrait pouvoir continuer le programme de manière adaptée à une entrée de l'utilisateur. 
 
@@ -1046,13 +1046,13 @@ On va donc s'intéresser aux structures dites *conditionnelles*. Ces structures 
 
 Faisons donc d'abord un point sur ce type très important d'expressions :
 
-### Expressions booléennes 
+## Expressions booléennes 
 
 Les instructions conditionnelles sont écrites à l'aide d'**expressions booléennes**, c'est à dire d'expressions qui s'évaluent en un valeur de type `bool` (`True` ou `False`).
 
 Elles peuvent contenir des opérateurs de comparaison, des opérateurs logiques, etc.
 
-### Opérateurs de comparaison
+## Opérateurs de comparaison
 
 ```python
 a < b   # a strictement inférieur b
@@ -1072,7 +1072,7 @@ Les opérateurs de comparaison fonctionnent sur de nombreux types de valeurs
 
 ![](img/warning.png){ width=50px } **Rappel :** on ne peut pas ordonner des valeurs de types différents (sauf des nombres) ! 
 
-### Égalité ou inégalité 
+## Égalité ou inégalité 
 
 ```python
 a == b  # a égal à b
@@ -1133,13 +1133,13 @@ Les opérateurs `==` et `!=` acceptent des opérandes de types différents
 
 
 
-### Opérateurs logiques 
+## Opérateurs logiques 
 
 On peut combiner plusieurs expressions booléennes `a` et `b` à l'aide d'opérateurs logiques, inspirés de la logique mathématique.
 
 On peut résumer le comportement de ces opérateurs à l'aide de tableaux, appelés **tables de vérité**.
 
-#### Négation
+### Négation
 
 L'expression `not a` vaut `True` si `a` s'évalue en `False`, et `False` sinon (correspond à $\lnot a$).
 
@@ -1148,7 +1148,7 @@ L'expression `not a` vaut `True` si `a` s'évalue en `False`, et `False` sinon (
 `True`  | `False`
 `False` | `True`   
 
-#### Conjonction
+### Conjonction
 
 L'expression `a and b` vaut `True` si `a` et `b` s'évaluent toutes les deux en `True`, et `False` sinon (correspond à $a \land b$).
 
@@ -1159,7 +1159,7 @@ L'expression `a and b` vaut `True` si `a` et `b` s'évaluent toutes les deux en 
 `False` | `True` | `False` 
 `False` | `False` | `False`
 
-#### Disjonction
+### Disjonction
 
 L'expression `a or b` vaut `True` si `a` s'évalue en `True` ou `b` s'évalue en `True`, et  `False` sinon (correspond à $a \lor b$).
 
@@ -1451,9 +1451,9 @@ not (a > b and a > c) or (b > a and b > c)
 
 
 
-## Instructions conditionnelles 
+# Instructions conditionnelles 
 
-### Cas simple : Conditionnelle `Si` 
+## Cas simple : Conditionnelle `Si` 
 On peut maintenant modifier le flot d'instructions selon la valeur d'expressions booléennes, ou conditions :
 
 - **Si** une certaine condition est vraie, exécuter un certain groupe (ou bloc) d'instructions
@@ -1475,7 +1475,7 @@ if condition:
 - Les instructions du bloc **v** sont exécutées uniquement si `condition` est évaluée à `True`
 - Dans tous les cas, l'exécution reprend à l'instruction suivant le bloc indenté (ligne `suite (*)`)
 
-#### Exemple : pile ou face ?
+### Exemple : pile ou face ?
 Un programme qui :
 1. tire un nombre au hasard entre `0` et `1`
 2. affiche `pile` s'il a tiré `1`, `face` s'il a tiré `0`
@@ -1493,7 +1493,7 @@ if tirage == 0:
     print("face")
 ```
 
-#### Exemple : mettre deux chaînes dans l'ordre
+### Exemple : mettre deux chaînes dans l'ordre
 
 Supposons qu'il existe deux variables `a` et `b` désignant des `str`. 
 
@@ -1521,7 +1521,7 @@ if a > b:
 print(a, b)
 ```
 
-### La notion de bloc
+## La notion de bloc
 
 Sur cet exemple, on a vu un groupe de lignes commençant par des espaces, appelé **bloc**. Un bloc est utilisé pour regrouper plusieurs instructions dépendant de la même condition.
 
@@ -1548,7 +1548,7 @@ if tirage == 0:
     print("face")
 ```
 
-#### Erreurs fréquentes liées à l'indentation :
+### Erreurs fréquentes liées à l'indentation :
 
 
 ```python
@@ -1580,7 +1580,7 @@ if a > b:
 a, b = b, a  # oubli d'indentation
 ```
 
-### Conditionnelles `Si ... Sinon ...`
+## Conditionnelles `Si ... Sinon ...`
 
 
 
@@ -1609,7 +1609,7 @@ Seul *l'un des deux* blocs d'instructions, **v** *ou bien* **f**, est exécuté
 
 <img src='img/conditionnelle2.png' width='30%'>
 
-#### Exemple : division euclidienne
+### Exemple : division euclidienne
 
 
 ```python
@@ -1623,7 +1623,7 @@ else:
     print('Erreur : division par zéro')
 ```
 
-### Exemple : pile ou face ?
+## Exemple : pile ou face ?
 
 
 ```python
@@ -1650,7 +1650,7 @@ else: # Dans ce cas, tirage vaut nécessairement 0
     print("face")
 ```
 
-### Exercice
+## Exercice
 
 Écrire un programme qui permet de jouer à pile ou face :
 1. Demander à l'utilisateur de saisir `1` pour `pile` et `0` pour face
@@ -1713,7 +1713,7 @@ else:
     print(entier2)    
 ```
 
-### Conditionnelles composées
+## Conditionnelles composées
 
 Cette construction peut être imbriquée :
 
@@ -1734,7 +1734,7 @@ Toutes les variantes sont possibles — si chaque `else` correspond à un `if` d
 
 <img src='img/conditionnelle3.png' width='60%' style='display:inline'>
 
-#### Exemple : pile ou face, deux fois
+### Exemple : pile ou face, deux fois
 Écrire un programme qui tire deux fois à pile ou face et affiche `Gagné` si les deux tirages sont `pile`, `Perdu` sinon.
 
 
@@ -1753,7 +1753,7 @@ else:
     print("Perdu")
 ```
 
-#### Exemple : discriminant
+### Exemple : discriminant
 
 On suppose qu'il existe trois variables `a`, `b` et `c` désignant des nombres. On veut déterminer le nombre de solutions réelles de l'équation `a`$x^2$ + `b`$x$ + `c` = 0. Les cas suivants sont à considérer :
 
@@ -1794,7 +1794,7 @@ else:
             print("Deux solutions")
 ```
 
-### Conditionnelles enchaînées <a name="conditionnelles_enchainees"></a>
+## Conditionnelles enchaînées 
   
 Cas particulier où le bloc `else` contient seulement un autre `if` : le mot-clé `elif`
 
@@ -1886,7 +1886,7 @@ else:
 
 
 
-## Boucles 
+# Boucles 
 Comment faire si l'on veut répéter une instruction ?
 
 ### Exemple : pile ou face, rejouer tant qu'on perd
@@ -2094,7 +2094,7 @@ Il peut n'y avoir aucune itération, ou un nombre infini !
 
 
 
-### Outil d'analyse : tableau de valeurs
+## Outil d'analyse : tableau de valeurs
 
 Utile pour exécuter manuellement une boucle
 
@@ -2203,7 +2203,7 @@ ligne  | itération | res  |  i   | i > 0   | commentaire
 
 
 
-### Terminaison et correction d'une boucle
+## Terminaison et correction d'une boucle
 
 En général rien ne garantit :
 
@@ -2450,7 +2450,7 @@ ligne  | itér  | `k`   | `r` | `res`      | $\texttt{k}\times2^{\text{itér}}$ 
 
 
 
-### Boucles imbriquées <a name = "boucles_imbriquees"></a>
+## Boucles imbriquées 
 
 On peut écrire une boucle à l'intérieur d'une autre boucle
 
@@ -2629,7 +2629,7 @@ else:
 
 
 
-## Introduction aux listes 
+# Introduction aux listes 
 
 Il arrive souvent que l'on veuille faire référence à plusieurs données en même temps (parce qu'ils sont de même type, ou parce qu'elles se rapportent au même objet, par exemple). Par ailleurs, on ne sait pas toujours quelle quantité de données on va devoir retenir pour le bon déroulé de notre programme ou algorithme. 
 Difficile dans ces cas de savoir le nombre exact de variables à déclarer et initialiser !
@@ -2658,7 +2658,7 @@ Pour résumer :
 
 <div style='float:left; margin-right:40pt; width:10cm'><img src='img/schema_list_py.png'> *Un peu plus proche de la réalité* </div>
 
-### Création et affichage
+## Création et affichage
 
 **Création :** suite entre `[` et `]` d'expressions séparées par `,`
 
@@ -2687,9 +2687,9 @@ print(lst)
 [Exemple (Python tutor)](http://pythontutor.com/visualize.html#code=%23Cr%C3%A9ation%20et%20affichage%0A%0Alst_ex1%20%3D%20%5B1,%204.5,%20'toto',%20False%5D%0A%0Alst_vide%20%3D%20%5B%5D%0A%0Alst_ex2%20%3D%20%5B1,%202,%20%5B3,'haha'%5D,%20'hoho'%5D%0A%0Aprint%28%22Le%20premier%20exemple%20%3A%20%22,lst_ex1%29%0Aprint%28%22La%20liste%20vide%20%3A%20%22,%20lst_vide%29%0Aprint%28%22Le%20deuxi%C3%A8me%20exemple%20%3A%20%22,%20lst_ex2%29%0A%0A%23Acc%C3%A8s%20%C3%A0%20un%20%C3%A9l%C3%A9ment%0Ai%20%3D%202%0Aval_ex1%20%3D%20lst_ex1%5Bi%5D%0Aval_ex2%20%3D%20lst_ex2%5Bi%5D%0Aprint%28%22Les%20%C3%A9l%C3%A9ments%20d'indice%22,%20i,%20%22sont%22,%20val_ex1,%20%22et%22,%20val_ex2%29%0A%0A%23Longueur%0Ataille_ex1%20%3D%20len%28lst_ex1%29%0Ataille_vide%20%3D%20len%28lst_vide%29%0A%0Aprint%28%22La%20longueur%20de%20lst_ex2%20est%22,%20len%28lst_ex2%29%29%0A%0A%23Modification%20d'un%20%C3%A9l%C3%A9ment%0Alst_ex1%5B0%5D%20%3D%20%22allo%3F%3F%22%0Aval_ex2%5B1%5D%20%3D%20%22blop%22%0A%0Aprint%28%22Est-ce%20que%20lst_ex2%20est%20modifi%C3%A9e%3F%5Cn%22,%20lst_ex2%29%0A%0Alst_ex2%5B2%5D%20%3D%2042%0A%0Aprint%28%22Est-ce%20que%20val_ex2%20est%20modifi%C3%A9e%3F%5Cn%22,%20val_ex2%29%0A%0A%23ajout%20d'un%20%C3%A9l%C3%A9ment%0Alst_ex1.append%28%22et%20hop%22%29%0A%23retirer%20un%20%C3%A9l%C3%A9ment%20%28case%20d'indice%202%29%0Alst_ex1.pop%282%29%0A%23%20retirer%20le%20dernier%20%C3%A9l%C3%A9ment%0Alst_ex1.pop%28%29%0A%23%20encore%20une%20fois%20sans%20perdre%20la%20valeur%20en%20route%0Ares%20%3D%20lst_ex1.pop%28%29&cumulative=false&heapPrimitives=false&mode=edit&origin=opt-frontend.js&py=3&rawInputLstJSON=%5B%5D&textReferences=false)  
 (exemple filé à exploiter tout au long du cours)
 
-### Opérations et fonctions de base
+## Opérations et fonctions de base
 
-#### Longueur d'une liste
+### Longueur d'une liste
 
 La longueur d'une liste (le nombre d'éléments qu'elle contient) s'obtient par la fonction `len`.
 
@@ -2704,7 +2704,7 @@ print(len(lst))
 print(len([]))
 ```
 
-#### Accès aux éléments
+### Accès aux éléments
 
 Les éléments d'une liste à $n$ éléments sont numérotés de 0 à $n-1$.  
 Le numéro d'un élément est appelé son *indice*.  
@@ -2752,7 +2752,7 @@ lst = [3, 'toto', 4.5]
 affiche_elements(lst)
 ```
 
-#### Modification d'un élément
+### Modification d'un élément
 
 On peut modifier le $i$-ème élément de `lst` à l'aide d'une affectation :
 
@@ -2775,7 +2775,7 @@ lst[2] = 'titi'
 lst_bis
 ```
 
-#### Concaténation et répétition
+### Concaténation et répétition
 
 Comme pour les chaînes de caractères (`str`) on peut utiliser les opérateurs `+` pour fabriquer la concaténation de deux listes et `*` pour répéter une liste.
 
@@ -2809,7 +2809,7 @@ lst3 = lst + []
 lst4 = lst * 1
 ```
 
-#### Test d'appartenance
+### Test d'appartenance
 
 **Exercice :** Écrire une fonction recevant une liste et une valeur, et
 renvoyant `True` si la valeur apparaît dans la liste (`False` sinon)
@@ -2872,11 +2872,11 @@ if 'Médor' in lst:
     print('Bon chien !')
 ```
 
-### Manipulations par méthodes
+## Manipulations par méthodes
 
 On va maintenant énumérer un certain nombre de méthodes prédéfinies sur les listes, permettant des modifications plus complexes. Pour plus de détails, on pourra consulter la [documentation en ligne](https://docs.python.org/3/).
 
-#### Agrandir ou rétrécir une liste
+### Agrandir ou rétrécir une liste
 
 Plusieurs instructions ont un effet sur la taille de la liste :
 
@@ -2914,7 +2914,7 @@ print(lst)
 
 
 
-## Introduction aux fonctions 
+# Introduction aux fonctions 
 
 
 
@@ -2937,7 +2937,7 @@ L'utilisation de fonctions améliore les aspects suivants du code :
 -  **Généricité :**
     - changer la valeur des paramètres (même calcul mais avec différentes valeurs de départ)
 
-### Fonctions prédéfinies et bibliothèque standard
+## Fonctions prédéfinies et bibliothèque standard
 
 En Python, il existe un grand nombre de fonctions prédéfinies, que nous avons déjà utilisées, par exemple :
 
@@ -2973,7 +2973,7 @@ Il existe également de nombreux _modules_ officiels (par exemple le module `ran
 - bibliothèques de fonctions, de types et d'objets
 - liste des modules prédéfinis documentée [ici](https://docs.python.org/3/library).
 
-### Définition de fonction
+## Définition de fonction
 
 Pour définir une nouvelle fonction on utilise la syntaxe suivante :
 
@@ -2992,7 +2992,7 @@ Une fonction peut :
 * prendre un certain nombre de paramètres (ici, $n$, qui s'appellent `param_1` à `param_n`)
 * renvoyer une valeur (via l’instruction `return`)
 
-### Appel de fonction
+## Appel de fonction
 
 Une fois définie, `nom_fonction` peut être utilisée dans le code (on parle d'un **appel**) en indiquant entre parenthèses ses paramètres séparés par des virgules :
 
@@ -3041,7 +3041,7 @@ print("le max de", nb1, "et", nb2, "est", maximum(nb1, nb2))
 - Décrire l'exécution pas à pas du programme (avec état de la mémoire). On peut aussi essayer avec [Python Tutor](http://www.pythontutor.com/visualize.html#code=%23%20fonction%20%C3%A0%20deux%20param%C3%A8tres,%20sans%20effet%20de%20bord%0Adef%20maximum%28a,%20b%29%3A%0A%20%20%20%20if%20a%20%3E%20b%3A%0A%20%20%20%20%20%20%20%20return%20a%0A%20%20%20%20else%3A%0A%20%20%20%20%20%20%20%20return%20b%0A%20%20%20%20%0Anb1%20%3D%20int%28input%28%29%29%0Anb2%20%3D%20int%28input%28%29%29%0A%0A%23%20On%20appelle%20la%20fonction%20et%20on%20garde%20le%20r%C3%A9sultat%20dans%20c%20%3A%0Ac%20%3D%20maximum%28nb1,%20nb2%29%0Aprint%28%22le%20max%20de%22,%20nb1,%20%22et%22,%20nb2,%20%22est%22,%20c%29%0A%0A%23%20On%20peut%20aussi%20utiliser%20directement%20le%20r%C3%A9sultat%20%3A%0Aprint%28%22le%20max%20de%22,%20nb1,%20%22et%22,%20nb2,%20%22est%22,%20maximum%28nb1,%20nb2%29%29&cumulative=false&curInstr=0&heapPrimitives=true&mode=display&origin=opt-frontend.js&py=3&rawInputLstJSON=%5B%5D&textReferences=false).
 - Dresser un tableau de valeurs de l'exécution du programme
 
-#### Fonction sans paramètre
+### Fonction sans paramètre
 
 - En principe, une fonction sans paramètre devrait avoir toujours le même comportement
 - Dans l'exemple suivant, on utilise un générateur pseudo-aléatoire, ce qui explique que la fonction ne renvoie pas toujours le même résultat
@@ -3062,7 +3062,7 @@ while lance_de() != 6:
 print('Obtenu un 6 en', compteur, 'jets de dé.')
 ```
 
-#### Fonction sans valeur de retour
+### Fonction sans valeur de retour
 
 - Si l'exécution arrive à la dernière instruction du corps de la fonction sans rencontrer d'instruction `return expr`, alors la valeur de retour par défaut est `None` (même comportement si `return` seul)
 - En général une telle fonction a quand même un effet sur l'environnement (affichages, dessin, écriture dans un fichier, envoi d'informations sur le réseau...)
