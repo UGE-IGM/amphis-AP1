@@ -81,33 +81,18 @@
 
 % Objectifs : Fonctions complexes: mémoire, prototypes/signature Appels : évaluation, retour, pile. Terminal. Exemple : recherche du minimum dans une liste
 
-\begin{frame}{CC0 : Comment et quoi ?}
-  \begin{block}{Horaire}
-    \vspace{-0.25em}
-    \begin{itemize}
-    \item \textbf{Jeudi 10 octobre 10h45-11h15} (tiers-temps : 11h25) en A1
-    \item Les retardataires ne seront pas admis
-    \item Correction de 11h45 à 12h45 (en A1)
-    \end{itemize}
-  \end{block}
-  \pause
-  \begin{block}{Contenu}
-    \vspace{-0.25em}
-    \begin{itemize}
-    \item Tout ce qu'on a vu, y compris la séance d'aujourd'hui
-    \item Les slides \alert{et} les notes de cours
-    \item Pas de pseudo-code
-    \item QCM
-    \end{itemize}
-  \end{block}
-  \pause
-  \begin{block}{Sur la triche}
-    \vspace{-0.25em}
-    \begin{itemize}
-    \item L'examen est \textbf{individuel}
-    \item Tolérance zéro aux CC 1 et 2 (et 0.0000000000001 au CC0)
-    \end{itemize}
-  \end{block}
+\begin{frame}{Wooclap}
+  \includegraphics[width=\textwidth]{img/Wooclap.png}
+
+  \url{https://app.wooclap.com/PQZJFT}
+\end{frame}
+
+
+\begin{frame}{CC0 : un petit bilan}
+  \includegraphics[width=\textwidth]{img/Bilan_CC0.png}
+
+  Moyenne : 14,67/20 \qquad Médiane : 16/20
+  % Questions les moins réussies : algo max 1, exec et while tableau 2
 \end{frame}
 
 \section{Approfondissements : les fonctions}
@@ -137,7 +122,7 @@
       \onslide<2->{\draw [decorate, -latex, decoration={snake, segment length=5mm, amplitude=1mm, post length=1mm}] (0,0.5) -- (0,2.5) node[midway, left] {Affichages};}
 
       % Flèche d'effets de bord (zig-zag)
-      \onslide<3->{\draw [decorate, -latex, decoration={snake, segment length=5mm, amplitude=1mm, post length=1mm}] (0,-0.5) -- (0,-2.5) node[midway, left, label={right: (aka: Effets secondaires)}] {Effets de bord};}
+      % \onslide<3->{\draw [decorate, -latex, decoration={snake, segment length=5mm, amplitude=1mm, post length=1mm}] (0,-0.5) -- (0,-2.5) node[midway, left, label={right: (aka: Effets secondaires)}] {Effets de bord};}
     \end{tikzpicture}
 \end{frame}
 
@@ -148,7 +133,7 @@
   Calculer le \emph{minimum} de deux entiers (dans Thonny) :
   \pause
 \begin{minted}{python}
-def minimum(a,b):
+def minimum_int(a, b):
     if a < b:
         return a
     else:
@@ -159,8 +144,9 @@ def minimum(a,b):
 \begin{frame}[fragile]{Fonction à paramètres et résultats}
   Calculer le \emph{minimum} d'une liste non-vide (dans Thonny) :
   \pause
+  \onslide<2>
 \begin{minted}{python}
-def minimum(lst):
+def minimum_liste(lst):
     m = lst[0] # /!\ Erreur si lst est vide
     for elt in lst:
         if elt < m:
@@ -172,7 +158,7 @@ def minimum(lst):
 \begin{frame}[fragile]{Fonction sans valeur de retour}
   \begin{columns}
     \begin{column}{0.7\textwidth}
-  Dessiner un carré fait du caractère \mintinline{python}{caractere} (dans Thonny) :
+  Dessiner un carré fait du caractère \mintinline{python}{carac} (dans Thonny) :
 \end{column}
 \begin{column}{0.1\textwidth}
 \begin{verbatim}
@@ -185,29 +171,31 @@ def minimum(lst):
 \end{column}
 \end{columns}
 \pause
-\vspace{-0.5em}
+\vspace{-1em}
 \begin{overprint}
   \onslide<2>
 \begin{minted}{python}
-def dessine_carre(n, caractere):
+def dessine_carre(n, carac):
     i = 0
     while i < n:
         j = 0
+        ligne =""
         while j < n:
-            print(caractere, end = '')
+            ligne += carac
             j += 1
-        print('\n', end = '')
+        print(ligne)
         i += 1
-    return
+    return  # Facultatif : ne renvoie rien
 \end{minted}
   \onslide<3>
+  Mieux :
 \begin{minted}{python}
-def dessine_carre(n, caractere):
+def dessine_carre(n, carac):
     for i in range(0, n):
+        ligne = ""
         for j in range(0, n):
-            print(caractere, end = '')
-        print('\n', end = '')
-    return
+            ligne += carac
+        print(ligne)
 \end{minted}
 \end{overprint}
 \end{frame}
@@ -218,77 +206,46 @@ def dessine_carre(n, caractere):
   \begin{block}{En maths}
     $$\forall x \in X, g \circ f(x) = g(f(x))$$
   \end{block}
-  
+
   \begin{block}{En informatique}
     \vspace{0pt}
     On peut appeler une fonction dans une fonction ! \newline (et ainsi de suite)
   \end{block}
 \end{frame}
 
-\begin{frame}[fragile]{Dessiner un carré : variante}
-  \begin{columns}
-    \begin{column}{0.1\textwidth}
-\begin{verbatim}
-*****
-*****
-*****
-*****
-*****
-\end{verbatim}
-    \end{column}
-    \begin{column}{0.7\textwidth}
-      Carré de côté \mintinline{python}{n} = \mintinline{python}{n} lignes de longueur \mintinline{python}{n}
-    \end{column}
-\end{columns}
-\bigskip
-On peut donc décomposer ainsi :
-  \begin{itemize}
-  \item
+\begin{frame}[fragile]{Composition de fonctions : minimum d'une liste}
+  Calculer le \emph{minimum} d'une liste non-vide (dans Thonny) :
+  \pause
+\begin{overprint}
+  \onslide<1>
 \begin{minted}{python}
-def dessine_ligne(n,car):
-    """Dessine *une ligne* de longueur n
-       composée du caractère car."""
+def minimum_liste(lst):
+    m = lst[0] # /!\ Erreur si lst est vide
+    for elt in lst:
+        if elt < m:
+        m = elt
+    return m
 \end{minted}
-  \item
+  \onslide<2>
 \begin{minted}{python}
-def dessine_carre(n,car):
-    """Dessine *un carré* de longueur n
-       composé du caractère car."""
+def minimum_liste(lst):
+    m = lst[0] # /!\ Erreur si lst est vide
+    for elt in lst:
+        m = minimum_int(m, elt)
+    return m
 \end{minted}
-  \end{itemize}
-  \MVRightarrow{} Ce que ça donne dans Thonny
-\end{frame}
-\begin{frame}[fragile]{Dessiner un carré : variante}
-\begin{minted}{python}
-def dessine_ligne(n, caractere):
- """dessine une ligne de longueur n
-    composée du caractère car"""
-    for j in range(0, n):
-        print(caractere, end = '')
-    print('\n', end = '')
-    return
-\end{minted}
-\end{frame}
-\begin{frame}[fragile]{Dessiner un carré : variante}
-\begin{minted}{python}
-def dessine_carre(n, caractere):
- """dessine un carré de longueur n
-    composé du caractère car"""
-    for i in range(0, n):
-        dessine_ligne(n,caractere)
-    return
-\end{minted}
+  \end{overprint}
 \end{frame}
 
 \begin{frame}[fragile]{Erreur fréquente : confusion \begin{tabular}{l}paramètre / saisie \\ retour / affichage\end{tabular}}
 
     \vspace{-0.25em}
   \begin{columns}
-    \begin{column}{0.7\textwidth}
+    \begin{column}{0.5\textwidth}
   \begin{block}{Paramètre / saisie}
     \vspace{-0.25em}
 \begin{minted}{python}
-def minimum(a,b):
+def minimum_int(a,b):
     a = int(input()) # NON !
     b = int(input()) # NON !
     if a <= b:
@@ -302,8 +259,8 @@ def minimum(a,b):
   \begin{block}{Retour / affichage}
     \vspace{-0.25em}
 \begin{minted}{python}
-def maximum(a,b):
-    if a >= b:
+def minimum_int(a,b):
+    if a <= b:
         print(a) # NON !
     else:
         print(b) # NON !
@@ -311,8 +268,10 @@ def maximum(a,b):
   \end{block}
     \end{column}
     \pause
-    \begin{column}{0.3\textwidth}
-      Dans Thonny
+    \begin{column}{0.5\textwidth}
+      Ce que ça donne dans Thonny :
+
+      \texttt{minimum\_liste\_input\_print.py}
     \end{column}
     \end{columns}
 \end{frame}
@@ -364,10 +323,10 @@ $\rightarrow{}$ Démonstration sur Thonny (\texttt{minimum.py}).
 
 \begin{frame}
   \frametitle{Espaces de noms lors de l'exécution}
-  À un point du programme, l'ensemble des noms (variables, fonctions) connus est constitué de plusieurs espaces imbriqués (du plus ancien au plus récent) :
+  Les espaces de noms sont imbriqués :
   \begin{itemize}
   \item espace de noms prédéfini (\mintinline{python}{print}, \mintinline{python}{input}, \dots)
-  \item espace de noms global : définis dans le programme principal
+  \item espace de noms global : définis dans le programme principal (\emph{variables globales})
   \item espaces de noms locaux imbriqués dans l'\emph{ordre chronologique} des appels
     \begin{itemize}
     \item paramètres de l'appel
@@ -466,16 +425,19 @@ def h(x):
   \begin{itemize}
   \item possible pour n'importe quel nom défini dans un des espaces de noms antérieurs
   \item si plusieurs espaces contiennent le même nom, c'est le plus récent qui est sélectionné
+  \item la plupart du temps, on n'a besoin que des variables locales
+
+    (quitte à ajouter des paramètres)
   \end{itemize}
 \end{block}
 
-\begin{block}{Affectation}
-  
-  \begin{itemize}
-  \item par défaut, uniquement aux variables locales
-  \item pour une variable dans un espace de nom plus ancien, mots-clés \mintinline{python}{global} ou \mintinline{python}{nonlocal} \newline (à utiliser avec précaution)
-  \end{itemize}
+\pause
 
+\begin{block}{Affectation}
+  \vspace{0pt}
+  Seulement les variables \alert{locales} de la fonction courante !
+
+  (ou globales \emph{si on est dans le programme principal})
 \end{block}
 
 \end{frame}
@@ -499,7 +461,7 @@ return expr
 \end{minted}
 \begin{exampleblock}{Exemple}
 \begin{minted}{python}
-def minimum(a: int, b: int) -> int:
+def minimum_int(a: int, b: int) -> int:
 \end{minted}
 \end{exampleblock}
 \end{frame}
@@ -519,8 +481,10 @@ def minimum(a: int, b: int) -> int:
         \item reprise du programme principal dans l'espace global
         \end{itemize}
       \end{itemize}
-
 \end{frame}
+
+\section{Bonnes pratiques de programmation}
+
 \begin{frame}[fragile]{Documentation et test de fonctions}
   \begin{block}{Chaînes de documentation (\mintinline{python}{docstring})}
     \vspace{0pt}
@@ -560,7 +524,7 @@ def triple(n):
   """
   Calcule le triple du nombre n (int ou float)
   ou la répétition trois fois de la chaîne n.
-  
+
   >>> triple(3)
   9
   >>> triple(9.0)
@@ -578,6 +542,76 @@ def triple(n):
   doctest.testmod()
 \end{minted}
 \end{frame}
+
+\section{Extra}
+
+\begin{frame}{Responsabilité}
+
+  En général, une fonction est \emph{responsable} d'\alert{une seule chose}.
+
+  Sinon, on fait \emph{plusieurs} fonctions.
+
+      Ce que ça donne dans Thonny :
+
+      \texttt{minimum\_liste\_responsabilite.py}
+\end{frame}
+
+\begin{frame}[fragile]{Un autre exemple de composition de fonctions : dessiner un carré}
+  \begin{columns}
+    \begin{column}{0.1\textwidth}
+\begin{verbatim}
+*****
+*****
+*****
+*****
+*****
+\end{verbatim}
+    \end{column}
+    \begin{column}{0.7\textwidth}
+      Carré de côté \mintinline{python}{n} = \mintinline{python}{n} lignes de longueur \mintinline{python}{n}
+    \end{column}
+\end{columns}
+\bigskip
+\pause
+On peut donc décomposer ainsi :
+  \begin{itemize}
+  \item
+\begin{minted}{python}
+def dessine_ligne(n,carac):
+    """Dessine *une ligne* de longueur n
+       composée du caractère carac."""
+\end{minted}
+  \item
+\begin{minted}{python}
+def dessine_carre(n,carac):
+    """Dessine *un carré* de longueur n
+       composé du caractère carac."""
+\end{minted}
+  \end{itemize}
+  % \MVRightarrow{} Ce que ça donne dans Thonny
+\end{frame}
+\begin{frame}[fragile]{Dessiner un carré : variante}
+\begin{minted}{python}
+def dessine_ligne(n, carac):
+ """dessine une ligne de longueur n
+    composée du caractère carac"""
+    for j in range(0, n):
+        print(caractere, end = '')
+    print()
+    return
+\end{minted}
+\end{frame}
+\begin{frame}[fragile]{Dessiner un carré : variante}
+\begin{minted}{python}
+def dessine_carre(n, caractere):
+ """dessine un carré de longueur n
+    composé du caractère carac"""
+    for i in range(0, n):
+        dessine_ligne(n,caractere)
+    return
+\end{minted}
+\end{frame}
+
 
 \end{document}
 
