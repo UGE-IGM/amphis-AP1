@@ -1,5 +1,6 @@
 ---
-title: "Algorithmique et Programmation 1 \n Notes de cours séquence 1"
+title: "Algorithmique et Programmation 1"
+subtitle: "Notes de cours Séquence 1"
 titlepage: true
 author: "Marie"
 date: \today
@@ -2919,6 +2920,7 @@ print(lst)
 
 
 En programmation, une fonction est :
+
 - un morceau de programme
 - portant en général un **nom**
 - acceptant zéro, un ou plusieurs **paramètres**
