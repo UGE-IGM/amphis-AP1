@@ -1,0 +1,464 @@
+\documentclass[x11names,svgnames]{beamer}
+
+\usetheme{metropolis}
+\setbeamercolor{block title}{fg=LightSkyBlue4}
+\usepackage{fontspec}
+\usepackage[francais]{babel}
+\usepackage[french, frenchkw]{algorithm2e}
+\SetKwFor{Pc}{Pour chaque}{faire}{fin}
+\SetKwProg{Fn}{Fonction}{:}{}
+\usepackage{textcomp}
+\usepackage{minted}
+\usepackage{xspace}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{marvosym}
+\usepackage[framemethod=tikz]{mdframed}
+\usepackage{tikz}
+\usetikzlibrary{calc, positioning, arrows, decorations.pathmorphing}
+% https://tex.stackexchange.com/questions/401884/how-do-i-change-hyperlinks-color-only
+\hypersetup{
+  colorlinks,
+  allcolors=.,
+  urlcolor=DarkBlue,
+  pdftitle={AP1 - La récursivité}
+}
+
+
+\author{}
+\date{Lundi 1\textsuperscript{er} décembre 2025}
+
+\title{\includegraphics[width=0.75\textwidth]{../../../img/logo-igm.png} \\ Algorithmique et Programmation 1}
+\institute{L1 Mathématiques - L1 Informatique \\ Semestre 1}
+
+\begin{document}
+
+\maketitle
+
+\section{Un complément sur les fichiers}
+
+\begin{frame}{Itérables (encore une fois)}
+
+  \begin{block}{Définition}
+    \vspace{0pt}
+    Un objet dont on peut parcourir les éléments.
+    \begin{itemize}
+    \item[\MVRightarrow{}] Les dictionnaires \mintinline{python}{dict}
+    \item[\MVRightarrow{}] Les intervalles \mintinline{python}{range}
+    \item[\MVRightarrow{}] Les listes \mintinline{python}{list}
+    \item[\MVRightarrow{}] Les chaînes de caractères \mintinline{python}{str}
+    \item[\MVRightarrow{}] Les tuples \mintinline{python}{tuple}
+    \item Les ensembles \mintinline{python}{set}
+    \item \alert{Les fichiers \mintinline{python}{file}}
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Un système de sauvegarde}
+
+  Quand on quitte un programme (au hasard : PikTok), les données en mémoire de Python sont perdues. Comment faire ?
+
+  \pause
+
+  Les sauvegarder dans un fichier !
+
+  \MVRightarrow{} \mintinline{python}{fichier.write(chaine)} écrit \mintinline{python}{chaine} dans \mintinline{python}{fichier}.
+
+  Si les données sont sous forme d'une chaîne de caractères \mintinline{python}{texte} :
+
+  \begin{mdframed}[roundcorner=5pt]
+\begin{minted}{python}
+def sauvegarde(texte, fichier):
+    f = open(fichier, 'w')  # w = write
+    f.write(texte)          # écrire dans le fichier
+    f.write('\n')           # retour à la ligne
+    f.close()               # fermer le fichier
+\end{minted}
+  \end{mdframed}
+\end{frame}
+
+\begin{frame}[fragile]{Un système de sauvegarde}
+
+  Mais après il faut lire !
+
+  \MVRightarrow{} \mintinline{python}{fichier.read()} renvoie le contenu du fichier \mintinline{python}{fichier} sous forme de chaîne de caractères.
+
+  \pause
+
+  \begin{mdframed}[roundcorner=5pt]
+\begin{minted}{python}
+def recuperer_sauvegarde(fichier):
+    f = open(fichier, 'r')  # r = read
+    texte = f.read()
+    # Pour retirer le retour à la ligne
+    texte = texte.strip('\n')
+    f.close()
+    return texte
+\end{minted}
+  \end{mdframed}
+\end{frame}
+
+\begin{frame}[fragile]{Fermeture automatique}
+
+  C'est pénible de devoir penser à fermer le fichier à chaque fois. Python peut le faire automatiquement pour nous :
+
+  \begin{mdframed}[roundcorner=5pt]
+\begin{minted}{python}
+def sauvegarde(texte, fichier):
+    # Mieux :
+    with open(fichier, 'w') as f: # w = write
+        f.write(texte)
+        f.write('\n')  # retour à la ligne
+    # le fichier est fermé automatiquement
+\end{minted}
+  \end{mdframed}
+
+\end{frame}
+
+\begin{frame}[fragile]{Fermeture automatique}
+
+Idem quand on veut le lire :
+
+  \begin{mdframed}[roundcorner=5pt]
+\begin{minted}{python}
+def recuperer_sauvegarde(fichier):
+    # Mieux :
+    with open(fichier, 'r') as f: # r = read
+        texte = f.read()
+        return texte
+\end{minted}
+  \end{mdframed}
+
+  \MVRightArrow{} Voir aussi \texttt{lire\_fichier.py} et \texttt{ecrire\_fichier.py}.
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Encoder / Décoder}
+
+  Problème : comment stocker les données sous formes de chaîne de caractères ?
+
+  \begin{exampleblock}{Exemple 1 : stocker des pseudos}
+    \vspace{0pt}
+
+    Objectif : stocker la liste des pseudos des joueurs de PikTok\dots
+
+    \MVRightarrow{} Sur Thonny : \texttt{sauvegarde\_pseudos.py}.
+
+    \pause \dots{} et la récupérer !
+
+  \end{exampleblock}
+
+  \begin{exampleblock}{Exemple 2 : stocker une liste}
+    \vspace{0pt}
+
+    Objectif : stocker une liste et la récupérer.
+
+    \MVRightarrow{} Sur Thonny : \texttt{stocker\_liste.py}.
+
+  \end{exampleblock}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Encoder / Décoder}
+
+  \begin{exampleblock}{Exemple 2 : stocker une liste}
+    \vspace{0pt}
+
+    Objectif : stocker une liste et la récupérer.
+
+  \end{exampleblock}
+
+  \MVRightarrow{} Dès que les données se compliquent, ça devient un cauchemar\dots{} Qu'est-ce que ça va être pour PikTok ???!!!
+
+  \pause
+
+  \begin{block}{JSON}
+    \vspace{0pt}
+
+    Heureusement, les développeurs Python on pensé à nous !
+
+    (et à eux-mêmes)
+
+    \MVRightArrow{} JSON permet de stocker et de récupérer n'importe quel objet Python.
+
+    \mintinline{python}{json.dump(objet, fichier)} stocke \mintinline{python}{objet} dans \mintinline{python}{fichier}.
+
+    \mintinline{python}{json.load(fichier)} récupère l'object stocké dans \mintinline{python}{fichier}.
+
+  \end{block}
+
+\end{frame}
+
+\section{Retour sur les fonctions}
+
+\begin{frame}
+  \begin{block}{Fonction}
+    \vspace{0pt}
+    En informatique, une fonction est :
+    \begin{itemize}
+    \item Un morceau de programme
+    \item Portant en général \emph{un nom}
+    \item Prenant un ou plusieurs \emph{paramètres} (ou zéro)
+    \item Renvoyant un résultat (la plupart du temps)
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\begin{frame}{Fonctions}
+    \begin{tikzpicture}
+      % Rectangle pour représenter la fonction
+      \node [draw, rectangle, text width=2cm, minimum height=1.5cm, align=center] (function) at (0,0) {Fonction};
+
+      % Chemin pour représenter l'entrée (paramètres)
+      \draw[-latex] (-5,0) -- (-1.2,0) node[midway, above, label={below: (paramètres)}] {Entrée};
+
+      % Chemin pour représenter la sortie (valeur de retour)
+      \draw[-latex] (1.2,0) -- (5,0) node[midway, above, label= {below: (valeur de retour)}] {Sortie};
+
+      % Flèche d'affichage (zig-zag)
+      \onslide<2->{\draw [decorate, -latex, decoration={snake, segment length=5mm, amplitude=1mm, post length=1mm}] (0,0.5) -- (0,2.5) node[midway, left] {Affichages};}
+    \end{tikzpicture}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Définition et appel de fonction}
+
+  \begin{block}{Définir une fonction}
+    \vspace{0pt}
+    La syntaxe pour définir une fonction est :
+    
+\begin{minted}{python}
+def nom_fonction(parametre_1, ..., parametre_n):
+    # corps de la fonction
+    # utilisant parametre_1, ..., parametre_n
+    ...
+    # peut renvoyer un résultat :
+    return resultat
+\end{minted}
+  \end{block}
+  \pause
+  \begin{block}{Appeler une fonction}
+    \vspace{0pt}
+    On peut ensuite \emph{appeler} la fonction \mintinline{python}{nom_fonction} das le code :
+\begin{minted}{python}
+resultat = nom_fonction(expression_1, ..., expression_n)
+\end{minted}
+  \end{block}
+\end{frame}
+
+\section{Exemples}
+
+\begin{frame}[fragile]{Dessiner un rectangle}
+  Dessiner un \emph{rectangle} fait du caractère \mintinline{python}{caractere} :
+  \pause
+\begin{minted}{python}
+def dessine_rectangle(m, n, caractere):
+    for i in range(m):
+        for j in range(n):
+            print(caractere, end = '')
+        print()
+\end{minted}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Composition de fonctions}
+  
+  On peut appeler une fonction dans une fonction ! (et ainsi de suite)
+
+  \pause
+
+  \begin{block}{Dessiner un rectangle : variante}
+\begin{minted}{python}
+def dessine_ligne(n, caractere):
+    for j in range(n):
+        print(caractere, end = '')
+    print()
+
+def dessine_rectangle(m, n, caractere):
+    for i in range(m):
+        dessine_ligne(n, caractere)
+\end{minted}
+  \end{block}
+
+  \pause
+  \begin{alertblock}{Question}
+    \vspace{0pt}
+\MVRightarrow{} Qu'est-ce qui empêche une fonction de s'appeler \emph{elle-même} ?
+\end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]{Dessiner un rectangle : deuxième variante}
+\begin{minted}{python}
+def dessine_ligne(n, caractere):
+    for j in range(n):
+        print(caractere, end = '')
+    print()
+
+def dessine_rectangle(m, n, caractere):
+    if m > 0:
+        dessine_ligne(n, caractere)
+        dessine_rectangle(m-1, n, caractere)
+\end{minted}
+\end{frame}
+
+\section{La récursivité}
+
+\begin{frame}[fragile]{Récursivité}
+
+  \begin{block}{Fonction récursive}
+    \vspace{0pt}
+    \MVRightarrow{} Une fonction qui s'appelle elle-même.
+  \end{block}
+
+  \begin{block}{Exemple : factorielle}
+    \begin{align*}
+      0! &= 1 \\
+      n! &= n \times \alert{(n-1)!}
+    \end{align*}
+
+    \pause
+
+\begin{minted}{python}
+def fact(n):
+    if n == 0:
+        return 1
+    else:
+        return n * fact(n-1)
+\end{minted}
+
+  \end{block}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Exemple : dessiner une spirale}
+
+  \begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.3\textwidth]{fig/spirale.png}
+    \caption{Une spirale}
+    \label{fig:spirale}
+  \end{figure}
+
+  Pour dessiner une spirale de côté $c > 0$ :
+  \begin{enumerate}
+  \item On trace un trait de longueur $c$
+  \item On tourne le stylo de $90$ degrés
+  \item On trace une spirale de côté $c-d$, où $d$ est l'écart entre un côté de la spirale et le suivant.
+  \end{enumerate}
+  
+\end{frame}
+
+\begin{frame}
+  \frametitle{Teaser : l'arbre d'Auto-Warhol}
+
+  \begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.5\textwidth]{fig/arbre.png}
+    \caption{Un arbre}
+    \label{fig:arbre}
+  \end{figure}
+
+\end{frame}
+
+\begin{frame}[fragile]{Cas de base}
+  \begin{block}{Fonction récursive}
+    \vspace{0pt}
+    \MVRightarrow{} Une fonction qui s'appelle elle-même.
+  \end{block}
+
+\begin{minted}{python}
+def fact(n):
+    return n * fact(n-1)
+\end{minted}
+
+  \pause
+
+  \begin{alertblock}{Attention !}
+    \vspace{0pt}
+    Pour qu'elle termine, une fonction récursive doit avoir un ou plusieurs \emph{cas de base}. \newline
+    (comme une boucle \mintinline{python}{while} doit avoir une condition d'arrêt)
+  \end{alertblock}
+
+\end{frame}
+
+\begin{frame}[fragile]{Appels récursifs}
+
+\begin{minted}{python}
+def fact(n):
+    if n == 0:
+        return 1
+    else:
+        return n * fact(n)
+\end{minted}
+
+  \pause
+
+  \begin{alertblock}{Attention !}
+    \vspace{0pt}
+    Pour qu'elle termine, une fonction récursive doit s'auto-appeler sur des arguments \emph{plus simples}. \newline
+    (comme une boucle \mintinline{python}{while} qui dépend de \mintinline{python}{n} doit modifier \mintinline{python}{n}, sinon elle ne termine pas)
+  \end{alertblock}
+
+\end{frame}
+
+\section{Bonus}
+
+\begin{frame}
+  \frametitle{Exemple : l'arbre d'Auto-Warhol}
+
+  \begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.5\textwidth]{fig/arbre.png}
+    \caption{Un arbre}
+    \label{fig:arbre}
+  \end{figure}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Exemple : l'arbre d'Auto-Warhol}
+
+  Pour dessiner un arbre dont le tronc mesure $L$ (si $L > 1$) :
+  \begin{enumerate}
+  \item On trace un trait de longueur $L$
+  \item On tourne le stylo de $30$ degrés vers la gauche
+  \item On trace un arbre de tronc $\dfrac{2}{3} L$
+  \item On tourne le stylo de $30$ degrés vers la droite \newline pour le remettre en position
+  \item On tourne le stylo de $30$ degrés vers la droite
+  \item On trace un arbre de tronc $\dfrac{2}{3} L$
+  \item On tourne le stylo de 30 degrés vers la gauche \newline pour le remettre en position
+  \item On ramène le stylo à sa place en traçant un trait de longueur $L$ à l'envers
+  \end{enumerate}
+  
+\end{frame}
+
+\section{Suppléments sur les fonctions}
+
+\begin{frame}{Fonctions}
+    \begin{tikzpicture}
+      % Rectangle pour représenter la fonction
+      \node [draw, rectangle, text width=2cm, minimum height=1.5cm, align=center] (function) at (0,0) {Fonction};
+
+      % Chemin pour représenter l'entrée (paramètres)
+      \draw[-latex] (-5,0) -- (-1.2,0) node[midway, above, label={below: (paramètres)}] {Entrée};
+
+      % Chemin pour représenter la sortie (valeur de retour)
+      \draw[-latex] (1.2,0) -- (5,0) node[midway, above, label= {below: (valeur de retour)}] {Sortie};
+
+      % Flèche d'affichage (zig-zag)
+      \onslide<2->{\draw [decorate, -latex, decoration={snake, segment length=5mm, amplitude=1mm, post length=1mm}] (0,0.5) -- (0,2.5) node[pos = 0.75, right, label = {left:\small Effets de bord}] {\begin{tabular}{l}Afficher à l'écran \\ Écrire dans un fichier\end{tabular}};}
+
+      % Flèche d'effets de bord (zig-zag)
+      \onslide<3->{\draw [decorate, -latex, decoration={snake, segment length=5mm, amplitude=1mm, post length=1mm}] (0,-2.5) -- (0,-0.5) node[pos = 0.25, right, label = {left:\small Effets de bord}] {\begin{tabular}{l} Demander une entrée à l'utilisateur \\ Lire dans un fichier\end{tabular}};}
+    \end{tikzpicture}
+\end{frame}
+
+
+\end{document}
+
+%%% Local Variables:
+%%% TeX-engine: xetex
+%%% TeX-command-extra-options: "-shell-escape"
+%%% End:
