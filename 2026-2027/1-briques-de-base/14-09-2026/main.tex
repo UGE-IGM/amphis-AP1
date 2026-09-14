@@ -2,7 +2,7 @@
 \usetheme{metropolis}
 \usepackage{graphicx}
 \usepackage[normalem]{ulem}
-\usepackage[frenchb]{babel}
+\usepackage[french]{babel}
 \usepackage{marvosym}
 
 % -- ChatGPTeries pour slide dorée --%
@@ -232,6 +232,7 @@ Chaque semaine :
 \begin{frame}{Bienvenue !}
     \begin{block}{Objectifs de ce cours}
     \begin{itemize}
+ 		\item Pour les débutants en programmation et/ou en Python 
         \item Découvrir l'informatique et la programmation
         \item Se (re-)familiariser avec un langage de programmation : Python
         \item Commencer à penser en \textbf{algorithmes} et pas juste en \textbf{programmes}
@@ -928,7 +929,7 @@ Chaque semaine :
 	\begin{center}
 		\lstinputlisting[style=pythonoutput]{code/scientific_output.py}
 	\end{center}
-	\begin{lstlisting}
+	\begin{lstlisting}[style =python]
 		3 * .1           # ne "tombe" pas toujours juste !
 	\end{lstlisting}
 	\begin{center}
@@ -940,7 +941,21 @@ Chaque semaine :
 	\begin{lstlisting}[style=python]
 		True
 		False
-
+	\end{lstlisting}
+	\begin{lstlisting}[style=python]
+		1+1 == 2
+	\end{lstlisting}
+	\begin{center}
+		\lstinputlisting[style=pythonoutput]{code/correct_true_output.py}
+	\end{center}
+	\begin{lstlisting}[style=python]
+		"AP1" == "Le meilleur cours de la L1"
+	\end{lstlisting}
+	\begin{center}
+		\lstinputlisting[style=pythonoutput]{code/correct_False_output.py}
+	\end{center}
+	
+	\begin{lstlisting}[style = Python]
 		true             # attention a la casse !
 	\end{lstlisting}
 	\begin{center}
@@ -950,20 +965,15 @@ Chaque semaine :
 
 \begin{frame}[fragile]{Chaînes de caractères (\texttt{str})}
 	\begin{lstlisting}[style=python]
-		'bonjour'                    # guillemets simples
-		"hello !"                    # guillemets doubles
-		"""Un texte
-		sur plusieurs lignes"""      # chaine longue
-		"King's Landing"             # une apostrophe a l'interieur
-		"sauts\nde\nligne"           # caracteres speciaux
+	'bonjour'                    # guillemets simples
+	"hello !"                    # guillemets doubles
+	"""Un texte
+	sur plusieurs lignes"""      # chaine longue
+	"King's Landing"             # une apostrophe a l'interieur
+	"sauts\nde\nligne"           # caracteres speciaux
 	\end{lstlisting}
 \end{frame}
 
-\begin{frame}[fragile]{Valeur indéfinie (\texttt{NoneType})}
-	\begin{lstlisting}[style=python]
-		None
-	\end{lstlisting}
-\end{frame}
 
 % ===================================================================
 % 7ter. Operateurs
