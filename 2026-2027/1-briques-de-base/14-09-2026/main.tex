@@ -187,53 +187,54 @@ Chaque semaine :
   \end{frame}
 
 \begin{frame}{Vos enseignants}
-	\only<1>{
 		\begin{center}
 			Léo Exibard
 		\end{center}
+    \vspace{-0.5em}
 	\begin{itemize}
 		\item Bureau 4B124
 		\item leo.exibard@univ-eiffel.fr
 		\pause\item Responsable d'AP1 depuis plusieurs années
 	\end{itemize}
-}
-	\only<2>{
+\pause
 	\begin{center}
 		Philippe Yvonnet
 	\end{center}
+    \vspace{-0.5em}
 	\begin{itemize}
 		\item Bureau 4B092
 		\item philippe.yvonnet@univ-eiffel.fr
 		\pause\item Responsable de l'option Projet 1 et de Remédiation
 	\end{itemize}
-}
-	\only<3>{
+\pause
 	\begin{center}
 		Aaron Boussidan
 	\end{center}
+    \vspace{-0.5em}
 	\begin{itemize}
 		\item Bureau 4B162
 		\item aaron.boussidan@univ-eiffel.fr
 		\pause\item Chauve
 	\end{itemize}
-}
-
-
 \end{frame}
 \begin{frame}{Évaluation}
 
-    \begin{block}{Evaluation}
-        \begin{itemize}
-            \item CC1 la semaine du 02 novembre \only<2->{- \textbf{Coefficient 7 }}
-            \item CC2 la semaine du 04 janvier \only<2->{- \textbf{Coefficient 9 }}
-            \item TP noté 1 la semaine du 02/10
-            \item TP noté 2 la semaine du 14/12
-            \item Une note de TP
-              \onslide<3->{
-                \item[$\Rightarrow$] TPs - \textbf{Coefficient 4}
-              }
-        \end{itemize}
-    \end{block}
+  \begin{block}{CCs}
+    \begin{itemize}
+    \item CC1 la semaine du 02 novembre \only<2->{- \textbf{Coefficient 7 }}
+    \item CC2 la semaine du 04 janvier \only<2->{- \textbf{Coefficient 9 }}
+    \end{itemize}
+  \end{block}
+  \begin{block}{TPs}
+    \begin{itemize}
+    \item TP noté 1 la semaine du 02/10
+    \item TP noté 2 la semaine du 14/12
+    \item Une note de TP
+      \onslide<3->{
+      \item[$\Rightarrow$] TPs - \textbf{Coefficient 4}
+      }
+    \end{itemize}
+  \end{block}
 
 
 \end{frame}
@@ -251,7 +252,7 @@ Chaque semaine :
     \begin{block}{À la fin de cours, vous saurez ...}
         \begin{itemize}
             \item Comprendre et écrire des programmes Python simple
-            \item Ecrire un petit jeu vidéo jouable sur une grille (Projet 1 !)
+            \item Écrire un petit jeu vidéo jouable sur une grille (Projet 1 !)
             \item Aborder d'autres langages de programmation
         \end{itemize}
     \end{block}
@@ -261,7 +262,7 @@ Chaque semaine :
     \large
     \begin{itemize}
         \item Discord de la L1 : \url{https://discord.gg/FSYd7QtxfC}
-        \item \href{https://elearning.univ-eiffel.fr/course/view.php?id=16399}{Page Elearning du cours} (avec notes de cours !)
+        \item {Page Elearning du cours} (avec notes de cours !) : \url{https://elearning.univ-eiffel.fr/course/view.php?id=16399}
         \item Thonny : \url{https://thonny.org/}
         \item Python Tutor : \url{https://pythontutor.com/}
     \end{itemize}
@@ -490,7 +491,7 @@ Chaque semaine :
 % ===================================================================
 
 
-\begin{frame}[fragile]{Python "calculatrice"}
+\begin{frame}[fragile]{Python \og calculatrice \fg{}}
 	\begin{lstlisting}[style=python]
 		2 + 3
 	\end{lstlisting}
@@ -519,17 +520,19 @@ Chaque semaine :
 			> Bonjour Alice
 		\end{lstlisting}
 	\end{onslide}
-	\begin{onslide}<7->
+  \end{frame}
+\begin{frame}[fragile]{Python \og calculatrice \fg{}}
+	\begin{onslide}<1->
 		\begin{lstlisting}[style=python]
 			2**458
 		\end{lstlisting}
 	\end{onslide}
-	\begin{onslide}<8->
+	\begin{onslide}<2->
 		\begin{lstlisting}[style=pythonoutput]
 			>744282853678701455922507579277316643178128753343813693728245963960974631028119473486019635930893891134220822124816566203939432067701407744
 		\end{lstlisting}
 	\end{onslide}
-	\begin{onslide}<9->
+	\begin{onslide}<3->
 		\begin{center}
 			... Mais encore ?
 		\end{center}
