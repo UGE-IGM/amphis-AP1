@@ -2,8 +2,9 @@
 \usetheme{metropolis}
 \usepackage{graphicx}
 \usepackage[normalem]{ulem}
-\usepackage[frenchb]{babel}
+\usepackage[french]{babel}
 \usepackage{marvosym}
+\usepackage{qrcode}
 
 % -- ChatGPTeries pour slide dorée --%
 \usepackage{tikz}
@@ -35,6 +36,8 @@
 
 % -- Coloration syntaxique du code Python (compatible pdflatex) -- %
 \usepackage{listings}
+% Quickfix to get Listings to work properly
+% From https://tex.stackexchange.com/questions/451532/recent-issues-with-lstlinebgrd-package-with-listings-after-the-latters-updates
 \makeatletter
 \let\old@lstKV@SwitchCases\lstKV@SwitchCases
 \def\lstKV@SwitchCases#1#2#3{}
@@ -144,6 +147,12 @@
     \maketitle
 \end{frame}
 
+\begin{frame}{Quelques questions pour commencer !}
+
+  cf \href{https://app.wooclap.com/events/PLJFIOX/live-session}{Wooclap}.
+
+\end{frame}
+
 %WOOCLAP
 %Point d'organisation
 
@@ -157,8 +166,8 @@ Chaque semaine :
         \item 1 séance de TD
         \item 2 séances de TP
             \begin{itemize}
-                \item 1 TP "découverte"/entraînement
-                \item 1 TP "exo+" : mini-projet, créativité, autonomie,...
+                \item 1 TP \og découverte \fg{}/entraînement
+                \item 1 TP \og exo+\fg{} : mini-projet, créativité, autonomie,...
             \end{itemize}
     \end{itemize}
     \end{block}
@@ -211,7 +220,7 @@ Chaque semaine :
 
 
 \end{frame}
-\begin{frame}{Evaluation}
+\begin{frame}{Évaluation}
 
     \begin{block}{Evaluation}
         \begin{itemize}
