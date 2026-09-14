@@ -156,6 +156,8 @@
 %WOOCLAP
 %Point d'organisation
 
+\section{Organisation du cours}
+
 \begin{frame}{Organisation globale}
 
 \begin{block}{Planning d'AP1}
@@ -242,7 +244,7 @@ Chaque semaine :
 \begin{frame}{Bienvenue !}
     \begin{block}{Objectifs de ce cours}
     \begin{itemize}
- 		\item Pour les débutants en programmation et/ou en Python 
+ 		\item Pour les débutants en programmation et/ou en Python
         \item Découvrir l'informatique et la programmation
         \item Se (re-)familiariser avec un langage de programmation : Python
         \item Commencer à penser en \textbf{algorithmes} et pas juste en \textbf{programmes}
@@ -269,6 +271,7 @@ Chaque semaine :
     \end{itemize}
 \end{frame}
 
+\section{De quoi parle-t-on ?}
 
 \begin{frame}{Algorithmique ? Programmation ? }
 
@@ -355,7 +358,7 @@ Chaque semaine :
       text=softwhite,
       font=\normalsize\bfseries
   ] at ([xshift=2.05cm,yshift=-2.80cm]current page.north west)
-  {Etre un chef.};
+  {Être un chef.};
 
   \node[
       anchor=north west,
@@ -428,7 +431,9 @@ Chaque semaine :
 \end{center}
 \end{frame}
 
-\begin{frame}[t]{Un langage ``haut niveau''}
+\section{Python : qu'est-ce que c'est ?}
+
+\begin{frame}[t]{Un langage \og haut niveau \fg{}}
 	\begin{center}
 		\begin{tikzpicture}[every node/.style={font=\small}]
 			\node[draw, rounded corners, minimum width=6cm, minimum height=1cm] (py) at (0,5.2)
@@ -631,6 +636,8 @@ Chaque semaine :
 % 5. Qu'est-ce qu'une variable + schema memoire
 % ===================================================================
 
+\section{Les variables}
+
 \begin{frame}[t]{Qu'est-ce qu'une variable ?}
 	\begin{center}
 		Une valeur est une boîte dans laquelle on range quelque chose.
@@ -711,52 +718,6 @@ Chaque semaine :
 			}%
 		\end{tikzpicture}
 	\end{center}
-\end{frame}
-
-\begin{frame}[t]{Modèle mémoire de Python}
-
-	\only<1>{\lstinputlisting[style=python,linerange={1-1}]{code/memoire_trace.py}}%
-	\only<2-3>{\lstinputlisting[style=python,linerange={1-2}]{code/memoire_trace.py}}%
-	\only<4->{\lstinputlisting[style=python,linerange={1-3}]{code/memoire_trace.py}}%
-
-	\bigskip
-	\begin{center}
-		\begin{tikzpicture}[
-			valbox/.style={draw, thick, rounded corners=2pt, minimum width=1.3cm, minimum height=0.9cm, font=\ttfamily},
-			]
-			% -- Pile : les noms --
-			\draw[thick, rounded corners=2pt] (-0.4,-2.3) rectangle (3.1,0.5);
-			\node[anchor=north west, font=\bfseries\footnotesize] at (-0.3,0.45) {Pile};
-
-			\node[anchor=west, font=\ttfamily] (x) at (0.3,-0.5) {x};
-			\onslide<2->{\node[anchor=west, font=\ttfamily] (y) at (0.3,-1.5) {y};}
-
-			% -- Tas : les valeurs --
-			\node[font=\itshape\footnotesize, black!60] at (7.1,0.75) {Tas};
-
-			\node[valbox] (v42) at (7.1,-0.5) {42};
-			\node[font=\itshape\tiny, black!55, above=1pt of v42] {int};
-
-			\onslide<4->{
-				\node[valbox] (v43) at (7.1,-2.1) {43};
-				\node[font=\itshape\tiny, black!55, above=1pt of v43] {int};
-			}
-
-			% -- fleches (une reaffectation de x ne deplace pas la fleche de y !) --
-			\only<1-3>{\draw[-latex, thick] (x.east) -- (v42.west);}
-			% etape 2 : y pointe (a tort, pedagogiquement) directement vers x
-			\only<2>{\draw[-latex, thick] (y.north) -- (x.south);}
-			% etape 3+ : correction, y pointe vers l'objet vise par x, pas vers x lui-meme
-			\onslide<3->{\draw[-latex, thick] (y.east) -- (v42.west);}
-			\onslide<4->{\draw[-latex, thick] (x.east) -- (v43.west);}
-		\end{tikzpicture}
-	\end{center}
-
-	\onslide<5->{
-		\begin{center}
-			\textbf{Réaffecter \texttt{x} ne change pas \texttt{y}.}
-		\end{center}
-	}
 \end{frame}
 
 % ===================================================================
@@ -1096,5 +1057,54 @@ Chaque semaine :
 \end{frame}
 
 \fi % --- fin du bloc desactive ---
+
+\section{Annexes}
+
+\begin{frame}[t]{Modèle mémoire de Python}
+
+	\only<1>{\lstinputlisting[style=python,linerange={1-1}]{code/memoire_trace.py}}%
+	\only<2-3>{\lstinputlisting[style=python,linerange={1-2}]{code/memoire_trace.py}}%
+	\only<4->{\lstinputlisting[style=python,linerange={1-3}]{code/memoire_trace.py}}%
+
+	\bigskip
+	\begin{center}
+		\begin{tikzpicture}[
+			valbox/.style={draw, thick, rounded corners=2pt, minimum width=1.3cm, minimum height=0.9cm, font=\ttfamily},
+			]
+			% -- Pile : les noms --
+			\draw[thick, rounded corners=2pt] (-0.4,-2.3) rectangle (3.1,0.5);
+			\node[anchor=north west, font=\bfseries\footnotesize] at (-0.3,0.45) {Pile};
+
+			\node[anchor=west, font=\ttfamily] (x) at (0.3,-0.5) {x};
+			\onslide<2->{\node[anchor=west, font=\ttfamily] (y) at (0.3,-1.5) {y};}
+
+			% -- Tas : les valeurs --
+			\node[font=\itshape\footnotesize, black!60] at (7.1,0.75) {Tas};
+
+			\node[valbox] (v42) at (7.1,-0.5) {42};
+			\node[font=\itshape\tiny, black!55, above=1pt of v42] {int};
+
+			\onslide<4->{
+				\node[valbox] (v43) at (7.1,-2.1) {43};
+				\node[font=\itshape\tiny, black!55, above=1pt of v43] {int};
+			}
+
+			% -- fleches (une reaffectation de x ne deplace pas la fleche de y !) --
+			\only<1-3>{\draw[-latex, thick] (x.east) -- (v42.west);}
+			% etape 2 : y pointe (a tort, pedagogiquement) directement vers x
+			\only<2>{\draw[-latex, thick] (y.north) -- (x.south);}
+			% etape 3+ : correction, y pointe vers l'objet vise par x, pas vers x lui-meme
+			\onslide<3->{\draw[-latex, thick] (y.east) -- (v42.west);}
+			\onslide<4->{\draw[-latex, thick] (x.east) -- (v43.west);}
+		\end{tikzpicture}
+	\end{center}
+
+	\onslide<5->{
+		\begin{center}
+			\textbf{Réaffecter \texttt{x} ne change pas \texttt{y}.}
+		\end{center}
+	}
+\end{frame}
+
 
 \end{document}
