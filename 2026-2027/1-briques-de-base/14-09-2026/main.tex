@@ -34,6 +34,18 @@
 }
 % ---- %
 
+% Slides année précédente
+\usetikzlibrary{positioning, calc, decorations.pathreplacing}
+
+\definecolor{pillfill}{RGB}{173, 216, 240}
+\definecolor{pillborder}{RGB}{70, 130, 180}
+\tikzset{
+  pill/.style={draw=pillborder, thick, rounded corners=8pt, fill=pillfill,
+    minimum height=0.8cm, text width=3.6cm, align=center, font=\bfseries\small},
+  pillsmall/.style={draw=pillborder, thick, rounded corners=6pt, fill=pillfill,
+    minimum height=0.7cm, text width=2.6cm, align=center, font=\bfseries\footnotesize},
+}
+
 % -- Coloration syntaxique du code Python (compatible pdflatex) -- %
 \usepackage{listings}
 % Quickfix to get Listings to work properly
@@ -288,7 +300,258 @@ Chaque semaine :
     \end{itemize}
 \end{frame}
 
+\section{Une brève histoire de l'informatique}
+
+\begin{frame}[t]{Une histoire de zéros et de uns\dots{}}
+	\begin{center}
+		\begin{tikzpicture}[every node/.style={font=\small}]
+			\node[draw, rounded corners, minimum width=6cm, minimum height=1cm] (py) at (0,5.2)
+			{\texttt{print("Salut")}};
+			\node[draw, rounded corners, minimum width=6cm, minimum height=1cm] (mach) at (0,0.85)
+			{\texttt{01101000 01101001 ...}};
+			\node (screen) at (0,-1.4) {\screenicon};
+
+			% etapes 1-2 : lien direct (pas de detail)
+			\only<1-2>{\draw[-latex, thick] (py) -- (mach);}
+			\draw[-latex, thick] (mach) -- (screen);
+
+			% etape 2 : "comment ca marche ?" -> baguettes magiques
+			\onslide<2>{
+				\node at ($(py)!0.5!(mach)+(3.8,0)$) {\wandicon};
+				\node at ($(mach)!0.5!(screen)+(5,0)$) {\wandicon};
+			}
+
+			% etape 3+ : on detaille le processus de traduction
+			\onslide<3->{
+				\node[draw, rounded corners, minimum width=4.6cm, minimum height=0.7cm, font=\footnotesize] (byte) at (0,4.05)
+				{bytecode (\texttt{.pyc})};
+				\node[draw, rounded corners, minimum width=4.6cm, minimum height=0.7cm, font=\footnotesize] (vm) at (0,3.05)
+				{machine virtuelle Python};
+				\node[draw, rounded corners, minimum width=4.6cm, minimum height=0.7cm, font=\footnotesize] (asm) at (0,2.05)
+				{assembleur};
+				\draw[-latex, thick] (py) -- (byte);
+				\draw[-latex, thick] (byte) -- (vm);
+				\draw[-latex, thick] (vm) -- (asm);
+				\draw[-latex, thick] (asm) -- (mach);
+			}
+
+			% etape 4+ : legende bytecode
+			\onslide<4->{
+				\node[align=left, font=\scriptsize] at ($(byte)+(3.9,0)$)
+				{représentation\\intermédiaire};
+			}
+			% etape 5+ : legende machine virtuelle
+			\onslide<5->{
+				\node[font=\scriptsize] at ($(vm)+(3.8,0)$) {en C};
+			}
+			% etape 6+ : legende langage machine (assembleur -> binaire)
+			\onslide<6->{
+				\node[align=left, font=\scriptsize, text width=2.6cm] at ($(asm)!0.5!(mach)+(4.2,0.5)$)
+				{Langage Machine};
+			}
+			% etape 7+ : legende RDV
+			\onslide<7->{
+				\node[align=left, font=\scriptsize, text width=3.6cm] at ($(mach)!0.5!(screen)+(4.1,0)$)
+				{RDV en Fonctionnement des Ordinateurs !};
+			}
+		\end{tikzpicture}
+	\end{center}
+\end{frame}
+
+\begin{frame}{Une histoire de zéros et de uns\dots}
+\begin{center}
+\begin{tikzpicture}
+  \node[pill, text width=5cm] (hn) at (0,2) {LANGAGES DE HAUT NIVEAU};
+  \node[right=0.3cm of hn, draw=none] {\Large$\Rightarrow$};
+  \node[font=\bfseries\Large, blue!60!black] at (0,0.8) {1954 : Fortran};
+  \node[font=\bfseries\large, blue!60!black] at (0,-0.1) {(Mot « ordinateur » : 1955~!)};
+\end{tikzpicture}
+
+\onslide<2->{
+\includegraphics[width=0.30\textwidth]{img/lettre_ordinateur.png}
+}
+\end{center}
+\end{frame}
+
+\begin{frame}{Une histoire de zéros et de uns\dots\ --- Généalogie}
+\begin{center}
+\begin{tikzpicture}[scale=0.72, every node/.style={scale=0.72},
+  lang/.style={font=\small, align=center},
+  >=latex
+]
+  \node[lang] (fortran) at (0,6)   {Fortran\\1954};
+  \node[lang] (algol)   at (0,4.8) {Algol\\1958};
+  \node[lang] (basic)   at (0,3.4) {Basic\\1964};
+  \node[lang] (cobol)   at (2.4,4.8) {Cobol\\1959};
+  \node[lang] (pascal)  at (2.4,3.4) {Pascal\\1970};
+  \node[lang] (c)       at (-2.6,2) {C\\1972};
+  \node[lang] (ada)     at (2.4,2)  {Ada\\1980};
+  \node[lang] (python)  at (-0.4,0.6) {Python\\1991};
+  \node[lang] (java)    at (2.4,0.6) {Java\\1995};
+  \node[lang] (js)      at (-4.4,-0.8) {Javascript\\1995};
+  \node[lang] (ruby)    at (-1.4,-0.8) {Ruby\\1995};
+  \node[lang] (go)      at (-1.4,-2.2) {Go\\2009};
+  \node[lang] (scala)   at (2.4,-0.8) {Scala\\2003};
+  \node[lang] (kotlin)  at (2.4,-2.2) {Kotlin\\2011};
+  \node[lang] (caml)    at (5.2,2)   {Caml\\1987};
+
+  \draw[->] (fortran) -- (algol);
+  \draw[->] (algol) -- (basic);
+  \draw[->] (algol) -- (pascal);
+  \draw[->] (algol) -- (c);
+  \draw[->] (cobol) -- (pascal);
+  \draw[->] (pascal) -- (ada);
+  \draw[->] (c) -- (js);
+  \draw[->] (c) -- (python);
+  \draw[->] (c) -- (java);
+  \draw[->] (ada) -- (java);
+  \draw[->] (pascal) -- (python);
+  \draw[->] (python) -- (ruby);
+  \draw[->] (ruby) -- (go);
+  \draw[->] (java) -- (scala);
+  \draw[->] (scala) -- (kotlin);
+\end{tikzpicture}
+\end{center}
+\end{frame}
+
+% ===================================================================
+% 2. De Python au binaire (pile de compilation)
+% ===================================================================
+
+\begin{frame}[t]{Une histoire de zéros et de uns\dots}
+\begin{center}
+\begin{tikzpicture}[scale=0.78, every node/.style={scale=0.78}]
+  \node[pill] (l1) at (0,6.3) {LANGAGES DE HAUT NIVEAU};
+  \onslide<2->{\node[pill] (l2) at (0,5.3) {ASSEMBLEUR};
+    \draw[-latex] (l1) -- (l2);}
+  \onslide<3->{\node[pill] (l3) at (0,4.3) {SYSTÈME D'EXPLOITATION};
+    \draw[-latex] (l2) -- (l3);}
+  \onslide<4->{\node[pill] (l4) at (0,3.1) {LANGAGE MACHINE};
+    \draw[-latex] (l3) -- (l4);}
+  \onslide<5->{\node[pill] (l5) at (0,2.1) {MICRO-CODE};
+    \draw[-latex] (l4) -- (l5);}
+  \onslide<6->{\node[pill] (l6) at (0,1.1) {PORTES LOGIQUES};
+    \draw[-latex] (l5) -- (l6);}
+
+  \onslide<7->{
+    \draw[thick, orange] ($(l1.north west)+(-0.3,0.25)$) rectangle ($(l3.south east)+(0.3,-0.15)$);
+    \node[pillsmall, left=1.4cm of l1] (log) {LOGICIEL};
+    \draw[-latex, thick, orange] (log) -- ($(l1.west)+(-0.3,0)$);
+
+    \draw[thick, orange] ($(l4.north west)+(-0.3,0.15)$) rectangle ($(l6.south east)+(0.3,-0.25)$);
+    \node[pillsmall, left=1.4cm of l5] (mat) {MATÉRIEL};
+    \draw[-latex, thick, orange] (mat) -- ($(l4.west)+(-0.3,0)$);
+  }
+  \onslide<8->{
+    \node[pillsmall, right=1.6cm of l1] (py) {PYTHON};
+    \draw[-latex, thick, orange] (py) -- (l1.east);
+    \node[pillsmall, right=1.6cm of l5] (bin) {BINAIRE};
+    \draw[-latex, thick, orange] (bin) -- (l4.east);
+  }
+  \onslide<9->{
+    \draw[decorate, decoration={brace, amplitude=6pt}, thick]
+      ($(l1.north east)+(1.0,0.2)$) -- ($(l6.south east)+(1.0,-0.2)$)
+      node[midway, right=8pt, font=\bfseries] {Compilation};
+  }
+\end{tikzpicture}
+\end{center}
+\end{frame}
+
+% ===================================================================
+% 3. Algorithmique & Programmation 1
+% ===================================================================
+
+\begin{frame}{Exemples d'algorithmes ?}
+\begin{itemize}
+\item Au quotidien :
+  \begin{itemize}
+  \item Lacer ses chaussures
+  \item Tricoter
+  \item Conduire
+  \item Faire des pancakes
+  \end{itemize}
+\item En mathématiques :
+  \begin{itemize}
+  \item Algorithme d'Euclide pour trouver le PGCD de deux entiers
+  \item Tracer la médiatrice / bissectrice d'un angle (compas, etc\dots)
+  \item Changement de base (binaire $\leftrightarrow$ décimal $\leftrightarrow$ hexadécimal)
+  \end{itemize}
+\item En informatique :
+  \begin{itemize}
+  \item Calculer le minimum d'un ensemble d'entiers
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Exemple : lacer ses chaussures}
+Pour chaque chaussure :
+\begin{itemize}
+\item Croiser les lacets
+\item Faire une boucle avec le lacet droit
+\item Entourer la boucle avec le lacet gauche
+\item Fermer le n\oe ud
+\item Si lacets glissants : faire un double n\oe ud
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Exemple : calculer le minimum d'un ensemble d'entiers}
+\begin{semiverbatim}
+Entrée : E ensemble d'entiers
+min_courant = e_0 élément de E
+Pour chaque élément e de E :
+    Si e < min_courant :
+        min_courant = e
+\textcolor{orange}{Renvoyer} min_courant
+\end{semiverbatim}
+\end{frame}
+
+% ===================================================================
+% 5. Briques de base
+% ===================================================================
+
+\begin{frame}[t]{Briques de base}
+\begin{center}
+\begin{tikzpicture}
+  \node[pill] (donnees) at (0,0) {DONNÉES};
+  \onslide<2->{\node[pill, right=0.3cm of donnees] (es) {ENTRÉES / SORTIES};}
+  \onslide<3->{\node[pill, right=0.3cm of es] (ops) {OPÉRATIONS};}
+  \onslide<4->{\node[pill, above=0.3cm of donnees, xshift=1.5cm] (sc) {STRUCTURES DE CONTRÔLE};}
+  \onslide<5->{\node[pill, above=0.3cm of ops] (fn) {FONCTIONS};}
+\end{tikzpicture}
+\end{center}
+\end{frame}
+
+\begin{frame}{Briques de base --- détail}
+\begin{center}
+\begin{tikzpicture}[scale=0.68, every node/.style={scale=0.68}]
+  \node[pill, text width=6.2cm, minimum height=2.4cm, align=center] (sc) at (0,1.6) {\phantom{x}};
+  \node[align=center, font=\bfseries\small, yshift=0.7cm] at (sc) {STRUCTURES DE CONTRÔLE};
+  \node[pillsmall, below=0.15cm of sc.center, xshift=-1.6cm, yshift=-0.55cm] (seq) {SÉQUENCES};
+  \node[pillsmall, right=0.2cm of seq] (cond) {CONDITIONS};
+  \node[pillsmall, below=0.2cm of seq, xshift=1.4cm, text width=3.6cm] (boucles) {BOUCLES\\(FOR ET WHILE)};
+
+  \node[pill, text width=6.2cm, minimum height=2.4cm, align=center] (donnees) at (0,-2.6) {\phantom{x}};
+  \node[align=center, font=\bfseries\small, yshift=0.7cm] at (donnees) {DONNÉES};
+  \node[pillsmall, below=0.15cm of donnees.center, xshift=-1.6cm, yshift=-0.55cm] (assig) {ASSIGNATION};
+  \node[pillsmall, right=0.2cm of assig] (vars) {VARIABLES};
+  \node[pillsmall, below=0.2cm of assig] (dict) {DICTIONNAIRES};
+  \node[pillsmall, right=0.2cm of dict] (listes) {LISTES};
+
+  \node[pill, right=1.3cm of sc] {ENTRÉES / SORTIES};
+  \node[pill, right=1.3cm of donnees] {OPÉRATIONS};
+  \node[pill, right=4.6cm of sc, yshift=1.5cm] {FONCTIONS};
+\end{tikzpicture}
+\end{center}
+\end{frame}
+
 \section{De quoi parle-t-on ?}
+
+\begin{frame}{Algorithmique \& Programmation 1}
+\begin{itemize}
+\item Algorithmique vs Programmation ?
+\end{itemize}
+\end{frame}
+
 
 \begin{frame}{Algorithmique ? Programmation ? }
 
