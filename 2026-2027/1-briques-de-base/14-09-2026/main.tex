@@ -505,45 +505,6 @@ Pour chaque élément e de E :
 \end{semiverbatim}
 \end{frame}
 
-% ===================================================================
-% 5. Briques de base
-% ===================================================================
-
-\begin{frame}[t]{Briques de base}
-\begin{center}
-\begin{tikzpicture}
-  \node[pill] (donnees) at (0,0) {DONNÉES};
-  \onslide<2->{\node[pill, right=0.3cm of donnees] (es) {ENTRÉES / SORTIES};}
-  \onslide<3->{\node[pill, right=0.3cm of es] (ops) {OPÉRATIONS};}
-  \onslide<4->{\node[pill, above=0.3cm of donnees, xshift=1.5cm] (sc) {STRUCTURES DE CONTRÔLE};}
-  \onslide<5->{\node[pill, above=0.3cm of ops] (fn) {FONCTIONS};}
-\end{tikzpicture}
-\end{center}
-\end{frame}
-
-\begin{frame}{Briques de base --- détail}
-\begin{center}
-\begin{tikzpicture}[scale=0.68, every node/.style={scale=0.68}]
-  \node[pill, text width=6.2cm, minimum height=2.4cm, align=center] (sc) at (0,1.6) {\phantom{x}};
-  \node[align=center, font=\bfseries\small, yshift=0.7cm] at (sc) {STRUCTURES DE CONTRÔLE};
-  \node[pillsmall, below=0.15cm of sc.center, xshift=-1.6cm, yshift=-0.55cm] (seq) {SÉQUENCES};
-  \node[pillsmall, right=0.2cm of seq] (cond) {CONDITIONS};
-  \node[pillsmall, below=0.2cm of seq, xshift=1.4cm, text width=3.6cm] (boucles) {BOUCLES\\(FOR ET WHILE)};
-
-  \node[pill, text width=6.2cm, minimum height=2.4cm, align=center] (donnees) at (0,-2.6) {\phantom{x}};
-  \node[align=center, font=\bfseries\small, yshift=0.7cm] at (donnees) {DONNÉES};
-  \node[pillsmall, below=0.15cm of donnees.center, xshift=-1.6cm, yshift=-0.55cm] (assig) {ASSIGNATION};
-  \node[pillsmall, right=0.2cm of assig] (vars) {VARIABLES};
-  \node[pillsmall, below=0.2cm of assig] (dict) {DICTIONNAIRES};
-  \node[pillsmall, right=0.2cm of dict] (listes) {LISTES};
-
-  \node[pill, right=1.3cm of sc] {ENTRÉES / SORTIES};
-  \node[pill, right=1.3cm of donnees] {OPÉRATIONS};
-  \node[pill, right=4.6cm of sc, yshift=1.5cm] {FONCTIONS};
-\end{tikzpicture}
-\end{center}
-\end{frame}
-
 \section{De quoi parle-t-on ?}
 
 \begin{frame}{Algorithmique \& Programmation 1}
@@ -730,64 +691,6 @@ for i in range(4):
 \end{frame}
 
 \section{Python : qu'est-ce que c'est ?}
-
-\begin{frame}[t]{Un langage \og haut niveau \fg{}}
-	\begin{center}
-		\begin{tikzpicture}[every node/.style={font=\small}]
-			\node[draw, rounded corners, minimum width=6cm, minimum height=1cm] (py) at (0,5.2)
-			{\texttt{print("Salut")}};
-			\node[draw, rounded corners, minimum width=6cm, minimum height=1cm] (mach) at (0,0.85)
-			{\texttt{01101000 01101001 ...}};
-			\node (screen) at (0,-1.4) {\screenicon};
-
-			% etapes 1-2 : lien direct (pas de detail)
-			\only<1-2>{\draw[-latex, thick] (py) -- (mach);}
-			\draw[-latex, thick] (mach) -- (screen);
-
-			% etape 2 : "comment ca marche ?" -> baguettes magiques
-			\onslide<2>{
-				\node at ($(py)!0.5!(mach)+(3.8,0)$) {\wandicon};
-				\node at ($(mach)!0.5!(screen)+(5,0)$) {\wandicon};
-			}
-
-			% etape 3+ : on detaille le processus de traduction
-			\onslide<3->{
-				\node[draw, rounded corners, minimum width=4.6cm, minimum height=0.7cm, font=\footnotesize] (byte) at (0,4.05)
-				{bytecode (\texttt{.pyc})};
-				\node[draw, rounded corners, minimum width=4.6cm, minimum height=0.7cm, font=\footnotesize] (vm) at (0,3.05)
-				{machine virtuelle Python};
-				\node[draw, rounded corners, minimum width=4.6cm, minimum height=0.7cm, font=\footnotesize] (asm) at (0,2.05)
-				{assembleur};
-				\draw[-latex, thick] (py) -- (byte);
-				\draw[-latex, thick] (byte) -- (vm);
-				\draw[-latex, thick] (vm) -- (asm);
-				\draw[-latex, thick] (asm) -- (mach);
-			}
-
-			% etape 4+ : legende bytecode
-			\onslide<4->{
-				\node[align=left, font=\scriptsize] at ($(byte)+(3.9,0)$)
-				{représentation\\intermédiaire};
-			}
-			% etape 5+ : legende machine virtuelle
-			\onslide<5->{
-				\node[font=\scriptsize] at ($(vm)+(3.8,0)$) {en C};
-			}
-			% etape 6+ : legende langage machine (assembleur -> binaire)
-			\onslide<6->{
-				\node[align=left, font=\scriptsize, text width=2.6cm] at ($(asm)!0.5!(mach)+(4.2,0.5)$)
-				{Langage Machine};
-			}
-			% etape 7+ : legende RDV
-			\onslide<7->{
-				\node[align=left, font=\scriptsize, text width=3.6cm] at ($(mach)!0.5!(screen)+(4.1,0)$)
-				{RDV en Fonctionnement des Ordinateurs !};
-			}
-		\end{tikzpicture}
-	\end{center}
-\end{frame}
-
-
 
 
 % ===================================================================
@@ -1463,13 +1366,13 @@ for i in range(4):
 
 \fi % --- fin du bloc desactive ---
 
-\section{Annexes}
+\section{Annexes (pas vu en CM)}
 
 \begin{frame}[t]{Modèle mémoire de Python}
 
 	\only<1>{\lstinputlisting[style=python,linerange={1-1}]{code/memoire_trace.py}}%
-	\only<2-3>{\lstinputlisting[style=python,linerange={1-2}]{code/memoire_trace.py}}%
-	\only<4->{\lstinputlisting[style=python,linerange={1-3}]{code/memoire_trace.py}}%
+	\only<2>{\lstinputlisting[style=python,linerange={1-2}]{code/memoire_trace.py}}%
+	\only<3->{\lstinputlisting[style=python,linerange={1-3}]{code/memoire_trace.py}}%
 
 	\bigskip
 	\begin{center}
@@ -1489,27 +1392,67 @@ for i in range(4):
 			\node[valbox] (v42) at (7.1,-0.5) {42};
 			\node[font=\itshape\tiny, black!55, above=1pt of v42] {int};
 
-			\onslide<4->{
+			\onslide<3->{
 				\node[valbox] (v43) at (7.1,-2.1) {43};
 				\node[font=\itshape\tiny, black!55, above=1pt of v43] {int};
 			}
 
 			% -- fleches (une reaffectation de x ne deplace pas la fleche de y !) --
-			\only<1-3>{\draw[-latex, thick] (x.east) -- (v42.west);}
+			\only<1-2>{\draw[-latex, thick] (x.east) -- (v42.west);}
 			% etape 2 : y pointe (a tort, pedagogiquement) directement vers x
-			\only<2>{\draw[-latex, thick] (y.north) -- (x.south);}
-			% etape 3+ : correction, y pointe vers l'objet vise par x, pas vers x lui-meme
-			\onslide<3->{\draw[-latex, thick] (y.east) -- (v42.west);}
-			\onslide<4->{\draw[-latex, thick] (x.east) -- (v43.west);}
+			% \only<2>{\draw[-latex, thick] (y.north) -- (x.south);}
+			% etape 2+ : correction, y pointe vers l'objet vise par x, pas vers x lui-meme
+			\onslide<2->{\draw[-latex, thick] (y.east) -- (v42.west);}
+			\onslide<3->{\draw[-latex, thick] (x.east) -- (v43.west);}
 		\end{tikzpicture}
 	\end{center}
 
-	\onslide<5->{
+	\onslide<4->{
 		\begin{center}
 			\textbf{Réaffecter \texttt{x} ne change pas \texttt{y}.}
 		\end{center}
 	}
 \end{frame}
+
+% % ===================================================================
+% % 5. Briques de base
+% % ===================================================================
+
+% \begin{frame}[t]{Briques de base}
+% \begin{center}
+% \begin{tikzpicture}
+%   \node[pill] (donnees) at (0,0) {DONNÉES};
+%   \onslide<2->{\node[pill, right=0.3cm of donnees] (es) {ENTRÉES / SORTIES};}
+%   \onslide<3->{\node[pill, right=0.3cm of es] (ops) {OPÉRATIONS};}
+%   \onslide<4->{\node[pill, above=0.3cm of donnees, xshift=1.5cm] (sc) {STRUCTURES DE CONTRÔLE};}
+%   \onslide<5->{\node[pill, above=0.3cm of ops] (fn) {FONCTIONS};}
+% \end{tikzpicture}
+% \end{center}
+% \end{frame}
+
+% \begin{frame}{Briques de base --- détail}
+% \begin{center}
+% \begin{tikzpicture}[scale=0.68, every node/.style={scale=0.68}]
+%   \node[pill, text width=6.2cm, minimum height=2.4cm, align=center] (sc) at (0,1.6) {\phantom{x}};
+%   \node[align=center, font=\bfseries\small, yshift=0.7cm] at (sc) {STRUCTURES DE CONTRÔLE};
+%   \node[pillsmall, below=0.15cm of sc.center, xshift=-1.6cm, yshift=-0.55cm] (seq) {SÉQUENCES};
+%   \node[pillsmall, right=0.2cm of seq] (cond) {CONDITIONS};
+%   \node[pillsmall, below=0.2cm of seq, xshift=1.4cm, text width=3.6cm] (boucles) {BOUCLES\\(FOR ET WHILE)};
+
+%   \node[pill, text width=6.2cm, minimum height=2.4cm, align=center] (donnees) at (0,-2.6) {\phantom{x}};
+%   \node[align=center, font=\bfseries\small, yshift=0.7cm] at (donnees) {DONNÉES};
+%   \node[pillsmall, below=0.15cm of donnees.center, xshift=-1.6cm, yshift=-0.55cm] (assig) {ASSIGNATION};
+%   \node[pillsmall, right=0.2cm of assig] (vars) {VARIABLES};
+%   \node[pillsmall, below=0.2cm of assig] (dict) {DICTIONNAIRES};
+%   \node[pillsmall, right=0.2cm of dict] (listes) {LISTES};
+
+%   \node[pill, right=1.3cm of sc] {ENTRÉES / SORTIES};
+%   \node[pill, right=1.3cm of donnees] {OPÉRATIONS};
+%   \node[pill, right=4.6cm of sc, yshift=1.5cm] {FONCTIONS};
+% \end{tikzpicture}
+% \end{center}
+% \end{frame}
+
 
 
 \end{document}
