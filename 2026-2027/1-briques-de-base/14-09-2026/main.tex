@@ -1024,6 +1024,113 @@ for i in range(4):
 	\end{center}
 \end{frame}
 
+
+% ------------------------------------------------------------------
+% Slide "Les règles d'or"
+% ------------------------------------------------------------------
+
+\begin{frame}[plain]
+
+\begin{tikzpicture}[remember picture, overlay]
+
+  % Fond
+  \fill[luxuryblack] (current page.south west)
+      rectangle (current page.north east);
+
+  % Double filet doré, rapproché des bords
+  \draw[gold, line width=0.8pt]
+      ([xshift=0.28cm,yshift=0.28cm]current page.south west)
+      rectangle
+      ([xshift=-0.28cm,yshift=-0.28cm]current page.north east);
+
+  \draw[darkgold, line width=0.3pt]
+      ([xshift=0.43cm,yshift=0.43cm]current page.south west)
+      rectangle
+      ([xshift=-0.43cm,yshift=-0.43cm]current page.north east);
+
+  % Petit ornement central
+  \node[gold, font=\large] at
+      ([yshift=-0.95cm]current page.north)
+      {$\diamond$};
+
+  % Titre
+  \node[
+      anchor=north,
+      text=gold,
+      font=\fontsize{21}{25}\selectfont\bfseries
+  ] at ([yshift=-1.25cm]current page.north)
+  {LES RÈGLES D'OR d'AP1};
+
+  % Ligne décorative
+  \draw[gold, line width=0.5pt]
+      ([xshift=-2.3cm,yshift=-2.15cm]current page.north)
+      -- ([xshift=2.3cm,yshift=-2.15cm]current page.north);
+  % ================================================================
+  % RÈGLE 01
+  % ================================================================
+
+  \node[
+      anchor=north west,
+      text=gold,
+      font=\fontsize{12}{14}\selectfont\bfseries
+  ] at ([xshift=1.15cm,yshift=-2.85cm]current page.north west)
+  {01};
+
+  \node[
+      anchor=north west,
+      text=softwhite,
+      font=\normalsize\bfseries
+  ] at ([xshift=2.05cm,yshift=-2.80cm]current page.north west)
+  {Être un chef.};
+
+  \node[
+      anchor=north west,
+      text=softwhite!70,
+      font=\footnotesize
+  ] at ([xshift=2.05cm,yshift=-3.30cm]current page.north west)
+  {Penser à l'algorithme avant de programmer};
+
+  % ================================================================
+  % RÈGLE 02
+  % ================================================================
+
+\pause
+  \node[
+      anchor=north west,
+      text=gold,
+      font=\fontsize{12}{14}\selectfont\bfseries
+  ] at ([xshift=1.15cm,yshift=-4cm]current page.north west)
+  {02};
+
+  \node[
+      anchor=north west,
+      text=softwhite,
+      font=\normalsize\bfseries
+  ] at ([xshift=2.05cm,yshift=-4.05cm]current page.north west)
+  {Connaître ses ingrédients.};
+
+  \node[
+      anchor=north west,
+      text=softwhite!70,
+      font=\footnotesize
+  ] at ([xshift=2.05cm,yshift=-4.55cm]current page.north west)
+  {Penser au type de chaque variable.};
+
+  % ================================================================
+  % Pied de page
+  % ================================================================
+
+  \node[
+      anchor=south,
+      text=gold!80,
+      font=\tiny\scshape
+  ] at ([yshift=0.75cm]current page.south)
+  {À retenir};
+
+\end{tikzpicture}
+
+\end{frame}
+
 % ===================================================================
 % 7quater. Tableau de valeurs
 % ===================================================================
