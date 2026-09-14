@@ -1,7 +1,9 @@
 \documentclass{beamer}
-\usetheme{Metropolis}
+\usetheme{metropolis}
 \usepackage{graphicx}
 \usepackage[normalem]{ulem}
+\usepackage[frenchb]{babel}
+\usepackage{marvosym}
 
 % -- ChatGPTeries pour slide dorée --%
 \usepackage{tikz}
@@ -142,16 +144,17 @@
     \maketitle
 \end{frame}
 
-%WOOCLAP 
-%Point d'organisation 
+%WOOCLAP
+%Point d'organisation
 
 \begin{frame}{Organisation globale}
 
 \begin{block}{Planning d'AP1}
+  \vspace{0pt}
 Chaque semaine :
     \begin{itemize}
-        \item 1 séance de CM 
-        \item 1 séance de TD 
+        \item 1 séance de CM
+        \item 1 séance de TD
         \item 2 séances de TP
             \begin{itemize}
                 \item 1 TP "découverte"/entraînement
@@ -159,12 +162,12 @@ Chaque semaine :
             \end{itemize}
     \end{itemize}
     \end{block}
-    \pause 
+    \pause
     \begin{center}
         Beaucoup d'heures devant les machines : profitez-en !
     \end{center}
     \end{frame}
-  
+
   \begin{frame}{Planning}
   	\begin{center}
   	\includegraphics[width=\textwidth,
@@ -173,6 +176,7 @@ Chaque semaine :
   	\end{center}
 
   \end{frame}
+
 \begin{frame}{Vos enseignants}
 	\only<1>{
 		\begin{center}
@@ -203,9 +207,9 @@ Chaque semaine :
 		\item aaron.boussidan@univ-eiffel.fr
 		\pause\item Chauve
 	\end{itemize}
-}	
-	
-	
+}
+
+
 \end{frame}
 \begin{frame}{Evaluation}
 
@@ -213,28 +217,31 @@ Chaque semaine :
         \begin{itemize}
             \item CC1 la semaine du 02 novembre \only<2->{- \textbf{Coefficient 7 }}
             \item CC2 la semaine du 04 janvier \only<2->{- \textbf{Coefficient 9 }}
-            \item TP noté 1 la semaine du 02/10 \only<3->{- \textbf{Coefficient 1.5 }}
-            \item TP noté 2 la semaine du 14/12 \only<3->{- \textbf{Coefficient 1.5 }}
-            \item Une note de TP \only<4->{- \textbf{Coefficient 1 }}
+            \item TP noté 1 la semaine du 02/10
+            \item TP noté 2 la semaine du 14/12
+            \item Une note de TP
+              \onslide<3->{
+                \item[$\Rightarrow$] TPs - \textbf{Coefficient 4}
+              }
         \end{itemize}
     \end{block}
 
-    
+
 \end{frame}
 
 \begin{frame}{Bienvenue !}
     \begin{block}{Objectifs de ce cours}
     \begin{itemize}
-        \item Découvrir l'informatique et la programmation 
-        \item Se (re-)familiariser avec un langage de programmation : Python 
+        \item Découvrir l'informatique et la programmation
+        \item Se (re-)familiariser avec un langage de programmation : Python
         \item Commencer à penser en \textbf{algorithmes} et pas juste en \textbf{programmes}
     \end{itemize}
     \end{block}
-    \pause 
+    \pause
     \vfill
-    \begin{block}{A la fin de cours, vous saurez ...}
+    \begin{block}{À la fin de cours, vous saurez ...}
         \begin{itemize}
-            \item Comprendre et écrire des programmes Python simple 
+            \item Comprendre et écrire des programmes Python simple
             \item Ecrire un petit jeu vidéo jouable sur une grille (Projet 1 !)
             \item Aborder d'autres langages de programmation
         \end{itemize}
@@ -250,31 +257,32 @@ Chaque semaine :
         \item Python Tutor : \url{https://pythontutor.com/}
     \end{itemize}
 \end{frame}
-    
+
 
 \begin{frame}{Algorithmique ? Programmation ? }
 
-    \begin{block}{Algorithmique}
-        \textbf{Concevoir une solution.}
+    \begin{block}{Algorithmique : Concevoir une solution}
+      \vspace{0pt}
 
-        
-        Quelle est \textbf{l'idée} pour résoudre ce problème ? Quelle \textbf{méthode} utiliser ?  
+        Quelle est \textbf{l'idée} pour résoudre ce problème ?
+
+        Quelle \textbf{méthode} utiliser ?
     \end{block}
-    \pause 
+    \pause
     \begin{center}
         Algorithme = recette de cuisine
     \end{center}
 
-    \begin{block}{Programmation}
-    \textbf{Exécuter une solution.}
+    \begin{block}{Programmation : Exécuter une solution}
+      \vspace{0pt}
 
-    On "explique" à une machine comment mettre en place la solution.
-    Etape par étape, dans un certain \textbf{langage de programmation}.
+    On \og explique \fg{} à une machine comment mettre en place la solution.
+    Étape par étape, dans un certain \textbf{langage de programmation}.
     \end{block}
 
     \pause
     \begin{center}
-        Programme = cuisiner la recette 
+        Programme = cuisiner la recette
     \end{center}
 \end{frame}
 
@@ -368,12 +376,12 @@ Chaque semaine :
     \end{center}
 \pause
 \begin{itemize}
-    \item Est-ce que ça ressemble à un problème déjà vu ? 
-    \item Quelles étapes pour arriver à la solution ? 
-    \item A quoi faut-il faire attention en particulier ? 
+    \item Est-ce que ça ressemble à un problème déjà vu ?
+    \item Quelles étapes pour arriver à la solution ?
+    \item A quoi faut-il faire attention en particulier ?
 \end{itemize}
 
-\pause 
+\pause
 \vfill
 \begin{center}
     C'est seulement après qu'on passe en cuisine !
@@ -390,7 +398,7 @@ Chaque semaine :
     }
 }
 \begin{center}
-     Dans ce cours on 
+     Dans ce cours on
     \only<1>{cuisine}
     \only<2->{\sout{cuisine}\,code} en \textbf{Python}.
 
@@ -402,7 +410,7 @@ Chaque semaine :
         \only<3>{ \includegraphics[width = 0.9\textwidth, keepaspectratio=True]{Images/main_a_la_pate.png}}
     }
     \uncover<4->{
-         Quand on sera des grands chefs, on aura des commis de cuisine. 
+         Quand on sera des grands chefs, on aura des commis de cuisine.
          \only<4>{ \includegraphics[width = 0.9\textwidth, keepaspectratio=True]{Images/commis_cuisine.png}}
          \only<5>{ \includegraphics[width = 0.5\textwidth, keepaspectratio=True]{Images/ChatGPT.png}}
     }
@@ -417,17 +425,17 @@ Chaque semaine :
 			\node[draw, rounded corners, minimum width=6cm, minimum height=1cm] (mach) at (0,0.85)
 			{\texttt{01101000 01101001 ...}};
 			\node (screen) at (0,-1.4) {\screenicon};
-			
+
 			% etapes 1-2 : lien direct (pas de detail)
 			\only<1-2>{\draw[-latex, thick] (py) -- (mach);}
 			\draw[-latex, thick] (mach) -- (screen);
-			
+
 			% etape 2 : "comment ca marche ?" -> baguettes magiques
 			\onslide<2>{
 				\node at ($(py)!0.5!(mach)+(3.8,0)$) {\wandicon};
 				\node at ($(mach)!0.5!(screen)+(5,0)$) {\wandicon};
 			}
-			
+
 			% etape 3+ : on detaille le processus de traduction
 			\onslide<3->{
 				\node[draw, rounded corners, minimum width=4.6cm, minimum height=0.7cm, font=\footnotesize] (byte) at (0,4.05)
@@ -441,7 +449,7 @@ Chaque semaine :
 				\draw[-latex, thick] (vm) -- (asm);
 				\draw[-latex, thick] (asm) -- (mach);
 			}
-			
+
 			% etape 4+ : legende bytecode
 			\onslide<4->{
 				\node[align=left, font=\scriptsize] at ($(byte)+(3.9,0)$)
@@ -514,7 +522,7 @@ Chaque semaine :
 	\end{onslide}
 	\begin{onslide}<9->
 		\begin{center}
-			... Mais encore ? 
+			... Mais encore ?
 		\end{center}
 	\end{onslide}
 \end{frame}
@@ -614,13 +622,13 @@ Chaque semaine :
 	\begin{center}
 		Une valeur est une boîte dans laquelle on range quelque chose.
 	\end{center}
-	
+
 	\only<4-5>{\begin{center}\texttt{x = 2}\end{center}}%
 	\only<6-7>{\begin{center}\texttt{print(x)}\end{center}}%
 	\only<7>{\begin{center}\lstinputlisting[style=pythonoutput]{code/print_x_output.py}\end{center}}%
 	\only<8-10>{\begin{center}\texttt{y = x + 1}\end{center}}%
 	\only<11-15>{\begin{center}\texttt{x = "Salut"}\end{center}}%
-	
+
 	\begin{center}
 		\begin{tikzpicture}
 			\only<2>{\node (boite) {\includegraphics[width=3.6cm]{Images/Carton fermé.png}};}%
@@ -693,11 +701,11 @@ Chaque semaine :
 \end{frame}
 
 \begin{frame}[t]{Modèle mémoire de Python}
-	
+
 	\only<1>{\lstinputlisting[style=python,linerange={1-1}]{code/memoire_trace.py}}%
 	\only<2-3>{\lstinputlisting[style=python,linerange={1-2}]{code/memoire_trace.py}}%
 	\only<4->{\lstinputlisting[style=python,linerange={1-3}]{code/memoire_trace.py}}%
-	
+
 	\bigskip
 	\begin{center}
 		\begin{tikzpicture}[
@@ -706,21 +714,21 @@ Chaque semaine :
 			% -- Pile : les noms --
 			\draw[thick, rounded corners=2pt] (-0.4,-2.3) rectangle (3.1,0.5);
 			\node[anchor=north west, font=\bfseries\footnotesize] at (-0.3,0.45) {Pile};
-			
+
 			\node[anchor=west, font=\ttfamily] (x) at (0.3,-0.5) {x};
 			\onslide<2->{\node[anchor=west, font=\ttfamily] (y) at (0.3,-1.5) {y};}
-			
+
 			% -- Tas : les valeurs --
 			\node[font=\itshape\footnotesize, black!60] at (7.1,0.75) {Tas};
-			
+
 			\node[valbox] (v42) at (7.1,-0.5) {42};
 			\node[font=\itshape\tiny, black!55, above=1pt of v42] {int};
-			
+
 			\onslide<4->{
 				\node[valbox] (v43) at (7.1,-2.1) {43};
 				\node[font=\itshape\tiny, black!55, above=1pt of v43] {int};
 			}
-			
+
 			% -- fleches (une reaffectation de x ne deplace pas la fleche de y !) --
 			\only<1-3>{\draw[-latex, thick] (x.east) -- (v42.west);}
 			% etape 2 : y pointe (a tort, pedagogiquement) directement vers x
@@ -730,7 +738,7 @@ Chaque semaine :
 			\onslide<4->{\draw[-latex, thick] (x.east) -- (v43.west);}
 		\end{tikzpicture}
 	\end{center}
-	
+
 	\onslide<5->{
 		\begin{center}
 			\textbf{Réaffecter \texttt{x} ne change pas \texttt{y}.}
@@ -771,13 +779,13 @@ Chaque semaine :
 		\medskip
 		\item<3-> \emph{snake\_case} : \texttt{nom\_de\_variable}, et pas \texttt{nomdevariable} ou \texttt{NomDeVariable}
 	\end{itemize}
-	
+
 	\onslide<4->{\bigskip\hrule\bigskip}
-	
+
 	\begin{itemize}
 		\item<4-> Choisir un nom \textbf{clair}
 	\end{itemize}
-	
+
 	\begin{center}
 		\begin{tikzpicture}[font=\ttfamily\footnotesize]
 			\onslide<4->{\node at (0,0) {\only<4>{t = 600}\only<5->{\sout{t = 600}}};}
@@ -786,9 +794,9 @@ Chaque semaine :
 			\onslide<7->{\node at (7.3,0) {largeur\_fenetre = 600};}
 		\end{tikzpicture}
 	\end{center}
-	
+
 	\begin{itemize}
-		\item<8-> Souvent en anglais... mais français ok pour ce cours 
+		\item<8-> Souvent en anglais... mais français ok pour ce cours
 	\end{itemize}
 \end{frame}
 
@@ -827,7 +835,7 @@ Chaque semaine :
 			\ifnum\value{lstnumber}=19 \color{codekw!12}\fi
 		},
 		]{code/focus_variables.py}}%
-	
+
 	% etapes 3-11 : le code disparait, des valeurs eparpillees apparaissent
 	\only<3->{
 		\begin{center}
@@ -841,7 +849,7 @@ Chaque semaine :
 				\onslide<9->{\node at (-1.2,-1.6) {Si on a fini de saisir};}
 				\onslide<10->{\node at (2.8,1.0) {\color{codestr}"Entrez une note"};}
 				\onslide<11->{\node at (2.8,-1.6) {Rien du tout};}
-				
+
 				% etape 12 : entiers
 				\onslide<12->{
 					\draw[thick, red, rounded corners=8pt] (-6.1,-0.7) rectangle (-3.0,2.7);
@@ -932,7 +940,7 @@ Chaque semaine :
 	\begin{lstlisting}[style=python]
 		True
 		False
-		
+
 		true             # attention a la casse !
 	\end{lstlisting}
 	\begin{center}
@@ -1040,7 +1048,7 @@ Chaque semaine :
 \begin{frame}[fragile]{Activité : dessiner un polygone}
 	\begin{lstlisting}[style=python]
 		import turtle
-		
+
 		t = turtle.Turtle()
 		for i in range(5):
 		t.forward(100)
