@@ -24,6 +24,9 @@
 \usepackage{xcolor}
 \usetikzlibrary{positioning, calc, shapes.geometric}
 
+% Marqueur invisible pour ancrer des fleches d'annotation sur un mot precis
+\newcommand{\tikzmark}[1]{\tikz[remember picture, overlay] \node[coordinate] (#1) {};}
+
 % -- Icones pour la slide "langage de haut niveau" -- %
 % Baguette magique : image demandee par l'utilisateur (istockphoto, a
 % verifier niveau licence avant toute diffusion publique des slides).
@@ -88,7 +91,10 @@
 	aboveskip=0pt,
 	belowskip=0pt,
 	literate={é}{{\'e}}1 {è}{{\`e}}1 {ê}{{\^e}}1 {à}{{\`a}}1 {ç}{{\c c}}1
-	{É}{{\'E}}1 {'}{{\textquotesingle}}1,
+	{É}{{\'E}}1 {È}{{\`E}}1 {À}{{\`A}}1 {Ç}{{\c C}}1
+	{ù}{{\`u}}1 {û}{{\^u}}1 {î}{{\^i}}1 {ï}{{\"i}}1 {ô}{{\^o}}1
+	{â}{{\^a}}1 {ë}{{\"e}}1 {ü}{{\"u}}1 {œ}{{\oe}}1
+	{'}{{\textquotesingle}}1,
 }
 \lstdefinestyle{pythonsmall}{style=python,basicstyle=\ttfamily\scriptsize}
 
@@ -299,8 +305,57 @@
 	\begin{frame}{Boucles while - Cas d'utilisation }
 		\begin{block}{Rappel - être un chef !}
 			\vspace{0 pt}
-			On commence toujours par formuler l'algorithme.
+			On commence toujours par formuler l'algorithme. Si votre algorithme contient ...
 		\end{block}
-		
+
+		\begin{center}
+			\begin{tikzpicture}
+				\pause\node[align=left] at (0,0) {"\ldots et on recommence"};
+				\node[align=left] at (6.5,-1.1) {"jusqu'à ce que..."};
+				\node[align=left] at (1,-2.1) {"s'il en reste, on refait"};
+				\node[align=left] at (6,-3) {"on repart du début"};
+			\end{tikzpicture}
+		\end{center}
+
+		\vfill
+		\begin{center}
+			\textbf{Il faut une boucle while !}
+		\end{center}
 	\end{frame}
+	\begin{frame}{Exemple - saisie contrôlée}
+\begin{block}{Principe de la saisie contrôlée}
+	Demander à l'utilisateur de saisir quelque chose et vérifier que sa saisie est correcte
+\end{block}
+
+\begin{center}
+	Quel est l'algorithme ?
+\end{center}
+\pause
+\vspace{0.3cm}
+\begin{center}
+	\Large
+	\alt<3->{%
+		"\tikzmark{demandeS}\textcolor{blue}{\textbf{On demande}}\tikzmark{demandeE} de saisir \tikzmark{initS}\textcolor{orange!80!black}{\textbf{une première fois}}\tikzmark{initE}, \\
+		et \tikzmark{recomS}\textcolor{red!70!black}{\textbf{on recommence tant que}}\tikzmark{recomE} la saisie est incorrecte."
+	}{%
+		"On demande de saisir une première fois, \\
+		et on recommence tant que la saisie est incorrecte."
+	}
+\end{center}
+\only<3->{%
+	\begin{tikzpicture}[remember picture, overlay]
+		\only<4->{\node[above=1cm of demandeS, xshift=-0.3cm, blue, font=\bfseries] (lbldemande) {input};
+		\draw[->, blue, thick] (lbldemande.south) to[bend left=10] ($(demandeS)+(0.3,0.5)$);}
+
+		\only<5->{\node[above=1cm of initE, xshift=0.2cm, orange!80!black, font=\bfseries, align=center] (lblinit) {initialisation\\avant la boucle};
+		\draw[->, orange!80!black, thick] (lblinit.south) to[bend right=10] ($(initS)!0.5!(initE)+(0,0.4)$);}
+
+		 \only<3->{\node[below=1.4cm of recomS, xshift=1.4cm, red!70!black, font=\bfseries] (lblrecom) {Boucle while};
+		\draw[->, red!70!black, thick] (lblrecom.north) to[bend right=15] ($(recomS)!0.5!(recomE)+(0,-0.1)$);}
+	\end{tikzpicture}}
+\end{frame}
+
+\begin{frame}[fragile]{Saisie contrôlée - Une implémentation}
+	\lstinputlisting[style=pythonsmall]{code/saisie_controlee_sans_liste.py}
+\end{frame}
 \end{document}
