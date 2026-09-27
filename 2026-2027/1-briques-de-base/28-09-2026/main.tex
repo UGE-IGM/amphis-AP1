@@ -1,0 +1,306 @@
+\documentclass{beamer}
+\usetheme{metropolis}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage[normalem]{ulem}
+\usepackage[french]{babel}
+\usepackage{marvosym}
+\usepackage{qrcode}
+% Horizontal lists
+% \usepackage[inline]{enumitem}
+\usepackage{minted}
+
+% -- ChatGPTeries pour slide dorée --%
+\usepackage{tikz}
+\usepackage{xcolor}
+
+\definecolor{gold}{RGB}{201, 164, 76}
+\definecolor{darkgold}{RGB}{142, 111, 35}
+\definecolor{luxuryblack}{RGB}{18, 18, 18}
+\definecolor{softwhite}{RGB}{242, 240, 234}
+% ---- %
+
+\usepackage{tikz}
+\usepackage{xcolor}
+\usetikzlibrary{positioning, calc, shapes.geometric}
+
+% -- Icones pour la slide "langage de haut niveau" -- %
+% Baguette magique : image demandee par l'utilisateur (istockphoto, a
+% verifier niveau licence avant toute diffusion publique des slides).
+\newcommand{\wandicon}{.}
+\newcommand{\screenicon}{%
+	\begin{tikzpicture}[baseline=-0.3ex, scale=0.35]
+		\draw[thick, fill=black!5] (-1,0) rectangle (1,0.7);
+		\node[font=\tiny] at (0,0.35) {Salut};
+		\draw[thick] (-0.15,-0.35) rectangle (0.15,0);
+		\draw[thick] (-0.5,-0.5) -- (0.5,-0.5);
+	\end{tikzpicture}%
+}
+% ---- %
+
+% Slides année précédente
+\usetikzlibrary{positioning, calc, decorations.pathreplacing}
+
+\definecolor{pillfill}{RGB}{173, 216, 240}
+\definecolor{pillborder}{RGB}{70, 130, 180}
+\tikzset{
+	pill/.style={draw=pillborder, thick, rounded corners=8pt, fill=pillfill,
+		minimum height=0.8cm, text width=3.6cm, align=center, font=\bfseries\small},
+	pillsmall/.style={draw=pillborder, thick, rounded corners=6pt, fill=pillfill,
+		minimum height=0.7cm, text width=2.6cm, align=center, font=\bfseries\footnotesize},
+}
+
+% -- Coloration syntaxique du code Python (compatible pdflatex) -- %
+\usepackage{listings}
+% Quickfix to get Listings to work properly
+% From https://tex.stackexchange.com/questions/451532/recent-issues-with-lstlinebgrd-package-with-listings-after-the-latters-updates
+\makeatletter
+\let\old@lstKV@SwitchCases\lstKV@SwitchCases
+\def\lstKV@SwitchCases#1#2#3{}
+\makeatother
+\usepackage{lstlinebgrd}
+\makeatletter
+\let\lstKV@SwitchCases\old@lstKV@SwitchCases
+
+\lst@Key{numbers}{none}{%
+	\def\lst@PlaceNumber{\lst@linebgrd}%
+	\lstKV@SwitchCases{#1}%
+	{none:\\%
+		left:\def\lst@PlaceNumber{\llap{\normalfont
+				\lst@numberstyle{\thelstnumber}\kern\lst@numbersep}\lst@linebgrd}\\%
+		right:\def\lst@PlaceNumber{\rlap{\normalfont
+				\kern\linewidth \kern\lst@numbersep
+				\lst@numberstyle{\thelstnumber}}\lst@linebgrd}%
+	}{\PackageError{Listings}{Numbers #1 unknown}\@ehc}}
+\makeatother
+\definecolor{codekw}{RGB}{0, 0, 180}
+\definecolor{codestr}{RGB}{20, 120, 40}
+\definecolor{codecom}{RGB}{120, 120, 120}
+\lstdefinestyle{python}{
+	language=Python,
+	basicstyle=\ttfamily\footnotesize,
+	keywordstyle=\color{codekw}\bfseries,
+	stringstyle=\color{codestr},
+	commentstyle=\color{codecom}\itshape,
+	showstringspaces=false,
+	keepspaces=true,
+	columns=fullflexible,
+	aboveskip=0pt,
+	belowskip=0pt,
+	literate={é}{{\'e}}1 {è}{{\`e}}1 {ê}{{\^e}}1 {à}{{\`a}}1 {ç}{{\c c}}1
+	{É}{{\'E}}1 {'}{{\textquotesingle}}1,
+}
+\lstdefinestyle{pythonsmall}{style=python,basicstyle=\ttfamily\scriptsize}
+
+% Convention du cours pour une reponse de Python (a la suite d'un print, etc.) :
+% prefixe ">" + encadre sur fond clair.
+\lstdefinestyle{pythonoutput}{
+	style=python,
+	basicstyle=\ttfamily\footnotesize\color{black!70},
+	backgroundcolor=\color{black!6},
+	frame=single,
+	rulecolor=\color{black!35},
+	framerule=0.4pt,
+	framexleftmargin=5pt,
+	framexrightmargin=5pt,
+	framextopmargin=3pt,
+	framexbottommargin=3pt,
+	xleftmargin=5pt,
+	xrightmargin=5pt,
+	aboveskip=3pt,
+	belowskip=3pt,
+}
+
+% Un morceau de code annote : #1 plage de lignes, #2 1 si c'est la partie
+% commentee (fond bleu, couleurs normales) sinon 0 (grise), #3 aboveskip.
+\newcommand{\annoline}[3]{%
+	\ifnum#2=1
+	\lstinputlisting[style=pythonsmall, backgroundcolor=\color{blue!15}, #3, linerange={#1}]{code/premier_prog_2.py}%
+	\else
+	\lstinputlisting[style=pythonsmall, basicstyle=\ttfamily\scriptsize\color{black!45}, keywordstyle=\color{black!45}, stringstyle=\color{black!45}, #3, linerange={#1}]{code/premier_prog_2.py}%
+	\fi
+}
+
+% Version generique de \annoline : #1 fichier, #2 plage de lignes,
+% #3 1 si c'est la ligne commentee (fond bleu) sinon 0 (grisee).
+\newcommand{\valline}[3]{%
+	\ifnum#3=1
+	\lstinputlisting[style=pythonsmall, backgroundcolor=\color{blue!15}, linerange={#2}]{#1}%
+	\else
+	\lstinputlisting[style=pythonsmall, basicstyle=\ttfamily\scriptsize\color{black!45}, keywordstyle=\color{black!45}, stringstyle=\color{black!45}, linerange={#2}]{#1}%
+	\fi
+}
+
+% Slide "focus sur une construction" : etape 1 = programme entier, la partie
+% commentee sur fond bleu (texte noir), le reste gris ; etape 2 = le reste a
+% disparu, la partie commentee reste sur fond bleu (texte noir).
+\newcommand{\focusframe}[5]{%
+	\begin{frame}[t]{#1}
+		\only<1>{\lstinputlisting[
+			style=pythonsmall,
+			basicstyle=\ttfamily\scriptsize\color{black!45},
+			keywordstyle=\color{black!45}, stringstyle=\color{black!45},
+			emph={#2}, emphstyle={\color{black}\bfseries},
+			linebackgroundcolor={\color{white}#3},
+			]{code/premier_prog_2.py}}%
+		\only<2>{\lstinputlisting[
+			style=pythonsmall,
+			emph={#2}, emphstyle={\color{black}\bfseries},
+			linebackgroundcolor={\color{white}#3},
+			]{code/#4}}%
+		\vfill
+		\centering\small #5
+	\end{frame}%
+}
+
+\title{Algorithmique et Programmation 1}
+\author{A. Boussidan, L. Exibard, P. Yvonnet}
+\date{28 Septembre 2026}
+
+\begin{document}
+	
+	\begin{frame}
+		\maketitle
+	\end{frame}
+	
+	\begin{frame}{Un retour sur les boucles while}
+		
+		Que faire si on veut répéter une instruction si une condition reste vraie ?
+		
+		\begin{columns}
+			\begin{column}{0.7\textwidth}
+				\scalebox{0.8}{%
+					\begin{tikzpicture}[
+						every node/.style={font=\small}	,
+						process/.style={
+							rectangle,
+							draw,
+							rounded corners,
+							minimum width=3cm,
+							minimum height=1cm,
+							align=center
+						},
+						decision/.style={
+							diamond,
+							draw,
+							aspect=2,
+							minimum width=3cm,
+							minimum height=1.2cm,
+							align=center
+						},
+						arrow/.style={
+							->,
+							>=stealth,
+							thick
+						}
+						]
+						
+						% Blocs
+						\node[process] (debut) {Début};
+						
+						\node[decision, below=1.2cm of debut] (condition) {Condition ?};
+						
+						\node[process, below=1.5cm of condition] (bloc) {Bloc};
+						
+						\node[process, below=1.5cm of bloc] (suite) {Suite du programme};
+						
+						
+						% Début -> Condition
+						\draw[arrow]
+						(debut) -- (condition);
+						
+						
+						% Condition -> Bloc : OUI
+						\draw[arrow]
+						(condition.south)
+						-- node[right] {oui}
+						(bloc.north);
+						
+						
+						% Bloc -> Condition : retour de la boucle
+						\draw[arrow]
+						(bloc.west)
+						-- ++(-2cm,0)
+						|- node[left, pos=0.25] {}
+						(condition.west);
+						
+						
+						% Condition -> Suite : NON
+						\draw[arrow]
+						(condition.east)
+						to[out=0, in=0]
+						node[right] {non}
+						(suite.east);
+						
+					\end{tikzpicture}
+					
+				
+				}
+			\end{column}
+			\begin{column}{0.3\textwidth}
+				\lstinputlisting[style=pythonsmall]{code/while.py}%
+			\end{column}
+		\end{columns}
+	\end{frame}
+	
+	\begin{frame}{Un peu de vocabulaire}
+		\begin{block}{Itération}
+			\vspace{0pt}
+			Une exécution complète du corps de la boucle
+		\end{block}
+		
+		\pause 
+		\begin{block}{Variable ou indice de boucle}
+			\vspace{0pt}
+			La variable qui compte le nombre de tours de boucles ; dans une boucle while simple, c'est sur elle que porte la condition.\\
+			Souvent notée \mintinline{python}{i}
+			ou 
+			\mintinline{python}{j}
+		\end{block}
+		\pause 
+		\begin{block}{Condition de continuation}
+			La condition qui est vérifiée à chaque début de boucle : si elle est vraie, on continue. 
+		\end{block}
+		\pause
+		\begin{block}{Condition d'arrêt}
+			L'inverse de la condition de continuation
+		\end{block}
+	\end{frame}
+	
+	\begin{frame}[fragile]{Sur un exemple}
+		\lstinputlisting[style=python]{code/while_annote.py}
+	\end{frame}
+	
+	\begin{frame}[fragile]{Un exemple familier...}
+				\lstinputlisting[style=pythonsmall]{code/lievre_tortue_CM.py}
+	\pause
+	\begin{center}
+		\textbf{M'sieur, ça marche pas !}
+	\end{center}
+	\end{frame}
+	\begin{frame}[fragile]{Un exemple familier...corrigé}
+		\lstinputlisting[style=pythonsmall]{code/lievre_tortue_CM_fixed.py}
+		\begin{center}
+			\textbf{Attention à la boucle infinie}
+		\end{center}
+	\end{frame}
+	\begin{frame}{Comment débugguer une boucle while}
+		\begin{itemize}
+			\item Ajouter des prints dans son code
+			\pause\item Exécuter son code pas à pas ( à la main, sur PythonTutor, avec le débbugueur)
+			\pause\item S'il y a une boucle infinie : se concentrer sur les variables du test de continuation 
+				\begin{itemize}
+					\item Sont-elles bien initialisées ? 
+					\item Quand sont-elles mises à jour ? 
+					\item Pourquoi est-ce que la boucle finit par s'arrêter ? 
+				\end{itemize}
+		\end{itemize}
+	\end{frame}
+	\begin{frame}{Boucles while - Cas d'utilisation }
+		\begin{block}{Rappel - être un chef !}
+			\vspace{0 pt}
+			On commence toujours par formuler l'algorithme.
+		\end{block}
+		
+	\end{frame}
+\end{document}
