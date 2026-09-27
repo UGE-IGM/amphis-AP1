@@ -1,0 +1,10 @@
+nom_1 = "Dupont"
+note_1 = 14
+nom_2 = "Martin"
+note_2 = 9
+nom_3 = "Durand"
+note_3 = 16
+nom_4 = "Petit"
+note_4 = 11
+nom_5 = "Bernard"
+note_5 = 13

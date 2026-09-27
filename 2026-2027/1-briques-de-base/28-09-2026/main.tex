@@ -10,6 +10,7 @@
 % \usepackage[inline]{enumitem}
 \usepackage{minted}
 
+
 % -- ChatGPTeries pour slide dorée --%
 \usepackage{tikz}
 \usepackage{xcolor}
@@ -23,9 +24,14 @@
 \usepackage{tikz}
 \usepackage{xcolor}
 \usetikzlibrary{positioning, calc, shapes.geometric}
-
 % Marqueur invisible pour ancrer des fleches d'annotation sur un mot precis
 \newcommand{\tikzmark}[1]{\tikz[remember picture, overlay] \node[coordinate] (#1) {};}
+
+% Styles pour les diagrammes "boite" de chaines/listes
+\tikzset{
+	boxval/.style={draw, thick, minimum width=1.3cm, minimum height=1cm, font=\bfseries\ttfamily},
+	idxpos/.style={font=\footnotesize, text=blue!60!black},
+}
 
 % -- Icones pour la slide "langage de haut niveau" -- %
 % Baguette magique : image demandee par l'utilisateur (istockphoto, a
@@ -357,5 +363,194 @@
 
 \begin{frame}[fragile]{Saisie contrôlée - Une implémentation}
 	\lstinputlisting[style=pythonsmall]{code/saisie_controlee_sans_liste.py}
+	\pause
+	\begin{itemize}
+		\item Comment faire pour ajouter d'autres parfums possibles ?
+		\item Que se passe-t-il si on remplace les and par des or ? 
+		\item On est obligé de copier/coller la ligne avec le input
+	\end{itemize}
 \end{frame}
+
+\begin{frame}{Un nouveau problème}
+	On sait déjà répéter une instruction avec un \texttt{while}.
+
+	\vspace{0.3cm}
+	\begin{center}
+		\Large Comment afficher chaque lettre d'un mot, une par une ?
+	\end{center}
+
+	\pause
+	\begin{center}
+		\texttt{mot = "Python"}
+	\end{center}
+\end{frame}
+
+\begin{frame}{Indice ou élément ?}
+	\begin{center}
+		\begin{tikzpicture}
+			\foreach \val [count=\i from 0] in {P,y,t,h,o,n} {
+				\node[boxval] (b\i) at (\i*1.3, 0) {\val};
+			}
+			\only<2->{
+				\node[idxpos, above=3pt of b0] (idx0) {\alt<3->{\textbf{0}}{0}};
+				\foreach \i in {1,2,3,4,5} {
+					\node[idxpos, above=3pt of b\i] (idx\i) {\i};
+				}
+			}
+			\only<4->{
+				\node[blue!60!black, font=\bfseries, above=1.05cm of idx2, xshift=-0.3cm, align=center] (lblidx) {\texttt{i = 2}\\(l'indice :\\une position)};
+				\draw[->, blue!60!black, thick] (lblidx.south) to[bend right=10] (idx2.north);
+			}
+			\only<5->{
+				\node[red!70!black, font=\bfseries, below=0.65cm of b2, xshift=0.9cm, align=center] (lblelt) {\texttt{mot[2]} = \texttt{"t"}\\(l'élément :\\la valeur)};
+				\draw[->, red!70!black, thick] (lblelt.north) to[bend left=10] (b2.south);
+			}
+		\end{tikzpicture}
+	\end{center}
+
+	\vspace{-0.3cm}
+	\only<3->{
+		\begin{center}
+			Dans une \texttt{str}, les éléments sont numérotés à partir de \texttt{0}.
+		\end{center}
+	}
+\end{frame}
+
+\begin{frame}{Version \texttt{while}}
+	\begin{center}
+		Quel \textbf{algorithme} utiliser pour afficher les lettres une par une ?
+	\end{center}
+
+	\onslide<2->{
+	\begin{center}
+		On va faire parcourir les \textcolor{blue!60!black}{positions} de la chaîne, et on va afficher l'\textcolor{red!70!black}{élément} à cette position.
+	\end{center}
+	}
+
+	\only<3>{\lstinputlisting[style=pythonsmall]{code/mot_while_position.py}}%
+	\only<4->{\lstinputlisting[style=pythonsmall]{code/mot_while.py}}%
+
+	\onslide<5->{
+	\begin{itemize}
+		\item \texttt{i} varie de \texttt{0} à \texttt{len(mot) - 1}
+		\item à chaque tour, on accède à \texttt{mot[i]}
+	\end{itemize}
+	}
+\end{frame}
+
+
+\begin{frame}{Et pour une liste ?}
+	\begin{center}
+		\begin{tikzpicture}
+			\foreach \val [count=\i from 0] in {12, 8, 15, 10, 9} {
+				\node[boxval] (b\i) at (\i*1.5, 0) {\val};
+				\node[idxpos, above=3pt of b\i] (idx\i) {\i};
+			}
+			\only<2->{
+				\node[blue!60!black, font=\bfseries, above=0.6cm of idx2, xshift=-0.3cm, align=center] (lblidx) {\texttt{i = 2}\\(l'indice :\\une position)};
+				\draw[->, blue!60!black, thick] (lblidx.south) to[bend right=10] (idx2.north);
+			}
+			\only<3->{
+				\node[red!70!black, font=\bfseries, below=0.35cm of b2, xshift=0.9cm, align=center] (lblelt) {\texttt{notes[2]} = \texttt{15}\\(l'élément :\\la valeur)};
+				\draw[->, red!70!black, thick] (lblelt.north) to[bend left=10] (b2.south);
+			}
+		\end{tikzpicture}
+	\end{center}
+
+	\vspace{-0.4cm}
+	\onslide<4->{
+		\begin{center}
+			\large Ca devrait être familier...
+		\end{center}
+	}
+\end{frame}
+
+\begin{frame}{Et pour une liste ?}
+	Le même programme marche pour une liste !
+	
+	\lstinputlisting[style=pythonsmall]{code/notes_while.py}
+	
+	\pause
+		\begin{center}
+	\large Coïncidence ? \ldots \\[1pt]
+	\onslide<3->{\textbf{Non, itérables !}}
+\end{center}
+	
+\end{frame}
+
+\begin{frame}{Les itérables}
+	\begin{center}
+		\Large Un \textbf{itérable} est un objet qui regroupe plusieurs valeurs, que l'on peut parcourir élément par élément.
+	\end{center}
+
+	\vspace{0.4cm}
+	En Python, les itérables les plus courants sont :
+	\begin{itemize}
+		\item \texttt{str}
+		\item \texttt{list}
+		\item \texttt{tuple} {\small (vu plus tard)}
+		\item \texttt{dict} {\small (vu plus tard)}
+		\pause
+		\item \textcolor{orange!85!black}{\textbf{\texttt{range}}}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{L'itérable \texttt{range}}
+	\begin{center}
+		\Large \texttt{range(a, b)}
+	\end{center}
+	\begin{center}
+		génère les entiers de \texttt{a} (inclus) à \texttt{b} (exclu)
+	\end{center}
+
+	\pause
+	\vspace{0.3cm}
+	\begin{center}
+		\Large \texttt{range(0, 6)}
+	\end{center}
+
+	\pause
+	\vspace{0.3cm}
+	\begin{center}
+		\begin{tikzpicture}
+			\foreach \val [count=\i from 0] in {0,1,2,3,4,5} {
+				\node[boxval] (b\i) at (\i*1.3, 0) {\val};
+			}
+		\end{tikzpicture}
+	\end{center}
+\end{frame}
+
+\begin{frame}{La boucle \texttt{for}}
+	\begin{center}
+		\Large Un outil pour parcourir les itérables : la boucle \texttt{for} !
+	\end{center}
+
+	\pause
+	\begin{alertblock}{À retenir}
+		\centering La boucle \texttt{for} parcourt toujours les \textcolor{red!70!black}{éléments} d'un itérable.
+	\end{alertblock}
+
+	\pause
+	\begin{columns}[t]
+		\begin{column}{0.5\textwidth}
+			\centering \texttt{str}\\[4pt]
+			\lstinputlisting[style=pythonsmall]{code/mot_for_element.py}
+		\end{column}
+		\begin{column}{0.5\textwidth}
+			\centering \texttt{list}\\[4pt]
+			\lstinputlisting[style=pythonsmall]{code/notes_for_element.py}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}{La boucle \texttt{for} avec \texttt{range}}
+	\lstinputlisting[style=pythonsmall]{code/range_for.py}
+
+	\pause
+	\begin{center}
+		\texttt{i} prend successivement chaque \textcolor{red!70!black}{élément} de \texttt{range(0, 6)} :\\
+		 \texttt{0, 1, 2, 3, 4, 5}.
+	\end{center}
+\end{frame}
+
 \end{document}
