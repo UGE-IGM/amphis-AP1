@@ -628,6 +628,8 @@
 
 \end{frame}
 
+\section{Itérables et boucle \mintinline{python}{for}}
+
 \begin{frame}{Les itérables}
 	\begin{center}
 		\Large Un \textbf{itérable} est un objet qui regroupe plusieurs valeurs, que l'on peut parcourir élément par élément.
@@ -844,6 +846,11 @@ while i < n:
   \end{block}
 \end{frame}
 
+\begin{frame}{Une fonction : qu'est-ce que c'est ?}
+  \centering
+  \includegraphics[height=0.9\textheight]{img/commis.jpeg}
+\end{frame}
+
 \begin{frame}{Fonctions prédéfinies}
   \MVRightarrow{} On en a déjà vu !
 
@@ -898,6 +905,24 @@ def nom_fonction(parametre_1, ..., parametre_n):
 resultat = nom_fonction(expression_1, ..., expression_n)
 \end{minted}
   \end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Fonctions et types}
+
+\begin{minted}{python}
+def nom_fonction(parametre_1, ..., parametre_n):
+    # corps de la fonction
+    # utilisant parametre_1, ..., parametre_n
+    ...
+    # peut renvoyer un résultat :
+    return resultat
+\end{minted}
+
+  \begin{itemize}
+  \item[\MVRightArrow{}] Type des arguments (s'il y en a)
+  \item[\MVRightArrow{}] Type de la valeur de retour
+  \end{itemize}
 \end{frame}
 
 \section{Exemples}
