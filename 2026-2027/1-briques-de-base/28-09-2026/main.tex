@@ -553,4 +553,24 @@
 	\end{center}
 \end{frame}
 
+\begin{frame}{La boucle \texttt{for} sur une \texttt{str}}
+	\begin{center}
+		\begin{tikzpicture}
+			\foreach \val [count=\i from 0] in {P,y,t,h,o,n} {
+				\node[boxval] (b\i) at (\i*1.3, 0) {\val};
+				\node[idxpos, above=3pt of b\i] (idx\i) {\i};
+			}
+			\only<1>{\draw[->, ultra thick, red] ($(b0.north)+(-0.4,1)$) to[bend right=20] (b0.north);}
+			\only<2>{\draw[->, ultra thick, red] ($(b1.north)+(-0.4,1)$) to[bend right=20] (b1.north);}
+			\only<3>{\draw[->, ultra thick, red] ($(b2.north)+(-0.4,1)$) to[bend right=20] (b2.north);}
+			\only<4>{\draw[->, ultra thick, red] ($(b3.north)+(-0.4,1)$) to[bend right=20] (b3.north);}
+			\only<5>{\draw[->, ultra thick, red] ($(b4.north)+(-0.4,1)$) to[bend right=20] (b4.north);}
+			\only<6>{\draw[->, ultra thick, red] ($(b5.north)+(-0.4,1)$) to[bend right=20] (b5.north);}
+		\end{tikzpicture}
+	\end{center}
+
+	\vspace{0.5cm}
+	\lstinputlisting[style=pythonsmall]{code/mot_for_element.py}
+\end{frame}
+
 \end{document}
