@@ -495,34 +495,10 @@
 		\item \texttt{tuple} {\small (vu plus tard)}
 		\item \texttt{dict} {\small (vu plus tard)}
 		\pause
-		\item \textcolor{orange!85!black}{\textbf{\texttt{range}}}
+		\item \textcolor{orange!85!black}{\textbf{\texttt{range}}} {\small (vu dans quelques instants)}
 	\end{itemize}
 \end{frame}
 
-\begin{frame}{L'itérable \texttt{range}}
-	\begin{center}
-		\Large \texttt{range(a, b)}
-	\end{center}
-	\begin{center}
-		génère les entiers de \texttt{a} (inclus) à \texttt{b} (exclu)
-	\end{center}
-
-	\pause
-	\vspace{0.3cm}
-	\begin{center}
-		\Large \texttt{range(0, 6)}
-	\end{center}
-
-	\pause
-	\vspace{0.3cm}
-	\begin{center}
-		\begin{tikzpicture}
-			\foreach \val [count=\i from 0] in {0,1,2,3,4,5} {
-				\node[boxval] (b\i) at (\i*1.3, 0) {\val};
-			}
-		\end{tikzpicture}
-	\end{center}
-\end{frame}
 
 \begin{frame}{La boucle \texttt{for}}
 	\begin{center}
@@ -547,6 +523,104 @@
 	\end{columns}
 \end{frame}
 
+\begin{frame}{La boucle \texttt{for} sur une \texttt{str}}
+	\begin{columns}[t]
+		\begin{column}{0.62\textwidth}
+			\begin{center}
+				\scalebox{0.85}{
+					\begin{tikzpicture}
+						\foreach \val [count=\i from 0] in {P,y,t,h,o,n} {
+							\node[boxval] (b\i) at (\i*1.3, 0) {\val};
+							\node[idxpos, above=3pt of b\i] (idx\i) {\i};
+						}
+						\only<1>{\draw[->, ultra thick, red] ($(b0.north)+(-0.4,1)$) to[bend right=20] (b0);}
+						\only<2>{\draw[->, ultra thick, red] ($(b1.north)+(-0.4,1)$) to[bend right=20] (b1);}
+						\only<3>{\draw[->, ultra thick, red] ($(b2.north)+(-0.4,1)$) to[bend right=20] (b2);}
+						\only<4>{\draw[->, ultra thick, red] ($(b3.north)+(-0.4,1)$) to[bend right=20] (b3);}
+						\only<5>{\draw[->, ultra thick, red] ($(b4.north)+(-0.4,1)$) to[bend right=20] (b4);}
+						\only<6>{\draw[->, ultra thick, red] ($(b5.north)+(-0.4,1)$) to[bend right=20] (b5);}
+					\end{tikzpicture}
+				}
+			\end{center}
+			
+			\vspace{0.5cm}
+			\lstinputlisting[style=pythonsmall]{code/mot_for_element.py}
+		\end{column}
+		\begin{column}{0.34\textwidth}
+			\only<1>{\lstinputlisting[style=pythonoutput, linerange={1-1}]{code/mot_for_output.py}}
+			\only<2>{\lstinputlisting[style=pythonoutput, linerange={1-2}]{code/mot_for_output.py}}
+			\only<3>{\lstinputlisting[style=pythonoutput, linerange={1-3}]{code/mot_for_output.py}}
+			\only<4>{\lstinputlisting[style=pythonoutput, linerange={1-4}]{code/mot_for_output.py}}
+			\only<5>{\lstinputlisting[style=pythonoutput, linerange={1-5}]{code/mot_for_output.py}}
+			\only<6>{\lstinputlisting[style=pythonoutput, linerange={1-6}]{code/mot_for_output.py}}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}{La boucle \texttt{for} sur une \texttt{list}}
+	\begin{columns}[t]
+		\begin{column}{0.62\textwidth}
+			\begin{center}
+				\scalebox{0.85}{
+					\begin{tikzpicture}
+						\foreach \val [count=\i from 0] in {12,8,15,10,9} {
+							\node[boxval] (b\i) at (\i*1.3, 0) {\val};
+							\node[idxpos, above=3pt of b\i] (idx\i) {\i};
+						}
+						\only<1>{\draw[->, ultra thick, red] ($(b0.north)+(-0.4,1)$) to[bend right=20] (b0);}
+						\only<2>{\draw[->, ultra thick, red] ($(b1.north)+(-0.4,1)$) to[bend right=20] (b1);}
+						\only<3>{\draw[->, ultra thick, red] ($(b2.north)+(-0.4,1)$) to[bend right=20] (b2);}
+						\only<4>{\draw[->, ultra thick, red] ($(b3.north)+(-0.4,1)$) to[bend right=20] (b3);}
+						\only<5>{\draw[->, ultra thick, red] ($(b4.north)+(-0.4,1)$) to[bend right=20] (b4);}
+					\end{tikzpicture}
+				}
+			\end{center}
+			
+			\vspace{0.5cm}
+			\lstinputlisting[style=pythonsmall]{code/notes_for_element.py}
+		\end{column}
+		\begin{column}{0.34\textwidth}
+			\only<1>{\lstinputlisting[style=pythonoutput, linerange={1-1}]{code/notes_for_element_output.py}}
+			\only<2>{\lstinputlisting[style=pythonoutput, linerange={1-2}]{code/notes_for_element_output.py}}
+			\only<3>{\lstinputlisting[style=pythonoutput, linerange={1-3}]{code/notes_for_element_output.py}}
+			\only<4>{\lstinputlisting[style=pythonoutput, linerange={1-4}]{code/notes_for_element_output.py}}
+			\only<5->{\lstinputlisting[style=pythonoutput, linerange={1-5}]{code/notes_for_element_output.py}}
+		\end{column}
+	\end{columns}
+	\only<6->{\begin{center}
+			Et \mintinline{python}{for i in range(5)} ?
+	\end{center}}
+\end{frame}
+
+
+
+
+
+\begin{frame}{L'itérable \texttt{range}}
+	\begin{center}
+		\Large \texttt{range(a, b)}
+	\end{center}
+	\begin{center}
+		génère les entiers de \texttt{a} (inclus) à \texttt{b} (exclu)
+	\end{center}
+	
+	\pause
+	\vspace{0.3cm}
+	\begin{center}
+		\Large \texttt{range(0, 6)}
+	\end{center}
+	
+	\pause
+	\vspace{0.3cm}
+	\begin{center}
+		\begin{tikzpicture}
+			\foreach \val [count=\i from 0] in {0,1,2,3,4,5} {
+				\node[boxval] (b\i) at (\i*1.3, 0) {\val};
+			}
+		\end{tikzpicture}
+	\end{center}
+\end{frame}
+
 \begin{frame}{La boucle \texttt{for} avec \texttt{range}}
 	\lstinputlisting[style=pythonsmall]{code/range_for.py}
 
@@ -555,26 +629,12 @@
 		\texttt{i} prend successivement chaque \textcolor{red!70!black}{élément} de \texttt{range(0, 6)} :\\
 		 \texttt{0, 1, 2, 3, 4, 5}.
 	\end{center}
+	
+	\lstinputlisting[style=pythonsmall]{code/for_in_range_output.py}
 \end{frame}
 
-\begin{frame}{La boucle \texttt{for} sur une \texttt{str}}
-	\begin{center}
-		\begin{tikzpicture}
-			\foreach \val [count=\i from 0] in {P,y,t,h,o,n} {
-				\node[boxval] (b\i) at (\i*1.3, 0) {\val};
-				\node[idxpos, above=3pt of b\i] (idx\i) {\i};
-			}
-			\only<1>{\draw[->, ultra thick, red] ($(b0.north)+(-0.4,1)$) to[bend right=20] (b0.north);}
-			\only<2>{\draw[->, ultra thick, red] ($(b1.north)+(-0.4,1)$) to[bend right=20] (b1.north);}
-			\only<3>{\draw[->, ultra thick, red] ($(b2.north)+(-0.4,1)$) to[bend right=20] (b2.north);}
-			\only<4>{\draw[->, ultra thick, red] ($(b3.north)+(-0.4,1)$) to[bend right=20] (b3.north);}
-			\only<5>{\draw[->, ultra thick, red] ($(b4.north)+(-0.4,1)$) to[bend right=20] (b4.north);}
-			\only<6>{\draw[->, ultra thick, red] ($(b5.north)+(-0.4,1)$) to[bend right=20] (b5.north);}
-		\end{tikzpicture}
-	\end{center}
-
-	\vspace{0.5cm}
-	\lstinputlisting[style=pythonsmall]{code/mot_for_element.py}
+\begin{frame}{\texttt{for i in range} pour parcourir les indices}
+		\lstinputlisting[style=pythonsmall]{code/for_liste_indices.py}
 \end{frame}
 
 \end{document}
