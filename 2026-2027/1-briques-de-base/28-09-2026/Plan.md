@@ -25,7 +25,6 @@ Fonctions :
 Pour les fonctions, on peut reprendre (au moins en partie) tes slides de l'année dernière. J'aimerais bien toucher un mot une première fois sur espace de noms/variables locales, au moins sur un dessin, mais sans leur prendre la tête tout de suite avec des questions type "si j'ai un x à l'extérieur et que j'incrémente x qui est aussi l'argument de ma fonction qu'est-ce que ça fait ? "
 
 
-- Bref retour sur les booléens
 - Notes de cours
 - Annonce TP noté 1
 - Modèle de mémoire (cf la section associée des briques de base)

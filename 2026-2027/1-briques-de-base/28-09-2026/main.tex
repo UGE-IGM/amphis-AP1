@@ -171,15 +171,133 @@
 \date{28 Septembre 2026}
 
 \begin{document}
-	
+
 	\begin{frame}
 		\maketitle
 	\end{frame}
-	
+
+  \begin{frame}{Point d'orga}
+
+    \begin{itemize}
+    \item C'est la fin du cycle \og briques de base\fg{} !
+    \item[\MVRightarrow{}] Les notes de cours sont disponibles sur E-learning.
+    \item Pas de CC0\dots{} \pause
+    \item \dots{} Mais un TP noté la semaine prochaine !
+    \end{itemize}
+
+  \end{frame}
+
+  \begin{frame}{Retour sur les booléens : tables de vérité}
+
+    \begin{tabular}{|c|c||c|}
+      \hline
+       \mintinline{python}{pluie} & \mintinline{python}{soleil} & \mintinline{python}{pluie or not soleil} \\
+      \hline
+      \hline
+      \mintinline{python}{False}  & \mintinline{python}{False}  & \onslide<2->{\mintinline{python}{True}} \\
+      \hline
+      \mintinline{python}{False}  & \mintinline{python}{True}   & \onslide<2->{\mintinline{python}{False}} \\
+      \hline
+      \mintinline{python}{True}   & \mintinline{python}{False}  & \onslide<2->{\mintinline{python}{True}} \\
+      \hline
+      \mintinline{python}{True}   & \mintinline{python}{True}   & \onslide<2->{\mintinline{python}{True}} \\
+      \hline
+    \end{tabular}%
+
+    Table de vérité de \mintinline{python}{pluie or not soleil}
+
+    \bigskip
+
+    \begin{tabular}{|c|c||c|}
+      \hline
+       \mintinline{python}{pluie} & \mintinline{python}{soleil} & \mintinline{python}{pluie or not soleil == True} \\
+      \hline
+      \hline
+      \mintinline{python}{False}  & \mintinline{python}{False}  & \onslide<3->{\mintinline{python}{True}} \\
+      \hline
+      \mintinline{python}{False}  & \mintinline{python}{True}   & \onslide<3->{\mintinline{python}{False}} \\
+      \hline
+      \mintinline{python}{True}   & \mintinline{python}{False}  & \onslide<3->{\mintinline{python}{True}} \\
+      \hline
+      \mintinline{python}{True}   & \mintinline{python}{True}   & \onslide<3->{\mintinline{python}{True}} \\
+      \hline
+    \end{tabular}%
+
+    Table de vérité de \mintinline{python}{pluie or not soleil == True}
+
+  \end{frame}
+
+  \begin{frame}{Retour sur les booléens : tables de vérité}
+
+    \bigskip
+
+    \begin{columns}
+      \begin{column}{0.5\textwidth}
+    \begin{tabular}{|c|c||c|}
+      \hline
+       \mintinline{python}{p} & \mintinline{python}{q} & \mintinline{python}{p or q} \\
+      \hline
+      \hline
+      \mintinline{python}{False}  & \mintinline{python}{False}  & \mintinline{python}{False} \\
+      \hline
+      \mintinline{python}{False}  & \mintinline{python}{True}   & \mintinline{python}{True} \\
+      \hline
+      \mintinline{python}{True}   & \mintinline{python}{False}  & \mintinline{python}{True} \\
+      \hline
+      \mintinline{python}{True}   & \mintinline{python}{True}   & \mintinline{python}{True} \\
+      \hline
+    \end{tabular}%
+
+    \medskip
+
+    Table de vérité de \mintinline{python}{p or q}
+
+    \bigskip
+
+    \begin{tabular}{|c|c||c|}
+      \hline
+       \mintinline{python}{p} & \mintinline{python}{q} & \mintinline{python}{p and q} \\
+      \hline
+      \hline
+      \mintinline{python}{False}  & \mintinline{python}{False}  & \mintinline{python}{False} \\
+      \hline
+      \mintinline{python}{False}  & \mintinline{python}{True}   & \mintinline{python}{True} \\
+      \hline
+      \mintinline{python}{True}   & \mintinline{python}{False}  & \mintinline{python}{True} \\
+      \hline
+      \mintinline{python}{True}   & \mintinline{python}{True}   & \mintinline{python}{True} \\
+      \hline
+    \end{tabular}%
+
+    \medskip
+
+    Table de vérité de \mintinline{python}{p and q}
+    \end{column}
+      \begin{column}{0.5\textwidth}
+
+    \begin{tabular}{|c||c|}
+      \hline
+       \mintinline{python}{p} & \mintinline{python}{not p} \\
+      \hline
+      \hline
+      \mintinline{python}{False}  & \mintinline{python}{True} \\
+      \hline
+      \mintinline{python}{True}   & \mintinline{python}{False}  \\
+      \hline
+    \end{tabular}%
+
+    \medskip
+
+    Table de vérité de \mintinline{python}{not p}
+    \end{column}
+    \end{columns}
+
+  \end{frame}
+
 	\begin{frame}{Un retour sur les boucles while}
-		
+
 		Que faire si on veut répéter une instruction si une condition reste vraie ?
-		
+
 		\begin{columns}
 			\begin{column}{0.7\textwidth}
 				\scalebox{0.8}{%
@@ -207,47 +325,47 @@
 							thick
 						}
 						]
-						
+
 						% Blocs
 						\node[process] (debut) {Début};
-						
+
 						\node[decision, below=1.2cm of debut] (condition) {Condition ?};
-						
+
 						\node[process, below=1.5cm of condition] (bloc) {Bloc};
-						
+
 						\node[process, below=1.5cm of bloc] (suite) {Suite du programme};
-						
-						
+
+
 						% Début -> Condition
 						\draw[arrow]
 						(debut) -- (condition);
-						
-						
+
+
 						% Condition -> Bloc : OUI
 						\draw[arrow]
 						(condition.south)
 						-- node[right] {oui}
 						(bloc.north);
-						
-						
+
+
 						% Bloc -> Condition : retour de la boucle
 						\draw[arrow]
 						(bloc.west)
 						-- ++(-2cm,0)
 						|- node[left, pos=0.25] {}
 						(condition.west);
-						
-						
+
+
 						% Condition -> Suite : NON
 						\draw[arrow]
 						(condition.east)
 						to[out=0, in=0]
 						node[right] {non}
 						(suite.east);
-						
+
 					\end{tikzpicture}
-					
-				
+
+
 				}
 			\end{column}
 			\begin{column}{0.3\textwidth}
@@ -255,26 +373,26 @@
 			\end{column}
 		\end{columns}
 	\end{frame}
-	
+
 	\begin{frame}{Un peu de vocabulaire}
 		\begin{block}{Itération}
 			\vspace{0pt}
 			Une exécution complète du corps de la boucle
 		\end{block}
-		
-		\pause 
+
+		\pause
 		\begin{block}{Variable ou indice de boucle}
 			\vspace{0pt}
 			La variable qui compte le nombre de tours de boucles (si elle existe).
 
 			\MVRightarrow{} Souvent notée \mintinline{python}{i}
-			ou 
+			ou
 			\mintinline{python}{j}.
 		\end{block}
-		\pause 
+		\pause
 		\begin{block}{Condition de continuation}
       \vspace{0pt}
-			La condition qui est vérifiée à chaque début de boucle : si elle est vraie, on continue. 
+			La condition qui est vérifiée à chaque début de boucle : si elle est vraie, on continue.
 		\end{block}
 		\pause
 		\begin{block}{Condition d'arrêt}
@@ -282,7 +400,7 @@
 			La négation de la condition de continuation.
 		\end{block}
 	\end{frame}
-	
+
 	\begin{frame}[fragile]{Sur un exemple}
 		\only<1>{
 		\lstinputlisting[style=python]{code/while_annote_sans_annotation.py}
@@ -292,7 +410,7 @@
 		}
 		\only<2>{\lstinputlisting[style=python]{code/while_annote.py}}
 	\end{frame}
-	
+
 	\begin{frame}[fragile]{Un exemple familier...}
 				\lstinputlisting[style=pythonsmall]{code/lievre_tortue_CM.py}
 	\pause
@@ -310,11 +428,11 @@
 		\begin{itemize}
 			\item Ajouter des prints dans son code
 			\pause\item Exécuter son code pas à pas (à la main, sur PythonTutor, ou avec le débogueur)
-			\pause\item S'il y a une boucle infinie : se concentrer sur les variables du test de continuation 
+			\pause\item S'il y a une boucle infinie : se concentrer sur les variables du test de continuation
 				\begin{itemize}
-					\item Sont-elles bien initialisées ? 
-					\item Quand sont-elles mises à jour ? 
-					\item Pourquoi est-ce que la boucle finit par s'arrêter ? 
+					\item Sont-elles bien initialisées ?
+					\item Quand sont-elles mises à jour ?
+					\item Pourquoi est-ce que la boucle finit par s'arrêter ?
 				\end{itemize}
 		\end{itemize}
 	\end{frame}
@@ -483,15 +601,15 @@
 
 \begin{frame}{Et pour une liste ?}
 	Le même programme marche pour une liste !
-	
+
 	\lstinputlisting[style=pythonsmall]{code/notes_while.py}
-	
+
 	\pause
 		\begin{center}
 	\large Coïncidence ? \ldots \\[1pt]
 	\onslide<3->{\textbf{Non, itérables !}}
 \end{center}
-	
+
 \end{frame}
 
 \begin{frame}{Les itérables}
@@ -919,9 +1037,256 @@
 	}
 \end{frame}
 
+\section{Chapitre 4 : Fonctions}
+
+\begin{frame}[fragile]{Pas facile à lire !}
+
+\begin{minted}{python}
+i = 0
+while i < n:
+    j = 0
+    while j < n:
+        print(caractere, end = '')
+        j += 1
+    print('\n', end = '')
+    i += 1
+\end{minted}
+\end{frame}
+
+\begin{frame}{Une fonction : qu'est-ce que c'est ?}
+    En informatique, une fonction est :
+    \begin{itemize}
+    \item Un morceau de programme
+    \item Portant en général \emph{un nom}
+    \item Prenant un ou plusieurs \emph{paramètres} (ou zéro)
+    \item Renvoyant un résultat (la plupart du temps)
+    \item[\MVRightarrow{}] Ça ressemble beaucoup aux fonctions vues en mathématiques !
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Une fonction : à quoi ça sert ?}
+  \vspace{1em}
+  \centering
+  \includegraphics[width=0.8\textwidth]{img/spaghetti.png}
+  \end{frame}
+
+\begin{frame}
+  \frametitle{Une fonction : à quoi ça sert ?}
+
+  \begin{block}{Lisibilité}
+    \begin{itemize}
+    \item Isoler les parties du programme selon ce qu'elles font
+    \item Éviter trop d'imbrications entre \mintinline{python}{if} et \mintinline{python}{while}
+    \end{itemize}
+  \end{block}
+
+  \pause
+
+  \begin{block}{Modularité et robustesse}
+    \begin{itemize}
+    \item Réutiliser le code plusieurs fois
+    \item Faciliter la correction des bugs
+    \end{itemize}
+  \end{block}
+
+  \pause
+  \begin{block}{Généricité}
+    \begin{itemize}
+    \item Changer la valeur des paramètres
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\begin{frame}{Fonctions prédéfinies}
+  \MVRightarrow{} On en a déjà vu !
+
+  \begin{exampleblock}{Exemples}
+    \begin{itemize}
+    \pause
+  \item \mintinline{python}{print(s)} : afficher la chaîne de caractères \mintinline{python}{s}
+  \item \mintinline{python}{input(s)} : afficher la chaîne de caractères \mintinline{python}{s} et attendre une entrée utilisateur
+  \item \mintinline{python}{int(x)} : convertit l'objet \mintinline{python}{x} en entier
+  \item \mintinline{python}{len(x)} : renvoie la longueur de l'objet \mintinline{python}{x}
+  \end{itemize}
+\end{exampleblock}
+
+\pause
+
+\begin{block}{Modules}
+  \vspace{0pt}
+  Bibliothèque de fonctions, de types et d'objets
+\end{block}
+
+\begin{exampleblock}{Exemples}
+  \pause
+  \begin{itemize}
+  \item \mintinline{python}{randint(a,b)} (module \mintinline{python}{randint})
+  \item[\MVRightarrow{}] renvoie un entier aléatoire compris entre \mintinline{python}{a} et \mintinline{python}{b}
+  \end{itemize}
+  \end{exampleblock}
+  
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Définition et appel de fonction}
+
+  \begin{block}{Définir une fonction}
+    \vspace{0pt}
+    La syntaxe pour définir une fonction est :
+    
+\begin{minted}{python}
+def nom_fonction(parametre_1, ..., parametre_n):
+    # corps de la fonction
+    # utilisant parametre_1, ..., parametre_n
+    ...
+    # peut renvoyer un résultat :
+    return resultat
+\end{minted}
+  \end{block}
+  \pause
+  \begin{block}{Appeler une fonction}
+    \vspace{0pt}
+    On peut ensuite \emph{appeler} la fonction \mintinline{python}{nom_fonction} dans le code :
+\begin{minted}{python}
+resultat = nom_fonction(expression_1, ..., expression_n)
+\end{minted}
+  \end{block}
+\end{frame}
+
+\section{Exemples}
+
+\begin{frame}[fragile]{Fonction à paramètres et résultats}
+  Calculer le maximum de deux entiers :
+  \pause
+\begin{minted}{python}
+def maximum(a,b):
+    if a >= b:
+        return a
+    else:
+        return b
+\end{minted}
+\pause
+  \begin{block}{Entraînement}
+    \begin{itemize}
+    \item Ouvrir le programme \texttt{maximum.py}
+    \item Décrire l'exécution pas à pas du programme (avec état de la mémoire)
+    \item On peut aussi essayer avec \href{https://pythontutor.com/}{Python Tutor}
+    \item Dresser un tableau de valeurs de l'exécution du programme
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Fonction sans paramètres}
+  Simuler un lancé de dés, et compter combien de coups il faut pour faire un 6.
+  \pause
+\begin{minted}{python}
+from random import randint
+def lance_de():
+    return randint(1,6)
+
+compteur = 1
+while lance_de() != 6:
+    compteur = compteur + 1
+print('Obtenu un 6 en', compteur, 'jets de dé.')
+\end{minted}
+  \pause
+  Ce que ça donne sur \href{https://pythontutor.com/}{Python Tutor}.
+\end{frame}
+
+\begin{frame}[fragile]{Fonction sans valeur de retour}
+  Dessiner un carré fait du caractère \mintinline{python}{caractere} :
+  \pause
+\begin{minted}{python}
+def dessine_carre(n, caractere):
+    i = 0
+    while i < n:
+        j = 0
+        while j < n:
+            print(caractere, end = '')
+            j += 1
+        print('\n', end = '')
+        i += 1
+    return
+\end{minted}
+  \pause
+Ce que ça donne sur \href{https://pythontutor.com/}{Python Tutor}.
+\end{frame}
+\begin{frame}[fragile]{Erreur fréquente : confusion \begin{tabular}{l}paramètre / saisie \\ retour / affichage\end{tabular}}
+
+  \begin{block}{Paramètre / saisie}
+\begin{minted}{python}
+def maximum(a,b):
+    a = int(input()) # NON !
+    b = int(input()) # NON !
+    if a >= b:
+        return a
+    else:
+        return b
+\end{minted}
+  \end{block}
+  \pause
+
+  \begin{block}{Retour / affichage}
+\begin{minted}{python}
+def maximum(a,b):
+    if a >= b:
+        print(a) # NON !
+    else:
+        print(b) # NON !
+\end{minted}
+  \end{block}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Composition de fonctions}
+  
+  On peut appeler une fonction dans une fonction ! (et ainsi de suite)
+\end{frame}
+
+\begin{frame}[fragile]{Dessiner un carré : variante}
+\begin{minted}{python}
+def dessine_ligne(n, caractere):
+    j = 0
+    while j < n:
+        print(caractere, end = '')
+        j += 1
+    print('\n', end = '')
+    return
+
+def dessine_carre(n, caractere):
+    i = 0
+    while i < n:
+        dessine_ligne(n,caractere)
+        i += 1
+    return
+\end{minted}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Fonctions et espaces de nom}
+  \begin{itemize}
+  \item les paramètres et variables définies dans le corps d'une fonction sont \alert{indépendantes} des autres variables du programme
+  \item elles n'existent plus une fois l'exécution de la fonction terminée
+  \item on les appelle des variables \emph{locales}
+\end{itemize}
+
+Par conséquent, on peut renommer les variables d'une fonction.
+
+$\rightarrow{}$ Démonstration sur Thonny (\texttt{maximum.py})
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{(Contre-)exemple : intervertir des variables}
+  \begin{itemize}
+  \item Dans \texttt{maximum.py}, changer les valeurs de \mintinline{python}{a} et \mintinline{python}{b} dans la fonction \alert{n'a pas d'effet} sur \mintinline{python}{x} et \mintinline{python}{y} dans le programme principal !
+    \item Dans \texttt{interversion.py}, la variable \mintinline{python}{temp} \alert{n'existe plus} après l'exécution de la fonction
+  \end{itemize}
+\end{frame}
+
 \end{document}
 %%% Local Variables:
 %%% mode: LaTeX
 %%% TeX-command-extra-options: "-shell-escape"
 %%% End:
-
