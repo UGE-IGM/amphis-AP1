@@ -302,7 +302,7 @@
 	\begin{frame}{Comment débugguer une boucle while}
 		\begin{itemize}
 			\item Ajouter des prints dans son code
-			\pause\item Exécuter son code pas à pas ( à la main, sur PythonTutor, avec le débogueur)
+			\pause\item Exécuter son code pas à pas (à la main, sur PythonTutor, ou avec le débogueur)
 			\pause\item S'il y a une boucle infinie : se concentrer sur les variables du test de continuation 
 				\begin{itemize}
 					\item Sont-elles bien initialisées ? 
@@ -317,19 +317,24 @@
 			On commence toujours par formuler l'algorithme. Si votre algorithme contient ...
 		\end{block}
 
+    \onslide<2->{%
 		\begin{center}
 			\begin{tikzpicture}
-				\pause\node[align=left] at (0,0) {"\ldots et on recommence"};
+				\node[align=left] at (0,0) {"\ldots et on recommence"};
 				\node[align=left] at (6.5,-1.1) {"jusqu'à ce que..."};
 				\node[align=left] at (1,-2.1) {"s'il en reste, on refait"};
 				\node[align=left] at (6,-3) {"on repart du début"};
 			\end{tikzpicture}
-		\end{center}
+		\end{center}%
+    }
 
 		\vfill
+
+    \onslide<3->{%
 		\begin{center}
 			\textbf{Il faut une boucle while !}
-		\end{center}
+		\end{center}%
+    }
 	\end{frame}
 	\begin{frame}{Exemple - saisie contrôlée}
 \begin{block}{Principe de la saisie contrôlée}
