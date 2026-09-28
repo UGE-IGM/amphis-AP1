@@ -170,7 +170,7 @@
 \date{28 Septembre 2026}
 
 \begin{document}
-	
+
 	\begin{frame}
 		\maketitle
 	\end{frame}
@@ -183,13 +183,13 @@
     \item Pas de CC0\dots{} \pause
     \item \dots{} Mais un TP noté la semaine prochaine !
     \end{itemize}
-    
+
   \end{frame}
-	
+
 	\begin{frame}{Un retour sur les boucles while}
-		
+
 		Que faire si on veut répéter une instruction si une condition reste vraie ?
-		
+
 		\begin{columns}
 			\begin{column}{0.7\textwidth}
 				\scalebox{0.8}{%
@@ -217,47 +217,47 @@
 							thick
 						}
 						]
-						
+
 						% Blocs
 						\node[process] (debut) {Début};
-						
+
 						\node[decision, below=1.2cm of debut] (condition) {Condition ?};
-						
+
 						\node[process, below=1.5cm of condition] (bloc) {Bloc};
-						
+
 						\node[process, below=1.5cm of bloc] (suite) {Suite du programme};
-						
-						
+
+
 						% Début -> Condition
 						\draw[arrow]
 						(debut) -- (condition);
-						
-						
+
+
 						% Condition -> Bloc : OUI
 						\draw[arrow]
 						(condition.south)
 						-- node[right] {oui}
 						(bloc.north);
-						
-						
+
+
 						% Bloc -> Condition : retour de la boucle
 						\draw[arrow]
 						(bloc.west)
 						-- ++(-2cm,0)
 						|- node[left, pos=0.25] {}
 						(condition.west);
-						
-						
+
+
 						% Condition -> Suite : NON
 						\draw[arrow]
 						(condition.east)
 						to[out=0, in=0]
 						node[right] {non}
 						(suite.east);
-						
+
 					\end{tikzpicture}
-					
-				
+
+
 				}
 			\end{column}
 			\begin{column}{0.3\textwidth}
@@ -265,26 +265,26 @@
 			\end{column}
 		\end{columns}
 	\end{frame}
-	
+
 	\begin{frame}{Un peu de vocabulaire}
 		\begin{block}{Itération}
 			\vspace{0pt}
 			Une exécution complète du corps de la boucle
 		\end{block}
-		
-		\pause 
+
+		\pause
 		\begin{block}{Variable ou indice de boucle}
 			\vspace{0pt}
 			La variable qui compte le nombre de tours de boucles (si elle existe).
 
 			\MVRightarrow{} Souvent notée \mintinline{python}{i}
-			ou 
+			ou
 			\mintinline{python}{j}.
 		\end{block}
-		\pause 
+		\pause
 		\begin{block}{Condition de continuation}
       \vspace{0pt}
-			La condition qui est vérifiée à chaque début de boucle : si elle est vraie, on continue. 
+			La condition qui est vérifiée à chaque début de boucle : si elle est vraie, on continue.
 		\end{block}
 		\pause
 		\begin{block}{Condition d'arrêt}
@@ -292,11 +292,11 @@
 			La négation de la condition de continuation.
 		\end{block}
 	\end{frame}
-	
+
 	\begin{frame}[fragile]{Sur un exemple}
 		\lstinputlisting[style=python]{code/while_annote.py}
 	\end{frame}
-	
+
 	\begin{frame}[fragile]{Un exemple familier...}
 				\lstinputlisting[style=pythonsmall]{code/lievre_tortue_CM.py}
 	\pause
@@ -314,11 +314,11 @@
 		\begin{itemize}
 			\item Ajouter des prints dans son code
 			\pause\item Exécuter son code pas à pas (à la main, sur PythonTutor, ou avec le débogueur)
-			\pause\item S'il y a une boucle infinie : se concentrer sur les variables du test de continuation 
+			\pause\item S'il y a une boucle infinie : se concentrer sur les variables du test de continuation
 				\begin{itemize}
-					\item Sont-elles bien initialisées ? 
-					\item Quand sont-elles mises à jour ? 
-					\item Pourquoi est-ce que la boucle finit par s'arrêter ? 
+					\item Sont-elles bien initialisées ?
+					\item Quand sont-elles mises à jour ?
+					\item Pourquoi est-ce que la boucle finit par s'arrêter ?
 				\end{itemize}
 		\end{itemize}
 	\end{frame}
@@ -487,15 +487,15 @@
 
 \begin{frame}{Et pour une liste ?}
 	Le même programme marche pour une liste !
-	
+
 	\lstinputlisting[style=pythonsmall]{code/notes_while.py}
-	
+
 	\pause
 		\begin{center}
 	\large Coïncidence ? \ldots \\[1pt]
 	\onslide<3->{\textbf{Non, itérables !}}
 \end{center}
-	
+
 \end{frame}
 
 \begin{frame}{Les itérables}
@@ -658,4 +658,3 @@
 %%% mode: LaTeX
 %%% TeX-command-extra-options: "-shell-escape"
 %%% End:
-
