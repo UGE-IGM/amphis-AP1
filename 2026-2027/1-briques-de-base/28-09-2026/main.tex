@@ -264,18 +264,21 @@
 		\pause 
 		\begin{block}{Variable ou indice de boucle}
 			\vspace{0pt}
-			La variable qui compte le nombre de tours de boucles ; dans une boucle while simple, c'est sur elle que porte la condition.\\
-			Souvent notée \mintinline{python}{i}
+			La variable qui compte le nombre de tours de boucles (si elle existe).
+
+			\MVRightarrow{} Souvent notée \mintinline{python}{i}
 			ou 
-			\mintinline{python}{j}
+			\mintinline{python}{j}.
 		\end{block}
 		\pause 
 		\begin{block}{Condition de continuation}
+      \vspace{0pt}
 			La condition qui est vérifiée à chaque début de boucle : si elle est vraie, on continue. 
 		\end{block}
 		\pause
 		\begin{block}{Condition d'arrêt}
-			L'inverse de la condition de continuation
+      \vspace{0pt}
+			La négation de la condition de continuation.
 		\end{block}
 	\end{frame}
 	
@@ -290,7 +293,7 @@
 		\textbf{M'sieur, ça marche pas !}
 	\end{center}
 	\end{frame}
-	\begin{frame}[fragile]{Un exemple familier...corrigé}
+	\begin{frame}[fragile]{Un exemple familier... corrigé}
 		\lstinputlisting[style=pythonsmall]{code/lievre_tortue_CM_fixed.py}
 		\begin{center}
 			\textbf{Attention à la boucle infinie}
@@ -299,7 +302,7 @@
 	\begin{frame}{Comment débugguer une boucle while}
 		\begin{itemize}
 			\item Ajouter des prints dans son code
-			\pause\item Exécuter son code pas à pas ( à la main, sur PythonTutor, avec le débbugueur)
+			\pause\item Exécuter son code pas à pas ( à la main, sur PythonTutor, avec le débogueur)
 			\pause\item S'il y a une boucle infinie : se concentrer sur les variables du test de continuation 
 				\begin{itemize}
 					\item Sont-elles bien initialisées ? 
@@ -330,6 +333,7 @@
 	\end{frame}
 	\begin{frame}{Exemple - saisie contrôlée}
 \begin{block}{Principe de la saisie contrôlée}
+  \vspace{0pt}
 	Demander à l'utilisateur de saisir quelque chose et vérifier que sa saisie est correcte
 \end{block}
 
@@ -366,7 +370,7 @@
 	\pause
 	\begin{itemize}
 		\item Comment faire pour ajouter d'autres parfums possibles ?
-		\item Que se passe-t-il si on remplace les and par des or ? 
+		\item Que se passe-t-il si on remplace les \mintinline{python}{and} par des \mintinline{python}{or} ?
 		\item On est obligé de copier/coller la ligne avec le input
 	\end{itemize}
 \end{frame}
@@ -391,17 +395,17 @@
 			\foreach \val [count=\i from 0] in {P,y,t,h,o,n} {
 				\node[boxval] (b\i) at (\i*1.3, 0) {\val};
 			}
-			\only<2->{
+			\onslide<2->{
 				\node[idxpos, above=3pt of b0] (idx0) {\alt<3->{\textbf{0}}{0}};
 				\foreach \i in {1,2,3,4,5} {
 					\node[idxpos, above=3pt of b\i] (idx\i) {\i};
 				}
 			}
-			\only<4->{
+			\onslide<4->{
 				\node[blue!60!black, font=\bfseries, above=1.05cm of idx2, xshift=-0.3cm, align=center] (lblidx) {\texttt{i = 2}\\(l'indice :\\une position)};
 				\draw[->, blue!60!black, thick] (lblidx.south) to[bend right=10] (idx2.north);
 			}
-			\only<5->{
+			\onslide<5->{
 				\node[red!70!black, font=\bfseries, below=0.65cm of b2, xshift=0.9cm, align=center] (lblelt) {\texttt{mot[2]} = \texttt{"t"}\\(l'élément :\\la valeur)};
 				\draw[->, red!70!black, thick] (lblelt.north) to[bend left=10] (b2.south);
 			}
@@ -409,7 +413,7 @@
 	\end{center}
 
 	\vspace{-0.3cm}
-	\only<3->{
+	\onslide<3->{
 		\begin{center}
 			Dans une \texttt{str}, les éléments sont numérotés à partir de \texttt{0}.
 		\end{center}
@@ -574,3 +578,8 @@
 \end{frame}
 
 \end{document}
+%%% Local Variables:
+%%% mode: LaTeX
+%%% TeX-command-extra-options: "-shell-escape"
+%%% End:
+
