@@ -31,6 +31,7 @@
 \tikzset{
 	boxval/.style={draw, thick, minimum width=1.3cm, minimum height=1cm, font=\bfseries\ttfamily},
 	idxpos/.style={font=\footnotesize, text=blue!60!black},
+	idxneg/.style={font=\footnotesize, text=red!70!black},
 }
 
 % -- Icones pour la slide "langage de haut niveau" -- %
@@ -283,7 +284,13 @@
 	\end{frame}
 	
 	\begin{frame}[fragile]{Sur un exemple}
-		\lstinputlisting[style=python]{code/while_annote.py}
+		\only<1>{
+		\lstinputlisting[style=python]{code/while_annote_sans_annotation.py}
+			\begin{center}
+				\includegraphics[width = 0.5\textwidth]{Images/QR_code_wooclap.png}
+			\end{center}
+		}
+		\only<2>{\lstinputlisting[style=python]{code/while_annote.py}}
 	\end{frame}
 	
 	\begin{frame}[fragile]{Un exemple familier...}
@@ -640,6 +647,276 @@
 
 \begin{frame}{\texttt{for i in range} pour parcourir les indices}
 		\lstinputlisting[style=pythonsmall]{code/for_liste_indices.py}
+
+		\vspace{0.3cm}
+		\begin{center}
+			\begin{tikzpicture}
+				\foreach \val [count=\i from 0] in {12, 8, 15, 10} {
+					\node[boxval] (b\i) at (\i*1.5, 0) {\val};
+					\node[idxpos, above=3pt of b\i] (idx\i) {\i};
+				}
+				\only<1>{
+					\node[blue!60!black, font=\bfseries] (lblidx) at ($(idx0)+(0,0.7)$) {\texttt{i = 0}};
+					\draw[->, blue!60!black, thick] (lblidx.south) -- (idx0.north);
+					\node[red!70!black, font=\bfseries] (lblelt) at ($(b0)+(0,-0.9)$) {\texttt{notes[0] = 12}};
+					\draw[->, red!70!black, thick] (lblelt.north) to[bend left=10] (b0);
+				}
+				\only<2>{
+					\node[blue!60!black, font=\bfseries] (lblidx) at ($(idx1)+(0,0.7)$) {\texttt{i = 1}};
+					\draw[->, blue!60!black, thick] (lblidx.south) -- (idx1.north);
+					\node[red!70!black, font=\bfseries] (lblelt) at ($(b1)+(0,-0.9)$) {\texttt{notes[1] = 8}};
+					\draw[->, red!70!black, thick] (lblelt.north) to[bend left=10] (b1);
+				}
+				\only<3>{
+					\node[blue!60!black, font=\bfseries] (lblidx) at ($(idx2)+(0,0.7)$) {\texttt{i = 2}};
+					\draw[->, blue!60!black, thick] (lblidx.south) -- (idx2.north);
+					\node[red!70!black, font=\bfseries] (lblelt) at ($(b2)+(0,-0.9)$) {\texttt{notes[2] = 15}};
+					\draw[->, red!70!black, thick] (lblelt.north) to[bend left=10] (b2);
+				}
+				\only<4>{
+					\node[blue!60!black, font=\bfseries] (lblidx) at ($(idx3)+(0,0.7)$) {\texttt{i = 3}};
+					\draw[->, blue!60!black, thick] (lblidx.south) -- (idx3.north);
+					\node[red!70!black, font=\bfseries] (lblelt) at ($(b3)+(0,-0.9)$) {\texttt{notes[3] = 10}};
+					\draw[->, red!70!black, thick] (lblelt.north) to[bend left=10] (b3);
+				}
+			\end{tikzpicture}
+		\end{center}
+\end{frame}
+
+\begin{frame}
+	\centering
+	\Huge\bfseries Retour sur les listes
+\end{frame}
+
+\begin{frame}{Gérer un étudiant}
+	\lstinputlisting[style=pythonsmall]{code/un_etudiant.py}
+
+	\vspace{0.3cm}
+	\begin{center}
+		Facile ! Et si j'ai \textbf{2} étudiants à gérer ?
+	\end{center}
+\end{frame}
+
+\begin{frame}{Et pour 2 étudiants ?}
+	\lstinputlisting[style=pythonsmall]{code/deux_etudiants.py}
+
+	\pause
+	\begin{center}
+		\Large Et pour 5 ? Pour 30 ?
+	\end{center}
+\end{frame}
+
+\begin{frame}{Et pour 5 ? Pour 30 ?}
+	\lstinputlisting[style=pythonsmall]{code/cinq_etudiants.py}
+
+	\pause
+	\begin{center}
+		\Large C'est un peu laborieux...
+	\end{center}
+
+	\pause
+	\begin{center}
+		\Large Et si je veux gérer un nombre \textbf{non borné} d'étudiants ?
+	\end{center}
+\end{frame}
+
+\begin{frame}{Un bon cas d'utilisation d'une liste}
+	\lstinputlisting[style=pythonsmall]{code/liste_creation.py}
+
+	\vspace{0.3cm}
+	\begin{center}
+		Une liste range \textbf{plusieurs valeurs} dans une \textbf{seule variable}, dans un ordre précis.\\
+		Si on doit dupliquer plusieurs variables, c'est un bon moment pour les remplacer par une liste !
+	\end{center}
+\end{frame}
+
+\begin{frame}{Accéder à un élément : l'indexation}
+	\lstinputlisting[style=pythonsmall]{code/liste_index.py}
+
+	\vspace{0.3cm}
+	\begin{center}
+	\begin{tikzpicture}
+		\foreach \val [count=\i from 0] in {12, 8, 15, 10, 9} {
+			\node[boxval] (b\i) at (\i*1.5, 0) {\val};
+			\node[idxpos, above=3pt of b\i] {\i};
+		}
+	\end{tikzpicture}
+	\end{center}
+
+	\pause
+	\begin{alertblock}{Attention}
+		\centering Le \textbf{premier} élément est à l'indice \textbf{0}, pas 1 !
+	\end{alertblock}
+\end{frame}
+
+\begin{frame}{Et le dernier élément ?}
+	\begin{center}
+	\begin{tikzpicture}
+		\foreach \val [count=\i from 0] in {12, 8, 15, 10, 9} {
+			\node[boxval] (b\i) at (\i*1.5, 0) {\val};
+			\node[idxpos, above=3pt of b\i] {\i};
+		}
+	\end{tikzpicture}
+	\end{center}
+
+	\begin{center}
+		\Large Pour une liste de \textbf{5} éléments, quel est l'indice du dernier ?
+	\end{center}
+
+	\onslide<2->{
+	\begin{center}
+		\Large \texttt{notes[4]}, pas \texttt{notes[5]} !
+	\end{center}
+	}
+
+	\onslide<3->{
+	\begin{center}
+		Une liste de \texttt{n} éléments a des indices de \texttt{0} à \texttt{\alt<4->{len(liste)-1}{n-1}}.
+	\end{center}
+	}
+\end{frame}
+
+\begin{frame}{Index négatifs}
+	\lstinputlisting[style=pythonsmall]{code/liste_index_negatif.py}
+
+	\vspace{0.3cm}
+	\begin{center}
+	\begin{tikzpicture}
+		\foreach \val [count=\i from 0] in {12, 8, 15, 10, 9} {
+			\pgfmathtruncatemacro{\negidx}{\i-5}
+			\node[boxval] (b\i) at (\i*1.5, 0) {\val};
+			\node[idxpos, above=3pt of b\i] {\i};
+			\node[idxneg, below=3pt of b\i] {\negidx};
+		}
+	\end{tikzpicture}
+	\end{center}
+
+	\pause
+	\begin{center}
+		\texttt{notes[-1]} : le dernier élément, sans même connaître la longueur de la liste !
+	\end{center}
+\end{frame}
+
+\begin{frame}{Modifier, ajouter, retirer un élément}
+	\only<1>{
+		\begin{center}
+			\Large \texttt{notes[0] = 13}
+		\end{center}
+		\begin{center}
+			on remplace l'élément en position 0. Il y a maintenant 13 dans la première case de la liste.
+		\end{center}
+		\vspace{0.3cm}
+		\begin{center}
+		\begin{tikzpicture}
+			\foreach \val [count=\i from 0] in {13, 8, 15, 10, 9} {
+				\node[boxval] (b\i) at (\i*1.5, 0) {\val};
+				\node[idxpos, above=3pt of b\i] {\i};
+			}
+			\draw[orange!85!black, ultra thick, rounded corners=2pt] (b0.south west) rectangle (b0.north east);
+		\end{tikzpicture}
+		\end{center}
+	}
+	\only<2>{
+		\begin{center}
+			\Large \texttt{notes.append(17)}
+		\end{center}
+		\begin{center}
+			on ajoute 17 à la fin
+		\end{center}
+		\vspace{0.3cm}
+		\begin{center}
+		\begin{tikzpicture}
+			\foreach \val [count=\i from 0] in {13, 8, 15, 10, 9, 17} {
+				\node[boxval] (b\i) at (\i*1.3, 0) {\val};
+				\node[idxpos, above=3pt of b\i] {\i};
+			}
+			\draw[orange!85!black, ultra thick, rounded corners=2pt] (b5.south west) rectangle (b5.north east);
+		\end{tikzpicture}
+		\end{center}
+	}
+	\only<3>{
+		\begin{center}
+			\Large \texttt{notes.pop()}
+		\end{center}
+		\begin{center}
+			\texttt{notes.pop()} retire (et renvoie) le \textbf{dernier} élément de la liste.
+		\end{center}
+		\vspace{0.3cm}
+		\begin{center}
+		\begin{tikzpicture}
+			\foreach \val [count=\i from 0] in {13, 8, 15, 10, 9} {
+				\node[boxval] (b\i) at (\i*1.5, 0) {\val};
+				\node[idxpos, above=3pt of b\i] {\i};
+			}
+		\end{tikzpicture}
+		\end{center}
+	}
+\end{frame}
+
+\begin{frame}{Attention aux erreurs}
+	\only<1-3>{
+		\lstinputlisting[style=pythonsmall]{code/liste_out_of_range.py}
+
+		\onslide<2->{\lstinputlisting[style=pythonoutput]{code/liste_out_of_range_output.py}}
+
+		\onslide<3->{
+		\begin{alertblock}{Attention}
+			\centering \texttt{notes} n'a que 5 éléments (indices 0 à 4) : l'indice 10 n'existe pas.
+		\end{alertblock}
+		}
+	}
+	\only<4->{
+		\lstinputlisting[style=pythonsmall]{code/liste_while_out_of_range.py}
+
+		\onslide<5->{\lstinputlisting[style=pythonoutput]{code/liste_while_out_of_range_output.py}}
+	}
+\end{frame}
+
+\iffalse
+\begin{frame}{Récapitulatif : les listes}
+	\begin{itemize}
+		\item Une liste range plusieurs valeurs dans une seule variable : \texttt{[12, 8, 15]}
+		\item Indices de \texttt{0} à \texttt{len(liste) - 1}
+		\item Indices négatifs : \texttt{liste[-1]} = dernier élément
+		\item \texttt{liste[i] = x}, \texttt{liste.append(x)}, \texttt{liste.pop()}
+		\item Indice hors bornes $\Rightarrow$ \texttt{IndexError}
+	\end{itemize}
+
+	\pause
+	\begin{center}
+		Et pour afficher tous les éléments d'une liste ?
+	\end{center}
+
+	\pause
+	\lstinputlisting[style=pythonsmall]{code/notes_for.py}
+	\begin{center}
+		\small On retrouve le \texttt{for} vu tout à l'heure !
+	\end{center}
+\end{frame}
+\fi
+
+\begin{frame}[fragile]{Vérifier qu'un élément est dans une liste}
+	\begin{center}
+		\texttt{element \textbf{in} liste} : vrai si l'élément est présent\\
+		\texttt{element \textbf{not in} liste} : vrai si l'élément est absent
+	\end{center}
+
+	\only<2>{
+		\vspace{0.3cm}
+		\lstinputlisting[style=pythonsmall]{code/saisie_controlee_sans_liste.py}
+		\begin{itemize}
+			\item \textcolor{orange!85!black}{\textbf{Comment faire pour ajouter d'autres parfums possibles ?}}
+			\item Que se passe-t-il si on remplace les \texttt{and} par des \texttt{or} ?
+			\item On est obligé de copier/coller la ligne avec le input
+		\end{itemize}
+	}
+	\only<3->{
+		\vspace{0.3cm}
+		\lstinputlisting[style=pythonsmall]{code/saisie_controlee_avec_liste.py}
+		\begin{center}
+			On utilise une liste de parfums, et \texttt{not in} pour tester l'appartenance.
+		\end{center}
+	}
 \end{frame}
 
 \end{document}
