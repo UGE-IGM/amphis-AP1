@@ -36,3 +36,4 @@ Pour les fonctions, on peut reprendre (au moins en partie) tes slides de l'anné
 
 - slide 4 ("Sur un exemple") : ajouter un commentaire pour dire qu'à la fin de la boucle, `i > 15` (condition d'arrêt)
 - présenter `for` avant `range` ? (en mode "on va essayer de comprendre la formule magique")
+- slide 4 : Faire un Wooclap
