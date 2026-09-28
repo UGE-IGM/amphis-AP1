@@ -186,6 +186,8 @@
 
   \end{frame}
 
+  \section{Bref retour sur les booléens}
+
   \begin{frame}{Retour sur les booléens : tables de vérité}
 
     \begin{tabular}{|c|c||c|}
@@ -222,7 +224,9 @@
       \hline
     \end{tabular}%
 
-    Table de vérité de \mintinline{python}{pluie or not soleil == True}
+    Table de vérité de \mintinline{python}{pluie or not soleil == True} \pause
+
+    \textbf{C'est la même !}
 
   \end{frame}
 
@@ -293,7 +297,26 @@
 
   \end{frame}
 
-	\begin{frame}{Un retour sur les boucles while}
+  \begin{frame}[fragile]{Évaluation séquentielle (ou paresseuse)}
+
+    \begin{itemize}
+    \item \mintinline{python}{p or q} est vrai \emph{dès que} \mintinline{python}{p} est vrai
+    \item \mintinline{python}{p and q} est faux \emph{dès que} \mintinline{python}{p} est faux
+    \item[\MVRightArrow{}] Pas besoin de regarder ce qu'il y a à droite ! \pause
+    \item[\MVRightArrow{}] Python a la flemme
+    \end{itemize}
+
+\begin{minted}{python}
+1/0 == 1            # Erreur !
+1 == 1 or 1/0 == 1  # Pas d'erreur !
+1 == 0 and 1/0 == 1 # Pas d'erreur !
+\end{minted}
+
+  \end{frame}
+
+  \section{Un peu plus sur les boucles \mintinline{python}{while}}
+
+	\begin{frame}{Un retour sur les boucles \mintinline{python}{while}}
 
 		Que faire si on veut répéter une instruction si une condition reste vraie ?
 
@@ -376,7 +399,7 @@
 	\begin{frame}{Un peu de vocabulaire}
 		\begin{block}{Itération}
 			\vspace{0pt}
-			Une exécution complète du corps de la boucle
+			Une exécution complète du corps de la boucle.
 		\end{block}
 
 		\pause
@@ -419,7 +442,7 @@
 	\end{frame}
 	\begin{frame}{Comment débugguer une boucle while}
 		\begin{itemize}
-			\item Ajouter des prints dans son code
+			\item Ajouter des \mintinline{python}{print} dans son code
 			\pause\item Exécuter son code pas à pas (à la main, sur PythonTutor, ou avec le débogueur)
 			\pause\item S'il y a une boucle infinie : se concentrer sur les variables du test de continuation
 				\begin{itemize}
@@ -573,11 +596,11 @@
 				\node[boxval] (b\i) at (\i*1.5, 0) {\val};
 				\node[idxpos, above=3pt of b\i] (idx\i) {\i};
 			}
-			\only<2->{
+			\onslide<2->{
 				\node[blue!60!black, font=\bfseries, above=0.6cm of idx2, xshift=-0.3cm, align=center] (lblidx) {\texttt{i = 2}\\(l'indice :\\une position)};
 				\draw[->, blue!60!black, thick] (lblidx.south) to[bend right=10] (idx2.north);
 			}
-			\only<3->{
+			\onslide<3->{
 				\node[red!70!black, font=\bfseries, below=0.35cm of b2, xshift=0.9cm, align=center] (lblelt) {\texttt{notes[2]} = \texttt{15}\\(l'élément :\\la valeur)};
 				\draw[->, red!70!black, thick] (lblelt.north) to[bend left=10] (b2.south);
 			}
@@ -760,7 +783,7 @@
 		\lstinputlisting[style=pythonsmall]{code/for_liste_indices.py}
 \end{frame}
 
-\section{Chapitre 4 : Fonctions}
+\section{Les fonctions}
 
 \begin{frame}[fragile]{Pas facile à lire !}
 
