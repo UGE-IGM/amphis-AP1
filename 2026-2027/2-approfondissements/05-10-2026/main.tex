@@ -1,0 +1,798 @@
+\documentclass[x11names,svgnames, usepdftitle=false]{beamer}
+
+\usetheme{metropolis}
+\setbeamertemplate{caption}{\raggedright\insertcaption\par}
+\setbeamercolor{block title}{fg=LightSkyBlue4}
+\newenvironment<>{importantblock}[1]{%
+  \begin{actionenv}#2%
+    \def\insertblocktitle{#1}%
+    \par%
+    \mode<presentation>{%
+      \setbeamercolor{block title}{%
+        use=normal text,
+        fg=normal text.fg,
+        bg=normal text.bg!80!fg
+      }
+      \setbeamercolor{block body}{
+        use={block title, normal text},
+        bg=block title.bg!50!normal text.bg
+      }
+    }%
+    \usebeamertemplate{block begin}}
+  {\par\usebeamertemplate{block end}\end{actionenv}}
+\newenvironment<>{decisionblock}[1][Statement of the problem]{%
+  \begin{actionenv}#2%
+    \def\insertblocktitle{#1}%
+    \par%
+    \mode<presentation>{%
+      \setbeamercolor{block title}{%
+        use=normal text,
+        fg=normal text.fg,
+        bg=normal text.bg!80!fg
+      }
+      \setbeamercolor{block body}{
+        use={block title, normal text},
+        bg=block title.bg!50!normal text.bg
+      }
+    }%
+    \usebeamertemplate{block begin}}
+  {\par\usebeamertemplate{block end}\end{actionenv}}
+\usepackage{fontspec}
+\usepackage[french, frenchkw]{algorithm2e}
+\SetKwFor{Pc}{Pour chaque}{faire}{fin}
+\SetKwProg{Fn}{Fonction}{:}{}
+\usepackage{textcomp}
+\usepackage{minted}
+\usepackage{pdfpages}
+\usepackage{qrcode}
+\usepackage[francais]{babel}
+\usepackage{xspace}
+\usepackage[normalem]{ulem}
+\usepackage[backend=biber,style=authoryear,url=false]{biblatex}
+\addbibresource{Bibliography.bib} % Bibliography file
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{pifont}% http://ctan.org/pkg/pifont
+\newcommand{\cmark}{\ding{51}}%
+\newcommand{\xmark}{\ding{55}}%
+\usepackage{marvosym}
+\usepackage{tikz}
+\usetikzlibrary{calc, positioning, arrows, automata, fadings, decorations.pathmorphing, shapes, patterns, tikzmark, fit, chains, snakes, shapes.multipart}
+
+% ------------------------------------------------------------------
+% Illustration de l'exécution des fonctions (plan / appel)
+% Code couleur : violet = paramètres (les « trous » du plan)
+%                orange = valeurs (arguments, valeur renvoyée)
+% ------------------------------------------------------------------
+\definecolor{paramcol}{RGB}{128, 0, 160}
+\definecolor{valcol}{RGB}{214, 106, 0}
+\definecolor{kwcol}{RGB}{0, 110, 0}
+\definecolor{blueprintfill}{RGB}{225, 238, 250}
+\definecolor{blueprintline}{RGB}{70, 130, 180}
+
+\newcommand{\pykw}[1]{\textcolor{kwcol}{\textbf{#1}}}
+\newcommand{\pyparam}[1]{\textcolor{paramcol}{\textbf{#1}}}
+\newcommand{\pyval}[1]{\textcolor{valcol}{\textbf{#1}}}
+\newcommand{\pyind}{\phantom{0000}}
+\newcommand{\pycolon}{\char58\relax}
+
+% un paramètre = un « trou » du plan ; une valeur = un trou rempli
+\newcommand{\pyhole}[1]{\tikz[baseline=(h.base)]\node[draw=paramcol, dashed, rounded corners=2pt, fill=white, inner sep=1.5pt] (h) {\pyparam{#1}};}
+\newcommand{\pyfilled}[1]{\tikz[baseline=(h.base)]\node[draw=valcol, rounded corners=2pt, fill=valcol!12, inner sep=1.5pt] (h) {\pyval{#1}};}
+
+\tikzset{
+  pycodeline/.style={anchor=west, inner sep=0pt, minimum height=0.4cm, font=\ttfamily\footnotesize},
+  pymemval/.style={draw=black!60, fill=white, anchor=west, minimum width=1.3cm, minimum height=0.36cm, inner sep=2pt, font=\ttfamily\footnotesize\bfseries, text=valcol},
+  pymemname/.style={anchor=east, font=\ttfamily\footnotesize},
+}
+
+% macros d'aide pour dessiner les slides animées (plan / appel de fonction)
+% ligne n du programme : y = 6.2 - 0.42 (n-1)
+\newcommand{\pyinstance}[3]{% #1 = décalage x, #2 = valeur de a, #3 = valeur de b
+  \draw[draw=black!60, fill=white, rounded corners=3pt] (#1+0.1,0.95) rectangle (#1+5.0,3.7);
+  \node[pycodeline] at (#1+0.3,3.4)  {minimum\_int(\pyfilled{#2}, \pyfilled{#3})};
+  \node[pycodeline] at (#1+0.3,3.03) {\pyparam{a}\,=\,\pyval{#2},\ \pyparam{b}\,=\,\pyval{#3}};
+  \node[pycodeline] at (#1+0.3,2.66) {\pykw{if} \pyfilled{#2} < \pyfilled{#3}\pycolon};
+  \node[pycodeline] at (#1+0.3,2.29) {\pyind\pykw{return} \pyfilled{#2}};
+  \node[pycodeline] at (#1+0.3,1.92) {\pykw{else}\pycolon};
+  \node[pycodeline] at (#1+0.3,1.55) {\pyind\pykw{return} \pyfilled{#3}};
+}
+\newcommand{\pyline}[2]{\node[pycodeline] at (0,{6.2-0.42*(#1-1)}) {#2};}
+\newcommand{\pyhl}[1]{\fill[yellow!45] (-0.12,{6.2-0.42*(#1-1)-0.2}) rectangle (5.4,{6.2-0.42*(#1-1)+0.2});}
+\newcommand{\pyptr}[1]{\fill[red!70!black] (-0.45,{6.2-0.42*(#1-1)+0.11}) -- (-0.2,{6.2-0.42*(#1-1)}) -- (-0.45,{6.2-0.42*(#1-1)-0.11}) -- cycle;}
+\newcommand{\pyfade}[1]{\fill[blueprintfill, opacity=0.8] (-0.1,{6.2-0.42*(#1-1)-0.2}) rectangle (5.38,{6.2-0.42*(#1-1)+0.2});}
+\newcommand{\pymemrow}[3]{\node[pymemname] at (7.75,#1) {#2}; \node[pymemval] at (7.95,#1) {#3};}
+
+% https://tex.stackexchange.com/questions/401884/how-do-i-change-hyperlinks-color-only
+\hypersetup{
+  colorlinks,
+  allcolors=.,
+  urlcolor=DarkBlue,
+  pdftitle=Algorithmique et Programmation 1 - CM4
+}
+
+
+\author{}
+\date{Lundi 5 octobre 2026}
+
+\title{\includegraphics[width=0.75\textwidth]{img/logo-igm.png} \\[1em] Algorithmique et Programmation 1}
+\subtitle{Approfondissements sur les fonctions}
+\institute{L1 Mathématiques - L1 Informatique \\ Semestre 1}
+
+\begin{document}
+
+\maketitle
+
+% Objectifs : Fonctions complexes: mémoire, prototypes/signature Appels : évaluation, retour, pile. Terminal. Exemple : recherche du minimum dans une liste
+
+\section{Approfondissements : les fonctions}
+
+\begin{frame}{Fonction}
+    En informatique, une fonction est :
+    \begin{itemize}
+    \item Un morceau de programme
+    \item Portant en général \emph{un nom}
+    \item Prenant un ou plusieurs \emph{paramètres} (ou zéro)
+    \item Renvoyant un résultat (la plupart du temps)
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Anatomie d'une fonction}
+    \begin{tikzpicture}
+      % Rectangle pour représenter la fonction
+      \node [draw, rectangle, text width=2cm, minimum height=1.5cm, align=center] (function) at (0,0) {Fonction};
+
+      % Chemin pour représenter l'entrée (paramètres)
+      \draw[-latex] (-5,0) -- (-1.2,0) node[midway, above, label={below: (paramètres)}] {Entrée};
+
+      % Chemin pour représenter la sortie (valeur de retour)
+      \draw[-latex] (1.2,0) -- (5,0) node[midway, above, label= {below: (valeur de retour)}] {Sortie};
+
+      % Flèche d'affichage (zig-zag)
+      \onslide<2->{\draw [decorate, -latex, decoration={snake, segment length=5mm, amplitude=1mm, post length=1mm}] (0,0.5) -- (0,2.5) node[midway, left] {Affichages};}
+
+      % Flèche d'effets de bord (zig-zag)
+      % \onslide<3->{\draw [decorate, -latex, decoration={snake, segment length=5mm, amplitude=1mm, post length=1mm}] (0,-0.5) -- (0,-2.5) node[midway, left, label={right: (aka: Effets secondaires)}] {Effets de bord};}
+    \end{tikzpicture}
+\end{frame}
+
+% ==================================================================
+% Slide A : une fonction, c'est un plan (paramètres = trous à remplir)
+% ==================================================================
+
+\begin{frame}{Une fonction, c'est un plan}
+  \centering
+  \begin{tikzpicture}[x=1cm,y=1cm]
+    \useasboundingbox (0,0.2) rectangle (10.6,6.7);
+
+    % --- le plan : la définition, avec des « trous » ---
+    \draw[blueprintline, dashed, thick, fill=blueprintfill, rounded corners=3pt] (2.85,4.25) rectangle (7.75,6.3);
+    \node[anchor=south west, font=\scriptsize\bfseries, text=blueprintline] at (2.85,6.32) {LE PLAN (la définition)};
+    \node[pycodeline] at (3.05,6.02) {\pykw{def} minimum\_int(\pyhole{a}, \pyhole{b})\pycolon};
+    \node[pycodeline] at (3.05,5.62) {\pyind\pykw{if} \pyhole{a} < \pyhole{b}\pycolon};
+    \node[pycodeline] at (3.05,5.22) {\pyind\pyind\pykw{return} \pyhole{a}};
+    \node[pycodeline] at (3.05,4.82) {\pyind\pykw{else}\pycolon};
+    \node[pycodeline] at (3.05,4.42) {\pyind\pyind\pykw{return} \pyhole{b}};
+
+    \only<1>{
+      \node[anchor=west, text=paramcol, font=\small\itshape, align=left] (lblpar) at (8.1,6.02) {paramètres :\\les « trous »};
+      \draw[->, paramcol, thick] (lblpar.west) -- (7.05,6.02);
+    }
+
+    % --- premier appel ---
+    \only<2->{
+      \draw[->, thick, blueprintline] (3.6,4.23) -- (2.6,3.72);
+      \node[anchor=east, font=\scriptsize\itshape, text=blueprintline] at (2.2,4.0) {on remplit les trous};
+      \pyinstance{0}{58}{78}
+      \node[anchor=south east, font=\scriptsize\bfseries, text=black!55] at (4.95,3.72) {APPEL 1};
+    }
+    \only<3->{
+      \fill[white, opacity=0.7] (0.2,1.35) rectangle (4.95,2.1);
+      \node[anchor=west, font=\scriptsize\itshape, text=black!60] at (3.7,2.66) {vrai};
+      \node[pycodeline, text=valcol] at (0.3,1.15) {$\Rightarrow$ \textbf{renvoie} \pyval{58}};
+    }
+
+    % --- second appel, même plan ---
+    \only<4->{
+      \draw[->, thick, blueprintline] (7.0,4.23) -- (8.05,3.72);
+      \pyinstance{5.5}{12}{3}
+      \node[anchor=south east, font=\scriptsize\bfseries, text=black!55] at (10.45,3.72) {APPEL 2};
+    }
+    \only<5->{
+      \fill[white, opacity=0.7] (5.7,2.1) rectangle (10.45,2.48);
+      \node[anchor=west, font=\scriptsize\itshape, text=black!60] at (9.2,2.66) {faux};
+      \node[pycodeline, text=valcol] at (5.8,1.15) {$\Rightarrow$ \textbf{renvoie} \pyval{3}};
+    }
+
+    % --- légendes ---
+    \node[font=\small, align=center, text width=10.4cm] at (5.3,0.5) {%
+      \only<1>{Le plan est écrit \emph{une seule fois}. Ses paramètres sont des « trous » à remplir.}%
+      \only<2>{À chaque appel, les \emph{arguments} remplissent les trous.}%
+      \only<3>{On exécute le plan avec ces valeurs : \texttt{58 < 78} est vrai.}%
+      \only<4>{Même plan, autres valeurs.}%
+      \only<5>{\texttt{12 < 3} est faux : on renvoie 3. Un seul plan, des résultats différents.}%
+    };
+  \end{tikzpicture}
+\end{frame}
+
+% ==================================================================
+% Slide B : que se passe-t-il lors d'un appel ? (style Python Tutor)
+% ==================================================================
+% ligne n du programme : y = 6.2 - 0.42 (n-1)
+
+\begin{frame}{Que se passe-t-il lors d'un appel ?}
+  \centering
+  \begin{tikzpicture}[x=1cm,y=1cm]
+    \useasboundingbox (-0.9,-0.1) rectangle (9.85,6.65);
+
+    % --- le plan (lignes 1 à 5) en fond ---
+    \fill[blueprintfill] (-0.12,4.32) rectangle (5.4,6.4);
+    \draw[blueprintline, dashed] (-0.12,4.32) rectangle (5.4,6.4);
+
+    % --- ligne courante et pointeur ---
+    \only<1>{\pyhl{1}\pyptr{1}}
+    \only<2>{\pyhl{7}\pyhl{8}\pyptr{8}}
+    \only<3-4>{\pyhl{9}\pyptr{9}}
+    \only<5>{\pyhl{1}\pyptr{1}}
+    \only<6>{\pyhl{2}\pyptr{2}}
+    \only<7>{\pyhl{3}\pyptr{3}}
+    \only<8>{\pyhl{9}\pyptr{9}}
+    \only<9>{\pyhl{10}\pyptr{10}}
+
+    % --- le programme ---
+    \pyline{1}{\pykw{def} minimum\_int(\pyhole{a}, \pyhole{b})\pycolon}
+    \only<1-5,8->{\pyline{2}{\pyind\pykw{if} \pyhole{a} < \pyhole{b}\pycolon}}
+    \only<6-7>{\pyline{2}{\pyind\pykw{if} \pyfilled{58} < \pyfilled{78}\pycolon}}
+    \only<1-5,8->{\pyline{3}{\pyind\pyind\pykw{return} \pyhole{a}}}
+    \only<6-7>{\pyline{3}{\pyind\pyind\pykw{return} \pyfilled{58}}}
+    \pyline{4}{\pyind\pykw{else}\pycolon}
+    \only<1-5,8->{\pyline{5}{\pyind\pyind\pykw{return} \pyhole{b}}}
+    \only<6-7>{\pyline{5}{\pyind\pyind\pykw{return} \pyfilled{78}}}
+    \only<7>{\pyfade{4}\pyfade{5}}
+
+    \pyline{7}{x = \pyval{58}}
+    \pyline{8}{y = \pyval{78}}
+    \only<1-2,9>{\pyline{9}{mon\_min = minimum\_int(x, y)}}
+    \only<3>{\pyline{9}{mon\_min = minimum\_int(\pyval{x}, \pyval{y})}}
+    \only<4-7>{\pyline{9}{mon\_min = minimum\_int(\pyfilled{58}, \pyfilled{78})}}
+    \only<8>{\pyline{9}{mon\_min = \pyfilled{58}}}
+    \pyline{10}{print(mon\_min)}
+    \node[anchor=north east, font=\scriptsize\itshape, text=blueprintline] at (5.37,6.38) {plan};
+
+    % --- appel et retour (flèches pointillées dans la marge) ---
+    \only<5>{\draw[->, dashed, thick, valcol] (-0.55,{6.2-0.42*8}) .. controls (-1.05,{6.2-0.42*8}) and (-1.05,6.2) .. (-0.55,6.2);}
+    \only<8>{\draw[->, dashed, thick, valcol] (-0.55,{6.2-0.42*2}) .. controls (-1.05,{6.2-0.42*2}) and (-1.05,{6.2-0.42*8}) .. (-0.55,{6.2-0.42*8});}
+
+    % --- mémoire : espace global ---
+    \draw[rounded corners=3pt, draw=black!50, fill=black!4] (5.75,4.05) rectangle (9.85,6.6);
+    \node[anchor=north west, font=\scriptsize\bfseries, text=black!70] at (5.85,6.56) {Espace global};
+    \node[pymemname] at (7.75,5.75) {minimum\_int};
+    \node[pymemval, draw=blueprintline, dashed, fill=blueprintfill, text=blueprintline, font=\scriptsize\itshape] at (7.95,5.75) {plan};
+    \only<2->{\pymemrow{5.3}{x}{58}\pymemrow{4.85}{y}{78}}
+    \only<8->{\pymemrow{4.4}{mon\_min}{58}}
+    \only<3>{\draw[valcol, thick, rounded corners=2pt] (5.82,5.09) rectangle (9.4,5.51);
+             \draw[valcol, thick, rounded corners=2pt] (5.82,4.64) rectangle (9.4,5.06);}
+
+    % --- mémoire : espace local de l'appel ---
+    \only<5-7>{
+      \draw[rounded corners=3pt, draw=paramcol!70, fill=paramcol!6] (5.75,1.85) rectangle (9.85,3.85);
+      \node[anchor=north west, font=\scriptsize\bfseries, text=paramcol] at (5.85,3.81) {Espace local (appel)};
+      \pymemrow{3.2}{\pyparam{a}}{58}
+      \pymemrow{2.75}{\pyparam{b}}{78}
+    }
+    \only<7>{\pymemrow{2.3}{\textbf{renvoie}}{58}}
+
+    % --- affichage ---
+    \only<9>{
+      \draw[rounded corners=3pt, draw=black!50, fill=black!8] (5.75,0.85) rectangle (9.85,1.85);
+      \node[anchor=north west, font=\scriptsize\bfseries, text=black!70] at (5.85,1.81) {Affichage};
+      \node[anchor=west, font=\ttfamily\footnotesize] at (5.95,1.15) {58};
+    }
+
+    % --- légendes ---
+    \node[font=\small, align=center, text width=10.2cm] at (4.5,0.4) {%
+      \only<1>{La définition range le plan en mémoire. Le corps n'est pas exécuté.}%
+      \only<2>{Le programme principal commence : \texttt{x} et \texttt{y} sont créées.}%
+      \only<3>{Appel : on évalue d'abord les arguments, ici les variables \texttt{x} et \texttt{y}.}%
+      \only<4>{Les variables \texttt{x} et \texttt{y} sont remplacées par leurs valeurs : \pyval{58} et \pyval{78}.}%
+      \only<5>{Un espace local est créé : le paramètre \pyparam{a} reçoit \pyval{58}, \pyparam{b} reçoit \pyval{78}.}%
+      \only<6>{Dans le corps, \pyparam{a} et \pyparam{b} sont remplacés par leurs valeurs : \texttt{58 < 78} est vrai.}%
+      \only<7>{\texttt{return} : la fonction s'arrête et renvoie \pyval{58}.}%
+      \only<8>{L'appel est remplacé par la valeur renvoyée, affectée à \texttt{mon\_min}. L'espace local disparaît.}%
+      \only<9>{\texttt{print} affiche la valeur de \texttt{mon\_min}.}%
+    };
+  \end{tikzpicture}
+\end{frame}
+
+\section{Exemples}
+
+\begin{frame}[fragile]{Fonction à paramètres et résultats}
+  Calculer le \emph{minimum} de deux entiers (dans Thonny) :
+  \pause
+\begin{minted}{python}
+def minimum_int(a, b):
+    if a < b:
+        return a
+    else:
+        return b
+\end{minted}
+\end{frame}
+
+\begin{frame}[fragile]{Fonction à paramètres et résultats}
+  Calculer le \emph{minimum} d'une liste non-vide (dans Thonny) :
+  \pause
+  \onslide<2>
+\begin{minted}{python}
+def minimum_liste(lst):
+    m = lst[0] # /!\ Erreur si lst est vide
+    for elt in lst:
+        if elt < m:
+        m = elt
+    return m
+\end{minted}
+\end{frame}
+
+\begin{frame}[fragile]{Fonction sans valeur de retour}
+  \begin{columns}
+    \begin{column}{0.7\textwidth}
+  Dessiner un carré fait du caractère \mintinline{python}{carac} (dans Thonny) :
+\end{column}
+\begin{column}{0.1\textwidth}
+\begin{verbatim}
+*****
+*****
+*****
+*****
+*****
+\end{verbatim}
+\end{column}
+\end{columns}
+\pause
+\vspace{-1em}
+\begin{overprint}
+  \onslide<2>
+\begin{minted}{python}
+def dessine_carre(n, carac):
+    i = 0
+    while i < n:
+        j = 0
+        ligne =""
+        while j < n:
+            ligne += carac
+            j += 1
+        print(ligne)
+        i += 1
+    return  # Facultatif : ne renvoie rien
+\end{minted}
+  \onslide<3>
+  Mieux :
+\begin{minted}{python}
+def dessine_carre(n, carac):
+    for i in range(0, n):
+        ligne = ""
+        for j in range(0, n):
+            ligne += carac
+        print(ligne)
+\end{minted}
+\end{overprint}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Composition de fonctions}
+
+  \begin{block}{En maths}
+    $$\forall x \in X, g \circ f(x) = g(f(x))$$
+  \end{block}
+
+  \begin{block}{En informatique}
+    \vspace{0pt}
+    On peut appeler une fonction dans une fonction ! \newline (et ainsi de suite)
+  \end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Composition de fonctions : minimum d'une liste}
+  Calculer le \emph{minimum} d'une liste non-vide (dans Thonny) :
+  \pause
+\begin{overprint}
+  \onslide<1>
+\begin{minted}{python}
+def minimum_liste(lst):
+    m = lst[0] # /!\ Erreur si lst est vide
+    for elt in lst:
+        if elt < m:
+        m = elt
+    return m
+\end{minted}
+  \onslide<2>
+\begin{minted}{python}
+def minimum_liste(lst):
+    m = lst[0] # /!\ Erreur si lst est vide
+    for elt in lst:
+        m = minimum_int(m, elt)
+    return m
+\end{minted}
+  \end{overprint}
+\end{frame}
+
+\begin{frame}[fragile]{Erreur fréquente : confusion \begin{tabular}{l}paramètre / saisie \\ retour / affichage\end{tabular}}
+
+    \vspace{-0.25em}
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+  \begin{block}{Paramètre / saisie}
+    \vspace{-0.25em}
+\begin{minted}{python}
+def minimum_int(a,b):
+    a = int(input()) # NON !
+    b = int(input()) # NON !
+    if a <= b:
+        return a
+    else:
+        return b
+\end{minted}
+  \end{block}
+\pause
+    \vspace{-0.25em}
+  \begin{block}{Retour / affichage}
+    \vspace{-0.25em}
+\begin{minted}{python}
+def minimum_int(a,b):
+    if a <= b:
+        print(a) # NON !
+    else:
+        print(b) # NON !
+\end{minted}
+  \end{block}
+    \end{column}
+    \pause
+    \begin{column}{0.5\textwidth}
+      Ce que ça donne dans Thonny :
+
+      \texttt{minimum\_liste\_input\_print.py}
+    \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Fonctions et espaces de nom}
+  \begin{itemize}
+  \item Paramètres et variables d'une fonction : \alert{indépendantes} des autres variables du programme
+  \item N'existent plus une fois l'exécution de la fonction terminée
+  \item On les appelle des variables \emph{locales}
+\end{itemize}
+
+$\Rightarrow{}$ On peut renommer les variables d'une fonction.
+
+$\rightarrow{}$ Démonstration sur Thonny (\texttt{minimum.py}).
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{(Contre-)exemple : intervertir des variables}
+  Dans Thonny : \texttt{echange.py}
+  \pause
+  \begin{itemize}
+  \item changer les valeurs de \mintinline{python}{a} et \mintinline{python}{b} dans la fonction \emph{n'a pas d'effet} sur \mintinline{python}{x} et \mintinline{python}{y} dans le programme principal !
+  \item la variable \mintinline{python}{temp} n'existe plus après l'exécution de la fonction
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Sous le capot : sémantique d'un appel}
+
+  \begin{block}{Espace de noms}
+    \vspace{0pt}
+    Ensemble de noms (variables, fonctions) défini à un certain point d'un programme
+  \end{block}
+
+  \MVRightarrow{} lors d'un appel de fonction, création d'un espace de nom \emph{local} :
+  \begin{itemize}
+  \item Paramètres $\rightarrow$ leur valeur lors de l'appel
+  \item Variables locales
+  \end{itemize}
+
+  \begin{block}{Exemple}
+    \vspace{0pt}
+    \texttt{minimum\_liste.py} dans \href{https://pythontutor.com/}{Python Tutor} et Thonny.
+  \end{block}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Espaces de noms lors de l'exécution}
+  Les espaces de noms sont imbriqués :
+  \begin{itemize}
+  \item espace de noms prédéfini (\mintinline{python}{print}, \mintinline{python}{input}, \dots)
+  \item espace de noms global : définis dans le programme principal (\emph{variables globales})
+  \item espaces de noms locaux imbriqués dans l'\emph{ordre chronologique} des appels
+    \begin{itemize}
+    \item paramètres de l'appel
+    \item variables locales à la fonction
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Pile d'appels}
+  L'empilement des espaces de noms obéit à une politique de \emph{pile}
+
+  \begin{itemize}
+  \item sommet : appel en cours
+  \item en-dessous : appels précédents
+  \item (presque) tout en bas : espace de nom global
+  \end{itemize}
+
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+\begin{minted}{python}
+def f(x):
+    return g(x) + 1
+def g(x):
+    return h(x) + 2
+def h(x):
+    return x + 3
+\end{minted}
+    \end{column}
+    \begin{column}{0.4\textwidth}
+      \alt<1-4>{%
+      \begin{tikzpicture}
+        % Stack rectangle
+        \draw (0,0) rectangle (2,3);
+        % Stack top
+        \node at (1,3.3) {Sommet};
+        % Stack elements
+        \pause
+        \draw (0.2,0.5) rectangle (1.8,0.8) node[midway] {f};
+        \pause
+        \draw (0.2,0.9) rectangle (1.8,1.2) node[midway] {g};
+        \pause
+        \draw (0.2,1.3) rectangle (1.8,1.6) node[midway] {h};
+        % Stack direction
+        \draw[->,ultra thick] (2.5,0) -- (2.5,3);
+      \end{tikzpicture}%
+    }{%
+      \begin{tikzpicture}[yscale=-1]
+        % Stack rectangle
+        \draw (0,0) rectangle (2,3);
+        % Stack top
+        \node at (1,3.3) {Sommet};
+        % Stack elements
+        \pause
+        \draw (0.2,0.5) rectangle (1.8,0.8) node[midway] {f};
+        \pause
+        \draw (0.2,0.9) rectangle (1.8,1.2) node[midway] {g};
+        \pause
+        \draw (0.2,1.3) rectangle (1.8,1.6) node[midway] {h};
+        % Stack direction
+        \draw[->,ultra thick] (2.5,0) -- (2.5,3);
+      \end{tikzpicture}%
+    }
+    \end{column}
+  \end{columns}
+
+  \medskip
+
+  \onslide<5>{\textbf{Attention !} Dans Python Tutor, le plus récent est en bas.}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Pile d'appels}
+
+  \begin{block}{Quand un nouvel appel commence}
+    \begin{itemize}
+    \item l'exécution de la fonction en cours s'interrompt
+    \item un nouvel espace de noms local est créé
+    \item l'exécution de la fonction appelée commence
+    \end{itemize}
+  \end{block}
+
+
+  \begin{block}{Quand l'appel en cours se termine}
+    \begin{itemize}
+    \item son espace de nom est supprimé de la pile
+    \item l'exécution de l'appel précédent reprend
+    \end{itemize}
+
+  \end{block}
+
+\end{frame}
+\begin{frame}{Portée des variables}
+
+  \begin{block}{Accès à la valeur d'une variable}
+  \begin{itemize}
+  \item possible pour n'importe quel nom défini dans un des espaces de noms antérieurs
+  \item si plusieurs espaces contiennent le même nom, c'est le plus récent qui est sélectionné
+  \item la plupart du temps, on n'a besoin que des variables locales
+
+    (quitte à ajouter des paramètres)
+  \end{itemize}
+\end{block}
+
+\pause
+
+\begin{block}{Affectation}
+  \vspace{0pt}
+  Seulement les variables \alert{locales} de la fonction courante !
+
+  (ou globales \emph{si on est dans le programme principal})
+\end{block}
+
+\end{frame}
+
+\begin{frame}[fragile]{Signature d'une fonction}
+
+Considérons la fonction :
+\begin{minted}{python}
+def f(p_1, ..., p_n):
+...
+return expr
+\end{minted}
+
+Les noms \mintinline{python}{p_1} à \mintinline{python}{p_n} sont appelés paramètres (formels).
+
+En général, ils d'un certain type. On peut le préciser en explicitant la \emph{signature} de la fonction :
+\begin{minted}{python}
+def f(p_1: type_1, ..., p_n: type_n) -> type_retour:
+...
+return expr
+\end{minted}
+\begin{exampleblock}{Exemple}
+\begin{minted}{python}
+def minimum_int(a: int, b: int) -> int:
+\end{minted}
+\end{exampleblock}
+\end{frame}
+
+\begin{frame}[fragile]{Déroulement détaillé d'un appel}
+      Considérons maintenant l'appel \mintinline{python}{f(e_1, ..., e_n)} :
+      \begin{itemize}
+      \item les valeurs \mintinline{python}{v_1} à \mintinline{python}{v_n} sont appelées paramètres effectifs \newline (ou arguments)
+      \item création d'un espace de noms local contenant \mintinline{python}{p_1} à \mintinline{python}{p_n} au sommet de la pile d'appels
+      \item chaque expression \mintinline{python}{e_i} est évaluée en une valeur \mintinline{python}{v_i} et affectée à la variable \mintinline{python}{p_i}
+      \item exécution du corps de la fonction dans l'espace de noms local
+        \pause
+      \item si la fonction exécute l'instruction \mintinline{python}{return expr} ou atteint la fin de son bloc d'instructions :
+        \begin{itemize}
+        \item l'espace de noms local est détruit
+        \item l'expression appelante \mintinline{python}{f(e_1, ..., e_n)} prend la valeur de \mintinline{python}{expr} (respectivement \mintinline{python}{None})
+        \item reprise du programme principal dans l'espace global
+        \end{itemize}
+      \end{itemize}
+\end{frame}
+
+\section{Bonnes pratiques de programmation}
+
+\begin{frame}[fragile]{Documentation et test de fonctions}
+  \begin{block}{Chaînes de documentation (\mintinline{python}{docstring})}
+    \vspace{0pt}
+
+    Bonne pratique : indiquer par un commentaire
+    \vspace{-0.5em}
+    \begin{itemize}
+    \item à quoi sert une fonction
+     \item ce que représentent ses paramètres et leur type
+     \item ce que représente sa valeur de retour
+     \item d'éventuels effets ou causes secondaires
+    \end{itemize}
+  \end{block}
+
+\begin{minted}{python}
+def triple(n):
+  """
+  Calcule le triple du nombre n (int ou float)
+  ou la répétition trois fois de la chaîne n.
+  """
+  return n * 3
+\end{minted}
+\end{frame}
+\begin{frame}[fragile]{Documentation et test de fonctions}
+  \begin{itemize}
+    \item On peut accéder à la chaîne de documentation d'une fonction en tapant \mintinline{python}{help(nom de la fonction)} dans l'interpréteur
+  \item Cela fonctionne aussi pour les fonctions prédéfinies ou issues de modules
+  \end{itemize}
+\end{frame}
+\begin{frame}[fragile]{Tests intégrés à la documentation (\mintinline{python}{doctest})}
+  \begin{itemize}
+  \item Toute fonction \emph{doit être testée immédiatement} pour s'assurer qu'elle fonctionne.
+  \item On peut intégrer les tests à sa documentation.
+  \end{itemize}
+\begin{minted}{python}
+def triple(n):
+  """
+  Calcule le triple du nombre n (int ou float)
+  ou la répétition trois fois de la chaîne n.
+
+  >>> triple(3)
+  9
+  >>> triple(9.0)
+  27.0
+  """
+  return n * 3
+\end{minted}
+\end{frame}
+\begin{frame}[fragile,fragile]{Tests intégrés à la documentation (\mintinline{python}{doctest})}
+  Il existe des outils qui permettent de lancer automatiquement tous les tests présents dans la documentation, et de vérifier qu'ils produisent les résultats annoncés.
+
+  Par exemple, à la fin d'un programme, on peut écrire le code suivant pour lancer systématiquement tous les tests présents dans le fichier :
+\begin{minted}{python}
+  import doctest
+  doctest.testmod()
+\end{minted}
+\end{frame}
+
+\section{Extra}
+
+\begin{frame}{Responsabilité}
+
+  En général, une fonction est \emph{responsable} d'\alert{une seule chose}.
+
+  Sinon, on fait \emph{plusieurs} fonctions.
+
+      Ce que ça donne dans Thonny :
+
+      \texttt{minimum\_liste\_responsabilite.py}
+\end{frame}
+
+\begin{frame}[fragile]{Un autre exemple de composition de fonctions : dessiner un carré}
+  \begin{columns}
+    \begin{column}{0.1\textwidth}
+\begin{verbatim}
+*****
+*****
+*****
+*****
+*****
+\end{verbatim}
+    \end{column}
+    \begin{column}{0.7\textwidth}
+      Carré de côté \mintinline{python}{n} = \mintinline{python}{n} lignes de longueur \mintinline{python}{n}
+    \end{column}
+\end{columns}
+\bigskip
+\pause
+On peut donc décomposer ainsi :
+  \begin{itemize}
+  \item
+\begin{minted}{python}
+def dessine_ligne(n,carac):
+    """Dessine *une ligne* de longueur n
+       composée du caractère carac."""
+\end{minted}
+  \item
+\begin{minted}{python}
+def dessine_carre(n,carac):
+    """Dessine *un carré* de longueur n
+       composé du caractère carac."""
+\end{minted}
+  \end{itemize}
+  % \MVRightarrow{} Ce que ça donne dans Thonny
+\end{frame}
+\begin{frame}[fragile]{Dessiner un carré : variante}
+\begin{minted}{python}
+def dessine_ligne(n, carac):
+ """dessine une ligne de longueur n
+    composée du caractère carac"""
+    for j in range(0, n):
+        print(caractere, end = '')
+    print()
+    return
+\end{minted}
+\end{frame}
+\begin{frame}[fragile]{Dessiner un carré : variante}
+\begin{minted}{python}
+def dessine_carre(n, caractere):
+ """dessine un carré de longueur n
+    composé du caractère carac"""
+    for i in range(0, n):
+        dessine_ligne(n,caractere)
+    return
+\end{minted}
+\end{frame}
+
+
+\end{document}
+
+%%% Local Variables:
+%%% TeX-engine: xetex
+%%% TeX-command-extra-options: "-shell-escape"
+%%% End:
