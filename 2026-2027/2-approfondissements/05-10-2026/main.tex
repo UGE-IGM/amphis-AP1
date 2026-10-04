@@ -114,7 +114,7 @@
     \item Prendre les #1
     \item Éplucher les #1
     \item Laver les #1
-    \item Couper les #1 en petits dés
+    \item Tailler les #1 en bâtonnets
     \item Mettre les #1 dans un saladier
     \item Saler et assaisonner les #1
     \item Mettre les #1 au four
@@ -136,7 +136,7 @@
 }
 
 % ------------------------------------------------------------------
-% Une fonction qui en appelle une autre : faire_frites -> couper_en_des
+% Une fonction qui en appelle une autre : faire_frites -> tailler
 % ------------------------------------------------------------------
 % un appel de fonction, affiché comme une ligne de code : #1 = nom, #2 = argument
 \newcommand{\pycall}[2]{%
@@ -153,6 +153,139 @@
 \newcommand{\pynl}[3]{%
   \fill[black!45] ({0.15+0.7*#1},{5.45-0.68*(#2-1)}) circle (0.045);
   \node[anchor=west, font=\footnotesize, inner sep=2pt] at ({0.3+0.7*#1},{5.45-0.68*(#2-1)}) {#3};
+}
+
+% ------------------------------------------------------------------
+% Empilement des espaces de noms : le code (flèche = ligne courante) et la pile
+% Chaque cadre = un espace de noms : son code à gauche, ses variables à droite.
+% Le cadre du sommet est déplié, les autres sont repliés sur la ligne où ils attendent.
+% ------------------------------------------------------------------
+\tikzset{
+  pyplanbox/.style={draw=blueprintline, dashed, fill=blueprintfill, rounded corners=2pt, font=\ttfamily\scriptsize, text=blueprintline!80!black, minimum height=0.36cm, minimum width=1.75cm, inner sep=2pt, text height=0.15cm, text depth=0.05cm},
+}
+
+% cadre d'un espace de noms : #1 = couleur, #2 = y du bas, #3 = hauteur
+\newcommand{\pybox}[3]{%
+  \pgfmathsetmacro{\pyboxtop}{#2+#3}%
+  \draw[rounded corners=3pt, thick, draw=#1!70!black, fill=#1!8] (0.2,#2) rectangle (10.4,\pyboxtop);
+  \draw[densely dotted, draw=#1!60!black] (5.95,{#2+0.08}) -- (5.95,{\pyboxtop-0.08});
+}
+
+% texte d'une ligne de code : #1 = numéro de ligne, #2 = indentation, #3 = texte
+\newcommand{\pycl}[3]{%
+  \pgfmathsetmacro{\pyy}{\pyboxtop-0.08-(#1-0.5)*0.28}%
+  \node[anchor=west, inner sep=0pt, font=\scriptsize] at ({0.7+0.4*#2},\pyy) {#3};%
+}
+
+% fond jaune de la ligne courante : #1 = numéro de ligne
+\newcommand{\pkhl}[1]{%
+  \pgfmathsetmacro{\pyy}{\pyboxtop-0.08-(#1-0.5)*0.28}%
+  \fill[yellow!45] (0.55,{\pyy-0.14}) rectangle (5.85,{\pyy+0.14});%
+}
+
+% flèche vers une ligne : #1 = numéro de ligne, #2 = s (ligne courante, rouge pleine) ou h (ligne en attente, grise creuse)
+\newcommand{\pkptr}[2]{%
+  \pgfmathsetmacro{\pyy}{\pyboxtop-0.08-(#1-0.5)*0.28}%
+  \ifx#2s%
+    \fill[red!70!black] (0.25,{\pyy+0.1}) -- (0.55,\pyy) -- (0.25,{\pyy-0.1}) -- cycle;%
+  \else%
+    \draw[gray!80, thick] (0.25,{\pyy+0.1}) -- (0.55,\pyy) -- (0.25,{\pyy-0.1}) -- cycle;%
+  \fi%
+}
+
+% variable de l'espace de noms : #1 = numéro de ligne, #2 = nom, #3 = valeur
+\newcommand{\pynrow}[3]{%
+  \pgfmathsetmacro{\pyy}{\pyboxtop-0.28-(#1-1)*0.4}%
+  \node[anchor=east, font=\ttfamily\footnotesize] at (8.25,\pyy) {#2};%
+  \node[pymemval, minimum width=1.6cm] at (8.35,\pyy) {#3};%
+}
+
+% plan (fonction) de l'espace global : #1 = ligne (1 ou 2), #2 = colonne (1 ou 2), #3 = nom
+\newcommand{\pyplan}[3]{%
+  \pgfmathsetmacro{\pyy}{\pyboxtop-0.28-(#1-1)*0.4}%
+  \pgfmathsetmacro{\pyxx}{7.15+2.1*(#2-1)}%
+  \node[pyplanbox] at (\pyxx,\pyy) {#3};%
+}
+
+% étiquette « sommet » au-dessus du dernier cadre dessiné
+\newcommand{\pytop}{%
+  \node[anchor=south east, font=\tiny\bfseries, text=white, fill=red!70!black, rounded corners=2pt, inner sep=2pt] at (10.4,{\pyboxtop+0.04}) {SOMMET};%
+}
+
+% --- les cinq cadres possibles de la pile ---
+% programme principal / espace global : #1 = s ou h (flèche), #2 = suffixe de la ligne d'appel
+\newcommand{\pyG}[2]{%
+  \pybox{gray}{1.05}{0.96}%
+  \ifx#1s\pkhl{2}\fi%
+  \pycl{1}{0}{\textit{programme principal}}%
+  \pycl{2}{0}{\texttt{faire\_frites(carottes)}#2}%
+  \pkptr{2}{#1}%
+  \pyplan{1}{1}{faire\_frites}\pyplan{1}{2}{tailler}%
+  \pyplan{2}{1}{largeur}%
+}
+
+% faire_frites déplié : #1 = ligne courante, #2 = texte de la ligne de l'étape 4
+\newcommand{\pyFfull}[2]{%
+  \pybox{blue}{2.11}{2.68}%
+  \pkhl{#1}%
+  \pycl{1}{0}{\texttt{faire\_frites(\pyparam{légumes})}}%
+  \pycl{2}{0}{1. Prendre les légumes}%
+  \pycl{3}{0}{2. Éplucher les légumes}%
+  \pycl{4}{0}{3. Laver les légumes}%
+  \pycl{5}{0}{#2}%
+  \pycl{6}{0}{5. Mettre les légumes dans un saladier}%
+  \pycl{7}{0}{6. Saler et assaisonner les légumes}%
+  \pycl{8}{0}{7. Mettre les légumes au four}%
+  \pycl{9}{0}{8. Les sortir et les servir.}%
+  \pkptr{#1}{s}%
+  \pynrow{1}{\pyparam{légumes}}{carottes}%
+}
+
+% faire_frites replié, en attente de l'étape 4
+\newcommand{\pyFcoll}{%
+  \pybox{blue}{2.11}{1.0}%
+  \pycl{1}{0}{\texttt{faire\_frites(\pyparam{légumes})}}%
+  \pycl{2}{0}{\textcolor{black!50}{\ldots{} étapes 1 à 3}}%
+  \pycl{3}{0}{4. \texttt{tailler(légumes)}}%
+  \pkptr{3}{h}%
+  \pynrow{1}{\pyparam{légumes}}{carottes}%
+}
+
+% tailler (au sommet de la pile) : #1 = ligne courante, #2 = texte de la ligne « Tant que », #3 = nombre de variables (1 ou 2)
+\newcommand{\pyCfull}[3]{%
+  \pybox{orange}{3.21}{1.56}%
+  \pkhl{#1}%
+  \pycl{1}{0}{\texttt{tailler(\pyparam{legumes})}}%
+  \pycl{2}{0}{\pykw{Pour chaque} légume \pykw{dans} \texttt{legumes} :}%
+  \pycl{3}{1}{#2}%
+  \pycl{4}{2}{Couper le légume dans la largeur}%
+  \pycl{5}{0}{\pykw{Renvoyer} les bâtonnets de légumes}%
+  \pkptr{#1}{s}%
+  \pynrow{1}{\pyparam{legumes}}{carottes}%
+  \ifnum#3>1 \pynrow{2}{legume}{carotte}\fi%
+}
+
+% tailler, en attente de largeur(legume)
+\newcommand{\pyCcoll}{%
+  \pybox{orange}{3.21}{1.56}%
+  \pycl{1}{0}{\texttt{tailler(\pyparam{legumes})}}%
+  \pycl{2}{0}{\pykw{Pour chaque} légume \pykw{dans} \texttt{legumes} :}%
+  \pycl{3}{1}{\pykw{Tant que} \texttt{largeur(legume)} > 5~cm :}%
+  \pycl{4}{2}{Couper le légume dans la largeur}%
+  \pycl{5}{0}{\pykw{Renvoyer} les bâtonnets de légumes}%
+  \pkptr{3}{h}%
+  \pynrow{1}{\pyparam{legumes}}{carottes}%
+  \pynrow{2}{legume}{carotte}%
+}
+
+% largeur (au sommet de la pile)
+\newcommand{\pyLbox}{%
+  \pybox{green}{4.87}{0.72}%
+  \pkhl{2}%
+  \pycl{1}{0}{\texttt{largeur(\pyparam{objet})}}%
+  \pycl{2}{0}{\pykw{Renvoyer} la largeur de \texttt{objet}}%
+  \pkptr{2}{s}%
+  \pynrow{1}{\pyparam{objet}}{carotte}%
 }
 
 % https://tex.stackexchange.com/questions/401884/how-do-i-change-hyperlinks-color-only
@@ -401,57 +534,8 @@ def minimum_int(a, b):
 \end{frame}
 
 % ==================================================================
-% Une fonction peut en appeler une autre : zoom sur couper_en_des
+% Une fonction peut en appeler une autre : zoom sur tailler
 % ==================================================================
-
-\begin{frame}{Une fonction peut en appeler une autre}
-  \centering
-  \begin{tikzpicture}[x=1cm,y=1cm]
-    \useasboundingbox (0,0.6) rectangle (10.6,6.6);
-
-    % le zoom : cette étape est elle-même un appel de fonction (dessiné derrière le texte)
-    \only<2->{
-      \fill[yellow!30] (5.55,4.37) -- (6.15,5.2) -- (6.15,3.1) -- (5.55,3.93) -- cycle;
-    }
-
-    % l'étape sur laquelle on zoome
-    \fill[yellow!45] (-0.05,3.93) rectangle (5.55,4.37);
-
-    % la recette pour les patates (le contexte, en petit)
-    \node[anchor=west, font=\ttfamily\footnotesize] at (0,6.2) {faire\_frites(\pyfilled{patates})};
-    \pyli{1}{Prendre les \pyfilled{patates}}
-    \pyli{2}{Éplucher les \pyfilled{patates}}
-    \pyli{3}{Laver les \pyfilled{patates}}
-    \pyli{4}{Couper les \pyfilled{patates} en petits dés}
-    \pyli{5}{Mettre les \pyfilled{patates} dans un saladier}
-    \pyli{6}{Saler et assaisonner les \pyfilled{patates}}
-    \pyli{7}{Mettre les \pyfilled{patates} au four}
-    \pyli{8}{Les sortir et les servir.}
-
-    \only<2->{
-      \draw[rounded corners=4pt, thick, draw=black!60, fill=white] (6.15,3.1) rectangle (11.0,5.2);
-      \node[font=\scriptsize\itshape, text=black!55] at (8.575,4.85) {appel de fonction};
-      \node at (8.575,4.1) {\pycall{couper\_en\_des}{\pyfilled{patates}}};
-    }
-  \end{tikzpicture}
-\end{frame}
-
-\begin{frame}{Zoom sur \texttt{couper\_en\_des}}
-  \centering
-  \begin{tikzpicture}[x=1cm,y=1cm]
-    \useasboundingbox (0,0.6) rectangle (10.6,6.6);
-
-    \node[anchor=west, font=\ttfamily] at (0,6.2) {couper\_en\_des(\pyhole{legumes})};
-
-    \only<1->{\pynl{0}{1}{\pykw{Pour chaque} légume \pykw{dans} \pyhole{\texttt{legumes}} :}}
-    \only<2->{\pynl{1}{2}{\pykw{Tant que} \texttt{largeur(legume)} > 2~cm \pykw{ou} \texttt{longueur(legume)} > 2~cm :}}
-    \only<3->{\pynl{2}{3}{\pykw{Si} \texttt{largeur(legume)} > \texttt{longueur(legume)} :}}
-    \only<4->{\pynl{3}{4}{Couper le légume dans la largeur}}
-    \only<5->{\pynl{2}{5}{\pykw{Sinon} :}}
-    \only<6->{\pynl{3}{6}{Couper le légume dans la longueur}}
-    \only<7->{\pynl{0}{7}{\pykw{Renvoyer} les dés de légume}}
-  \end{tikzpicture}
-\end{frame}
 
 \section{Exemples}
 
@@ -527,67 +611,86 @@ def dessine_carre(n, carac):
   \end{block}
 \end{frame}
 
-\begin{frame}[fragile]{Composition de fonctions : minimum d'une liste}
-  Calculer le \emph{minimum} d'une liste non-vide (dans Thonny) :
-  \pause
-\begin{overprint}
-  \onslide<1>
-\begin{minted}{python}
-def minimum_liste(lst):
-    m = lst[0] # /!\ Erreur si lst est vide
-    for elt in lst:
-        if elt < m:
-        m = elt
-    return m
-\end{minted}
-  \onslide<2>
-\begin{minted}{python}
-def minimum_liste(lst):
-    m = lst[0] # /!\ Erreur si lst est vide
-    for elt in lst:
-        m = minimum_int(m, elt)
-    return m
-\end{minted}
-  \end{overprint}
+% ==================================================================
+% Une fonction peut en appeler une autre : zoom sur tailler,
+% puis simulation de l'appel (empilement des espaces de noms)
+% ==================================================================
+
+\begin{frame}{Une fonction peut en appeler une autre}
+  \centering
+  \begin{tikzpicture}[x=1cm,y=1cm]
+    \useasboundingbox (0,0.6) rectangle (10.6,6.6);
+
+    % le zoom : cette étape est elle-même un appel de fonction (dessiné derrière le texte)
+    \only<2->{
+      \fill[yellow!30] (5.55,4.37) -- (6.15,5.2) -- (6.15,3.1) -- (5.55,3.93) -- cycle;
+    }
+
+    % l'étape sur laquelle on zoome
+    \fill[yellow!45] (-0.05,3.93) rectangle (5.55,4.37);
+
+    % la recette pour les patates (le contexte, en petit)
+    \node[anchor=west, font=\ttfamily\footnotesize] at (0,6.2) {faire\_frites(\pyfilled{patates})};
+    \pyli{1}{Prendre les \pyfilled{patates}}
+    \pyli{2}{Éplucher les \pyfilled{patates}}
+    \pyli{3}{Laver les \pyfilled{patates}}
+    \pyli{4}{Tailler les \pyfilled{patates} en bâtonnets}
+    \pyli{5}{Mettre les \pyfilled{patates} dans un saladier}
+    \pyli{6}{Saler et assaisonner les \pyfilled{patates}}
+    \pyli{7}{Mettre les \pyfilled{patates} au four}
+    \pyli{8}{Les sortir et les servir.}
+
+    \only<2->{
+      \draw[rounded corners=4pt, thick, draw=black!60, fill=white] (6.15,3.1) rectangle (11.0,5.2);
+      \node[font=\scriptsize\itshape, text=black!55] at (8.575,4.85) {appel de fonction};
+      \node at (8.575,4.1) {\pycall{tailler}{\pyfilled{patates}}};
+    }
+  \end{tikzpicture}
 \end{frame}
 
-\begin{frame}[fragile]{Erreur fréquente : confusion \begin{tabular}{l}paramètre / saisie \\ retour / affichage\end{tabular}}
+\begin{frame}{Zoom sur \texttt{tailler}}
+  \centering
+  \begin{tikzpicture}[x=1cm,y=1cm]
+    \useasboundingbox (0,0.6) rectangle (10.6,6.6);
 
-    \vspace{-0.25em}
-  \begin{columns}
-    \begin{column}{0.5\textwidth}
-  \begin{block}{Paramètre / saisie}
-    \vspace{-0.25em}
-\begin{minted}{python}
-def minimum_int(a,b):
-    a = int(input()) # NON !
-    b = int(input()) # NON !
-    if a <= b:
-        return a
-    else:
-        return b
-\end{minted}
-  \end{block}
-\pause
-    \vspace{-0.25em}
-  \begin{block}{Retour / affichage}
-    \vspace{-0.25em}
-\begin{minted}{python}
-def minimum_int(a,b):
-    if a <= b:
-        print(a) # NON !
-    else:
-        print(b) # NON !
-\end{minted}
-  \end{block}
-    \end{column}
-    \pause
-    \begin{column}{0.5\textwidth}
-      Ce que ça donne dans Thonny :
+    \node[anchor=west, font=\ttfamily] at (0,6.2) {tailler(\pyhole{legumes})};
 
-      \texttt{minimum\_liste\_input\_print.py}
-    \end{column}
-    \end{columns}
+    % étape 1 : les deux boucles imbriquées
+    \only<1->{\pynl{0}{1}{\pykw{Pour chaque} légume \pykw{dans} \pyhole{\texttt{legumes}} :}}
+    \only<1->{\pynl{1}{2}{\pykw{Tant que} \texttt{largeur(legume)} > 5~cm :}}
+    % étape 2 : le corps de la boucle
+    \only<2->{\pynl{2}{3}{Couper le légume dans la largeur}}
+    % étape 3 : le résultat
+    \only<3->{\pynl{0}{4}{\pykw{Renvoyer} les bâtonnets de légumes}}
+  \end{tikzpicture}
+\end{frame}
+
+\begin{frame}{Empilement des espaces de noms}
+  \centering
+  \begin{tikzpicture}[x=1cm,y=1cm]
+    \useasboundingbox (0,0.1) rectangle (10.6,6.45);
+
+    \only<1>{\pyG{h}{}\pyFfull{2}{4. \texttt{tailler(légumes)}}\pytop}
+    \only<2>{\pyG{h}{}\pyFcoll\pyCfull{2}{\pykw{Tant que} \texttt{largeur(legume)} > 5~cm :}{1}\pytop}
+    \only<3>{\pyG{h}{}\pyFcoll\pyCfull{3}{\pykw{Tant que} \texttt{largeur(legume)} > 5~cm :}{2}\pytop}
+    \only<4>{\pyG{h}{}\pyFcoll\pyCcoll\pyLbox\pytop}
+    \only<5>{\pyG{h}{}\pyFcoll\pyCfull{3}{\pykw{Tant que} \pyfilled{4 cm} > 5~cm :}{2}\pytop}
+    \only<6>{\pyG{h}{}\pyFcoll\pyCfull{5}{\pykw{Tant que} \texttt{largeur(legume)} > 5~cm :}{2}\pytop}
+    \only<7>{\pyG{h}{}\pyFfull{5}{4. \pyfilled{les bâtonnets}}\pytop}
+    \only<8>{\pyG{s}{ \textit{(terminé)}}\pytop}
+
+    % --- légendes ---
+    \node[font=\small, align=center, text width=10.2cm] at (5.3,0.55) {%
+      \only<1>{On appelle \texttt{faire\_frites(carottes)} : un espace de noms est empilé et l'exécution commence à l'étape 1.}%
+      \only<2>{Étape 4 : \texttt{faire\_frites} appelle \texttt{tailler(légumes)}. Nouvel espace de noms au sommet ; \texttt{faire\_frites} attend.}%
+      \only<3>{À la ligne « Pour chaque », la variable \texttt{legume} vaut \pyval{carotte}. On passe à la condition du « Tant que ».}%
+      \only<4>{Pour évaluer la condition, on appelle \texttt{largeur(legume)} : un 4\textsuperscript{e} espace de noms est empilé.}%
+      \only<5>{\texttt{largeur} renvoie \pyval{4 cm} : son espace est dépilé et l'appel est remplacé par sa valeur.}%
+      \only<6>{\texttt{4 cm > 5 cm} est faux : on ne coupe pas. (On fait de même pour chaque légume.) On arrive à \texttt{Renvoyer}.}%
+      \only<7>{\texttt{tailler} renvoie les bâtonnets : on dépile, \texttt{faire\_frites} reprend à l'étape 4.}%
+      \only<8>{\texttt{faire\_frites} termine à son tour : il ne reste que l'espace global.}%
+    };
+  \end{tikzpicture}
 \end{frame}
 
 \begin{frame}
@@ -754,6 +857,73 @@ def h(x):
   (ou globales \emph{si on est dans le programme principal})
 \end{block}
 
+\end{frame}
+
+% TODO : détailler les espaces de noms
+\begin{frame}{TODO : détailler les espaces de noms}
+\end{frame}
+
+\begin{frame}[fragile]{Composition de fonctions : minimum d'une liste}
+  Calculer le \emph{minimum} d'une liste non-vide (dans Thonny) :
+  \pause
+\begin{overprint}
+  \onslide<1>
+\begin{minted}{python}
+def minimum_liste(lst):
+    m = lst[0] # /!\ Erreur si lst est vide
+    for elt in lst:
+        if elt < m:
+        m = elt
+    return m
+\end{minted}
+  \onslide<2>
+\begin{minted}{python}
+def minimum_liste(lst):
+    m = lst[0] # /!\ Erreur si lst est vide
+    for elt in lst:
+        m = minimum_int(m, elt)
+    return m
+\end{minted}
+  \end{overprint}
+\end{frame}
+
+\begin{frame}[fragile]{Erreur fréquente : confusion \begin{tabular}{l}paramètre / saisie \\ retour / affichage\end{tabular}}
+
+    \vspace{-0.25em}
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+  \begin{block}{Paramètre / saisie}
+    \vspace{-0.25em}
+\begin{minted}{python}
+def minimum_int(a,b):
+    a = int(input()) # NON !
+    b = int(input()) # NON !
+    if a <= b:
+        return a
+    else:
+        return b
+\end{minted}
+  \end{block}
+\pause
+    \vspace{-0.25em}
+  \begin{block}{Retour / affichage}
+    \vspace{-0.25em}
+\begin{minted}{python}
+def minimum_int(a,b):
+    if a <= b:
+        print(a) # NON !
+    else:
+        print(b) # NON !
+\end{minted}
+  \end{block}
+    \end{column}
+    \pause
+    \begin{column}{0.5\textwidth}
+      Ce que ça donne dans Thonny :
+
+      \texttt{minimum\_liste\_input\_print.py}
+    \end{column}
+    \end{columns}
 \end{frame}
 
 \begin{frame}[fragile]{Signature d'une fonction}
