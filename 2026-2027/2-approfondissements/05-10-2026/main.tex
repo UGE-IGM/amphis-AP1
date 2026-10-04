@@ -103,6 +103,38 @@
 \newcommand{\pyfade}[1]{\fill[blueprintfill, opacity=0.8] (-0.1,{6.2-0.42*(#1-1)-0.2}) rectangle (5.38,{6.2-0.42*(#1-1)+0.2});}
 \newcommand{\pymemrow}[3]{\node[pymemname] at (7.75,#1) {#2}; \node[pymemval] at (7.95,#1) {#3};}
 
+% ------------------------------------------------------------------
+% Recette « faire_frites(légumes) » : un algorithme en langage naturel
+% (paramètre = trou violet, valeur = trou rempli orange, comme dans les
+% slides suivantes)
+% ------------------------------------------------------------------
+\newcommand{\pyrecette}[1]{%
+  {\ttfamily faire\_frites(#1)}\par\smallskip
+  \begin{enumerate}\small\setlength{\itemsep}{0.2em}
+    \item Prendre les #1
+    \item Éplucher les #1
+    \item Laver les #1
+    \item Couper les #1 en petits dés
+    \item Mettre les #1 dans un saladier
+    \item Saler et assaisonner les #1
+    \item Mettre les #1 au four
+    \item Les sortir et les servir.
+  \end{enumerate}%
+}
+
+% illustration : img/<nom>.png (ou .jpg / .jpeg) si le fichier existe, sinon un cadre de remplacement
+\newcommand{\pyimage}[2]{%
+  \IfFileExists{img/#1.png}{\includegraphics[width=3.2cm,height=3.2cm,keepaspectratio]{img/#1.png}}{%
+  \IfFileExists{img/#1.jpg}{\includegraphics[width=3.2cm,height=3.2cm,keepaspectratio]{img/#1.jpg}}{%
+  \IfFileExists{img/#1.jpeg}{\includegraphics[width=3.2cm,height=3.2cm,keepaspectratio]{img/#1.jpeg}}{%
+    \tikz\node[draw=black!40, dashed, thick, rounded corners=3pt, fill=black!4, minimum width=3.2cm, minimum height=3.2cm, text width=2.8cm, align=center, text=black!55, font=\small\itshape] {image :\\#2};}}}%
+}
+
+% message d'erreur affiché à la place de l'illustration
+\newcommand{\pyerreur}[1]{%
+  \tikz\node[draw=red!70!black, thick, rounded corners=3pt, fill=red!8, minimum width=3.2cm, minimum height=3.2cm, text width=2.8cm, align=center, text=red!70!black, font=\small\bfseries] {#1};%
+}
+
 % https://tex.stackexchange.com/questions/401884/how-do-i-change-hyperlinks-color-only
 \hypersetup{
   colorlinks,
@@ -154,6 +186,29 @@
       % Flèche d'effets de bord (zig-zag)
       % \onslide<3->{\draw [decorate, -latex, decoration={snake, segment length=5mm, amplitude=1mm, post length=1mm}] (0,-0.5) -- (0,-2.5) node[midway, left, label={right: (aka: Effets secondaires)}] {Effets de bord};}
     \end{tikzpicture}
+\end{frame}
+
+% ==================================================================
+% Recette : faire_frites(légumes), avec un paramètre qu'on remplace
+% ==================================================================
+
+\begin{frame}{Un algorithme de cuisine}
+  \begin{columns}[c]
+    \begin{column}{0.68\textwidth}
+      \only<1>{\pyrecette{\pyhole{légumes}}}%
+      \only<2>{\pyrecette{\pyfilled{patates}}}%
+      \only<3>{\pyrecette{\pyfilled{patates douces}}}%
+      \only<4>{\pyrecette{\pyfilled{courgettes}}}%
+      \only<5>{\pyrecette{\pyfilled{yaourts}}}%
+    \end{column}
+    \begin{column}{0.30\textwidth}
+      \centering
+      \only<2>{\pyimage{frites_patates}{frites de patates}}%
+      \only<3>{\pyimage{frites_patates_douces}{frites de patates douces}}%
+      \only<4>{\pyimage{frites_courgettes}{frites de courgettes}}%
+      \only<5>{\pyerreur{Erreur : Impossible d'éplucher un yaourt}}%
+    \end{column}
+  \end{columns}
 \end{frame}
 
 % ==================================================================
