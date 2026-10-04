@@ -135,6 +135,26 @@
   \tikz\node[draw=red!70!black, thick, rounded corners=3pt, fill=red!8, minimum width=3.2cm, minimum height=3.2cm, text width=2.8cm, align=center, text=red!70!black, font=\small\bfseries] {#1};%
 }
 
+% ------------------------------------------------------------------
+% Une fonction qui en appelle une autre : faire_frites -> couper_en_des
+% ------------------------------------------------------------------
+% un appel de fonction, affiché comme une ligne de code : #1 = nom, #2 = argument
+\newcommand{\pycall}[2]{%
+  \tikz\node[draw=black!30, fill=black!6, rounded corners=3pt, inner sep=5pt, font=\ttfamily\small] {#1(#2)};%
+}
+
+% ligne numérotée de la recette (slide « zoom ») : #1 = numéro, #2 = texte
+\newcommand{\pyli}[2]{%
+  \node[anchor=east, font=\footnotesize, text=black!60] at (0.4,{5.65-0.5*(#1-1)}) {#1.};
+  \node[anchor=west, font=\footnotesize] at (0.5,{5.65-0.5*(#1-1)}) {#2};
+}
+
+% ligne d'un algorithme en langage naturel : #1 = niveau d'indentation, #2 = numéro de ligne, #3 = texte
+\newcommand{\pynl}[3]{%
+  \fill[black!45] ({0.15+0.7*#1},{5.45-0.68*(#2-1)}) circle (0.045);
+  \node[anchor=west, font=\footnotesize, inner sep=2pt] at ({0.3+0.7*#1},{5.45-0.68*(#2-1)}) {#3};
+}
+
 % https://tex.stackexchange.com/questions/401884/how-do-i-change-hyperlinks-color-only
 \hypersetup{
   colorlinks,
@@ -209,6 +229,27 @@
       \only<5>{\pyerreur{Erreur : Impossible d'éplucher un yaourt}}%
     \end{column}
   \end{columns}
+  \vspace{0.2cm}
+  \begin{center}
+    \parbox[c][0.9cm][c]{\textwidth}{\centering
+      \only<2>{\pycall{faire\_frites}{\pyfilled{patates}}}%
+      \only<3>{\pycall{faire\_frites}{\pyfilled{patates douces}}}%
+      \only<4>{\pycall{faire\_frites}{\pyfilled{courgettes}}}%
+      \only<5>{\pycall{faire\_frites}{\pyfilled{yaourts}}}%
+    }
+  \end{center}
+\end{frame}
+
+\begin{frame}[fragile]{Fonction à paramètres et résultats}
+  Calculer le \emph{minimum} de deux entiers (dans Thonny) :
+  \pause
+\begin{minted}{python}
+def minimum_int(a, b):
+    if a < b:
+        return a
+    else:
+        return b
+\end{minted}
 \end{frame}
 
 % ==================================================================
@@ -359,19 +400,60 @@
   \end{tikzpicture}
 \end{frame}
 
-\section{Exemples}
+% ==================================================================
+% Une fonction peut en appeler une autre : zoom sur couper_en_des
+% ==================================================================
 
-\begin{frame}[fragile]{Fonction à paramètres et résultats}
-  Calculer le \emph{minimum} de deux entiers (dans Thonny) :
-  \pause
-\begin{minted}{python}
-def minimum_int(a, b):
-    if a < b:
-        return a
-    else:
-        return b
-\end{minted}
+\begin{frame}{Une fonction peut en appeler une autre}
+  \centering
+  \begin{tikzpicture}[x=1cm,y=1cm]
+    \useasboundingbox (0,0.6) rectangle (10.6,6.6);
+
+    % le zoom : cette étape est elle-même un appel de fonction (dessiné derrière le texte)
+    \only<2->{
+      \fill[yellow!30] (5.55,4.37) -- (6.15,5.2) -- (6.15,3.1) -- (5.55,3.93) -- cycle;
+    }
+
+    % l'étape sur laquelle on zoome
+    \fill[yellow!45] (-0.05,3.93) rectangle (5.55,4.37);
+
+    % la recette pour les patates (le contexte, en petit)
+    \node[anchor=west, font=\ttfamily\footnotesize] at (0,6.2) {faire\_frites(\pyfilled{patates})};
+    \pyli{1}{Prendre les \pyfilled{patates}}
+    \pyli{2}{Éplucher les \pyfilled{patates}}
+    \pyli{3}{Laver les \pyfilled{patates}}
+    \pyli{4}{Couper les \pyfilled{patates} en petits dés}
+    \pyli{5}{Mettre les \pyfilled{patates} dans un saladier}
+    \pyli{6}{Saler et assaisonner les \pyfilled{patates}}
+    \pyli{7}{Mettre les \pyfilled{patates} au four}
+    \pyli{8}{Les sortir et les servir.}
+
+    \only<2->{
+      \draw[rounded corners=4pt, thick, draw=black!60, fill=white] (6.15,3.1) rectangle (11.0,5.2);
+      \node[font=\scriptsize\itshape, text=black!55] at (8.575,4.85) {appel de fonction};
+      \node at (8.575,4.1) {\pycall{couper\_en\_des}{\pyfilled{patates}}};
+    }
+  \end{tikzpicture}
 \end{frame}
+
+\begin{frame}{Zoom sur \texttt{couper\_en\_des}}
+  \centering
+  \begin{tikzpicture}[x=1cm,y=1cm]
+    \useasboundingbox (0,0.6) rectangle (10.6,6.6);
+
+    \node[anchor=west, font=\ttfamily] at (0,6.2) {couper\_en\_des(\pyhole{legumes})};
+
+    \only<1->{\pynl{0}{1}{\pykw{Pour chaque} légume \pykw{dans} \pyhole{\texttt{legumes}} :}}
+    \only<2->{\pynl{1}{2}{\pykw{Tant que} \texttt{largeur(legume)} > 2~cm \pykw{ou} \texttt{longueur(legume)} > 2~cm :}}
+    \only<3->{\pynl{2}{3}{\pykw{Si} \texttt{largeur(legume)} > \texttt{longueur(legume)} :}}
+    \only<4->{\pynl{3}{4}{Couper le légume dans la largeur}}
+    \only<5->{\pynl{2}{5}{\pykw{Sinon} :}}
+    \only<6->{\pynl{3}{6}{Couper le légume dans la longueur}}
+    \only<7->{\pynl{0}{7}{\pykw{Renvoyer} les dés de légume}}
+  \end{tikzpicture}
+\end{frame}
+
+\section{Exemples}
 
 \begin{frame}[fragile]{Fonction à paramètres et résultats}
   Calculer le \emph{minimum} d'une liste non-vide (dans Thonny) :
