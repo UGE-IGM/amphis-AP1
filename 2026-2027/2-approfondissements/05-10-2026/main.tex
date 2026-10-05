@@ -1,3 +1,5 @@
+% !TEX program = xelatex
+% !TeX TXS-program:compile = txs:///xelatex/[-shell-escape]
 \documentclass[x11names,svgnames, usepdftitle=false]{beamer}
 
 \usetheme{metropolis}
@@ -1041,9 +1043,6 @@ def h(x):
 
 \end{frame}
 
-% TODO : détailler les espaces de noms
-\begin{frame}{TODO : détailler les espaces de noms}
-\end{frame}
 
 \begin{frame}[fragile]{Composition de fonctions : minimum d'une liste}
   Calculer le \emph{minimum} d'une liste non-vide (dans Thonny) :
@@ -1326,6 +1325,61 @@ def dessine_carre(n, caractere):
 		\end{center}
 	}
 \end{frame}
+
+% ==================================================================
+% Modèle mémoire : x et y désignent la même liste (le 42 est remplacé par une liste)
+% ==================================================================
+
+\begin{frame}{Modèle mémoire de Python : les listes}
+  \centering
+  \begin{tikzpicture}[x=1cm,y=1cm]
+    \useasboundingbox (-0.9,2.4) rectangle (9.85,6.65);
+
+    % --- ligne courante et pointeur ---
+    \only<1>{\pyhl{1}\pyptr{1}}
+    \only<2>{\pyhl{2}\pyptr{2}}
+    \only<3>{\pyhl{3}\pyptr{3}}
+    \only<4>{\pyhl{4}\pyptr{4}}
+
+    % --- le programme ---
+    \pyline{1}{x = [\pyval{1}, \pyval{2}, \pyval{3}]}
+    \pyline{2}{y = x}
+    \pyline{3}{x.append(\pyval{4})}
+    \pyline{4}{print(y)}
+
+    % --- la pile : les noms ---
+    \draw[thick, rounded corners=2pt] (5.5,3.7) rectangle (7.0,6.5);
+    \node[anchor=north west, font=\bfseries\footnotesize] at (5.6,6.45) {Pile};
+    \node[anchor=west, font=\ttfamily] at (5.75,5.7) {x};
+    \only<2->{\node[anchor=west, font=\ttfamily] at (5.75,4.5) {y};}
+
+    % --- le tas : la liste ---
+    \draw[thick, rounded corners=2pt] (7.4,3.7) rectangle (9.85,6.5);
+    \node[anchor=north west, font=\itshape\footnotesize, black!60] at (7.5,6.45) {Tas};
+    \node[anchor=south west, font=\itshape\tiny, black!55] at (7.7,5.3) {list};
+    \foreach \i/\v in {0/1, 1/2, 2/3} {
+      \draw[thick] ({7.7+0.5*\i},4.75) rectangle ({8.2+0.5*\i},5.25);
+      \node[font=\ttfamily\footnotesize, text=valcol] at ({7.95+0.5*\i},5.0) {\v};
+    }
+    \only<3->{
+      \draw[thick] (9.2,4.75) rectangle (9.7,5.25);
+      \node[font=\ttfamily\footnotesize, text=valcol] at (9.45,5.0) {4};
+    }
+    \only<3>{\draw[valcol, thick, rounded corners=2pt] (9.15,4.7) rectangle (9.75,5.3);}
+
+    % --- les flèches : x et y désignent la même liste ---
+    \draw[-latex, thick] (6.15,5.7) -- (7.68,5.08);
+    \only<2->{\draw[-latex, thick] (6.15,4.5) -- (7.68,4.92);}
+
+    % --- affichage ---
+    \only<4>{
+      \draw[rounded corners=3pt, draw=black!50, fill=black!8] (5.5,2.6) rectangle (9.85,3.5);
+      \node[anchor=north west, font=\scriptsize\bfseries, text=black!70] at (5.6,3.46) {Affichage};
+      \node[anchor=west, font=\ttfamily\footnotesize] at (5.7,2.85) {[1, 2, 3, 4]};
+    }
+  \end{tikzpicture}
+\end{frame}
+
 
 
 \begin{frame}{Le tas}
