@@ -817,7 +817,7 @@ $\rightarrow{}$ Démonstration sur Thonny (\texttt{minimum.py}).
 
 \end{frame}
 
-\begin{frame}
+\begin{frame}[fragile]
   \frametitle{(Contre-)exemple : intervertir des variables}
   Dans Thonny : \texttt{echange.py}
   \pause
@@ -922,7 +922,7 @@ $\rightarrow{}$ Démonstration sur Thonny (\texttt{minimum.py}).
 
 \end{frame}
 
-\begin{frame}
+\begin{frame}[fragile]
   \frametitle{Espaces de noms lors de l'exécution}
   Les espaces de noms sont imbriqués :
   \begin{itemize}
@@ -1068,12 +1068,10 @@ def minimum_liste(lst):
   \end{overprint}
 \end{frame}
 
-\begin{frame}[fragile]{Erreur fréquente : confusion \begin{tabular}{l}paramètre / saisie \\ retour / affichage\end{tabular}}
+\begin{frame}[fragile]{Erreur fréquente : confusion paramètre / saisie}
 
-    \vspace{-0.25em}
-  \begin{columns}
-    \begin{column}{0.5\textwidth}
-  \begin{block}{Paramètre / saisie}
+   
+ \begin{block}{Paramètre / saisie}
     \vspace{-0.25em}
 \begin{minted}{python}
 def minimum_int(a,b):
@@ -1084,9 +1082,26 @@ def minimum_int(a,b):
     else:
         return b
 \end{minted}
-  \end{block}
-\pause
-    \vspace{-0.25em}
+
+\end{block}
+
+\begin{block}{ Éventuellement : }
+	 \vspace{-0.25em}
+ \begin{minted}{python}
+ def minimum_int(a,b):
+ 	if a <= b:
+ 		return a
+ 	else:
+ 		return b
+ 
+ nbr1 = int(input())
+ nbr2 = int(input())
+ c = minimum_int(nbr1, nbr2)
+\end{minted}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Confusion retour / affichage}	
   \begin{block}{Retour / affichage}
     \vspace{-0.25em}
 \begin{minted}{python}
@@ -1096,15 +1111,15 @@ def minimum_int(a,b):
     else:
         print(b) # NON !
 \end{minted}
-  \end{block}
-    \end{column}
-    \pause
-    \begin{column}{0.5\textwidth}
-      Ce que ça donne dans Thonny :
-
-      \texttt{minimum\_liste\_input\_print.py}
-    \end{column}
-    \end{columns}
+\end{block}
+ \pause
+ \begin{minted}{python}
+c = minimum_int(17,5)
+ \end{minted}
+ Que contient \texttt{c} ?
+ \pause
+ 
+\mintinline{python}{None} !
 \end{frame}
 
 \begin{frame}[fragile]{Signature d'une fonction}
