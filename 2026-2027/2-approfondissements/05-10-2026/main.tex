@@ -548,13 +548,13 @@ def minimum_int(a, b):
     }
 
     % --- légendes ---
-    \node[font=\small, align=center, text width=10.4cm] at (5.3,0.5) {%
-      \only<1>{Le plan est écrit \emph{une seule fois}. Ses paramètres sont des « trous » à remplir.}%
-      \only<2>{À chaque appel, les \emph{arguments} remplissent les trous.}%
-      \only<3>{On exécute le plan avec ces valeurs : \texttt{58 < 78} est vrai.}%
-      \only<4>{Même plan, autres valeurs.}%
-      \only<5>{\texttt{12 < 3} est faux : on renvoie 3.}%
-    };
+    % \node[font=\small, align=center, text width=10.4cm] at (5.3,0.5) {%
+    %   \only<1>{Le plan est écrit \emph{une seule fois}. Ses paramètres sont des « trous » à remplir.}%
+    %   \only<2>{À chaque appel, les \emph{arguments} remplissent les trous.}%
+    %   \only<3>{On exécute le plan avec ces valeurs : \texttt{58 < 78} est vrai.}%
+    %   \only<4>{Même plan, autres valeurs.}%
+    %   \only<5>{\texttt{12 < 3} est faux : on renvoie 3.}%
+    % };
   \end{tikzpicture}
 \end{frame}
 
@@ -1080,7 +1080,8 @@ def minimum_liste(lst):
 
 \begin{frame}[fragile]{Erreur fréquente : confusion paramètre / saisie}
 
-   
+  \begin{columns}
+    \begin{column}[t]{0.5\textwidth}
  \begin{block}{Paramètre / saisie}
     \vspace{-0.25em}
 \begin{minted}{python}
@@ -1095,20 +1096,26 @@ def minimum_int(a,b):
 
 \end{block}
 
+\end{column}
+    \begin{column}[t]{0.5\textwidth}
+
 \begin{block}{ Éventuellement : }
 	 \vspace{-0.25em}
  \begin{minted}{python}
- def minimum_int(a,b):
- 	if a <= b:
- 		return a
- 	else:
- 		return b
- 
- nbr1 = int(input())
- nbr2 = int(input())
- c = minimum_int(nbr1, nbr2)
+def minimum_int(a,b):
+    if a <= b:
+        return a
+    else:
+        return b
+
+nbr1 = int(input())
+nbr2 = int(input())
+c = minimum_int(nbr1, nbr2)
 \end{minted}
 \end{block}
+
+\end{column}
+\end{columns}
 \end{frame}
 
 \begin{frame}[fragile]{Confusion retour / affichage}	
