@@ -4,9 +4,9 @@ def minimum(a, b):
     Renvoie le minimum de a et b
     """
     if a <= b:
-        print(a)
+        return a
     else:
-        print(b)
+        return b
 
 nb1 = 14
 nb2 = 31
