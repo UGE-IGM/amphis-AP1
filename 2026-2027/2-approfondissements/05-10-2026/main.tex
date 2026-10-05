@@ -1279,12 +1279,6 @@ def dessine_carre(n, caractere):
 
 \section{Le modèle mémoire de Python}
 
-\begin{frame}{Le tas}
-
-  \includegraphics[width=\textwidth]{img/sand-pile.jpg}
-
-\end{frame}
-
 
 \begin{frame}[t]{Modèle mémoire de Python}
 
@@ -1330,6 +1324,54 @@ def dessine_carre(n, caractere):
 			\textbf{Réaffecter \texttt{x} ne change pas \texttt{y}.}
 		\end{center}
 	}
+\end{frame}
+
+
+\begin{frame}{Le tas}
+
+  \includegraphics[width=0.8\textwidth]{img/tas.jpg}
+
+  \begin{itemize}
+  \item[\MVRightarrow{}] Là où sont stockés les \emph{objets}
+  \item[\MVRightarrow{}] En vrac ! (mais avec une adresse)
+  \end{itemize}
+
+\end{frame}
+
+\begin{frame}{La pile}
+
+  \bigskip
+
+  \begin{columns}
+    \begin{column}{0.6\textwidth}
+  \only<1>{%
+    \centering
+    \includegraphics[height=0.9\textheight]{img/Duracell_9_Volt_0849.jpg}%
+    }
+  \only<2>{%
+    \centering
+    \includegraphics[height=0.9\textheight]{img/Duracell_9_Volt_0849_barree.png}%
+    }
+  \only<3>{%
+    \centering
+    \includegraphics[height=0.9\textheight]{img/Pila_di_Volta_01.jpg}%
+    }
+  \only<4->{%
+    \centering
+    \includegraphics[height=0.9\textheight]{img/pile-d-assiettes-jpg.jpg}%
+    }
+
+  \end{column}
+  \begin{column}{0.4\textwidth}
+    \onslide<5->{%-
+  \begin{itemize}
+  \item[\MVRightarrow{}] Là où sont stockés les \emph{adresses} des objets
+  \item[\MVRightarrow{}] Les unes après les autres
+  \end{itemize}%
+  }
+    \end{column}
+    \end{columns}
+
 \end{frame}
 
 
