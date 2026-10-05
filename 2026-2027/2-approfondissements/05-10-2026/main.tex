@@ -61,6 +61,16 @@
 \usepackage{tikz}
 \usetikzlibrary{calc, positioning, arrows, automata, fadings, decorations.pathmorphing, shapes, patterns, tikzmark, fit, chains, snakes, shapes.multipart}
 
+% -- ChatGPTeries pour slide dorée --%
+\usepackage{tikz}
+\usepackage{xcolor}
+
+\definecolor{gold}{RGB}{201, 164, 76}
+\definecolor{darkgold}{RGB}{142, 111, 35}
+\definecolor{luxuryblack}{RGB}{18, 18, 18}
+\definecolor{softwhite}{RGB}{242, 240, 234}
+% ---- %
+
 % ------------------------------------------------------------------
 % Illustration de l'exécution des fonctions (plan / appel)
 % Code couleur : violet = paramètres (les « trous » du plan)
@@ -1122,6 +1132,163 @@ c = minimum_int(17,5)
 \mintinline{python}{None} !
 \end{frame}
 
+% ------------------------------------------------------------------
+% Slide "Les règles d'or"
+% ------------------------------------------------------------------
+
+\begin{frame}[plain]
+
+\begin{tikzpicture}[remember picture, overlay]
+
+  % Fond
+  \fill[luxuryblack] (current page.south west)
+      rectangle (current page.north east);
+
+  % Double filet doré, rapproché des bords
+  \draw[gold, line width=0.8pt]
+      ([xshift=0.28cm,yshift=0.28cm]current page.south west)
+      rectangle
+      ([xshift=-0.28cm,yshift=-0.28cm]current page.north east);
+
+  \draw[darkgold, line width=0.3pt]
+      ([xshift=0.43cm,yshift=0.43cm]current page.south west)
+      rectangle
+      ([xshift=-0.43cm,yshift=-0.43cm]current page.north east);
+
+  % Petit ornement central
+  \node[gold, font=\large] at
+      ([yshift=-0.95cm]current page.north)
+      {$\diamond$};
+
+  % Titre
+  \node[
+      anchor=north,
+      text=gold,
+      font=\fontsize{21}{25}\selectfont\bfseries
+  ] at ([yshift=-1.25cm]current page.north)
+  {LES RÈGLES D'OR d'AP1};
+
+  % Ligne décorative
+  \draw[gold, line width=0.5pt]
+      ([xshift=-2.3cm,yshift=-2.15cm]current page.north)
+      -- ([xshift=2.3cm,yshift=-2.15cm]current page.north);
+  % ================================================================
+  % RÈGLE 01
+  % ================================================================
+
+  \node[
+      anchor=north west,
+      text=gold,
+      font=\fontsize{12}{14}\selectfont\bfseries
+  ] at ([xshift=1.15cm,yshift=-2.85cm]current page.north west)
+  {01};
+
+  \node[
+      anchor=north west,
+      text=softwhite,
+      font=\normalsize\bfseries
+  ] at ([xshift=2.05cm,yshift=-2.80cm]current page.north west)
+  {Être un chef.};
+
+  \node[
+      anchor=north west,
+      text=softwhite!70,
+      font=\footnotesize
+  ] at ([xshift=2.05cm,yshift=-3.30cm]current page.north west)
+  {Penser à l'algorithme avant de programmer};
+
+  % ================================================================
+  % RÈGLE 02
+  % ================================================================
+
+  \node[
+      anchor=north west,
+      text=gold,
+      font=\fontsize{12}{14}\selectfont\bfseries
+  ] at ([xshift=1.15cm,yshift=-4cm]current page.north west)
+  {02};
+
+  \node[
+      anchor=north west,
+      text=softwhite,
+      font=\normalsize\bfseries
+  ] at ([xshift=2.05cm,yshift=-4.05cm]current page.north west)
+  {Connaître ses ingrédients.};
+
+  \node[
+      anchor=north west,
+      text=softwhite!70,
+      font=\footnotesize
+  ] at ([xshift=2.05cm,yshift=-4.55cm]current page.north west)
+  {Penser au type de chaque variable};
+
+  % ================================================================
+  % RÈGLE 03
+  % ================================================================
+
+  \node[
+      anchor=north west,
+      text=gold,
+      font=\fontsize{12}{14}\selectfont\bfseries
+  ] at ([xshift=1.15cm,yshift=-5.2cm]current page.north west)
+  {03};
+
+  \node[
+      anchor=north west,
+      text=softwhite,
+      font=\normalsize\bfseries
+  ] at ([xshift=2.05cm,yshift=-5.25cm]current page.north west)
+  {Soigner le dressage.};
+
+  \node[
+      anchor=north west,
+      text=softwhite!70,
+      font=\footnotesize
+  ] at ([xshift=2.05cm,yshift=-5.75cm]current page.north west)
+  {Penser à l'indentation};
+
+  \pause
+
+  % ================================================================
+  % RÈGLE 04
+  % ================================================================
+
+  \node[
+      anchor=north west,
+      text=gold,
+      font=\fontsize{12}{14}\selectfont\bfseries
+  ] at ([xshift=1.15cm,yshift=-6.4cm]current page.north west)
+  {04};
+
+  \node[
+      anchor=north west,
+      text=softwhite,
+      font=\normalsize\bfseries
+  ] at ([xshift=2.05cm,yshift=-6.45cm]current page.north west)
+  {N'envoyer en salle que quand c'est prêt.};
+
+  \node[
+      anchor=north west,
+      text=softwhite!70,
+      font=\footnotesize
+  ] at ([xshift=2.05cm,yshift=-6.95cm]current page.north west)
+  {N'utiliser \mintinline{python}{print} que pour envoyer des messages à l'utilisateur};
+
+  % ================================================================
+  % Pied de page
+  % ================================================================
+
+  \node[
+      anchor=south,
+      text=gold!80,
+      font=\tiny\scshape
+  ] at ([yshift=0.75cm]current page.south)
+  {À retenir};
+
+\end{tikzpicture}
+
+\end{frame}
+
 \begin{frame}[fragile]{Signature d'une fonction}
 
 Considérons la fonction :
@@ -1443,6 +1610,60 @@ def dessine_carre(n, caractere):
     \end{columns}
 
 \end{frame}
+
+\section{Programmation concrète}
+
+\begin{frame}{Anatomie d'un Python}
+
+  Un programme Python se divise en trois morceaux :
+
+  \begin{itemize}
+  \item Le préambule
+  \item Les définitions de fonctions
+  \item Le programme principal (le \og \texttt{main} \fg).
+  \end{itemize}
+
+\end{frame}
+
+\begin{frame}{Anatomie d'un Python - Le préambule}
+
+\includegraphics[width=\textwidth]{img/Preambule_AutoWarhol_short.png}%
+
+Là où on met les \emph{imports}. Plusieurs syntaxes possibles :
+
+\begin{itemize}
+  \item \mintinline{python}{from module import fonction} \pause
+  \item[\MVRightarrow] Pour appeler la fonction : \mintinline{python}{fonction(arguments)} \pause
+  \item \mintinline{python}{from module import *} (on préfère éviter) \pause
+  \item \mintinline{python}{import module}
+  \item[\MVRightarrow] Pour appeler la fonction : \mintinline{python}{module.fonction(arguments)} \pause
+  \item \mintinline{python}{import module as nom}
+  \item[\MVRightarrow] Pour appeler la fonction : \mintinline{python}{nom.fonction(arguments)}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Anatomie d'un Python - Les définitions de fonctions}
+
+\includegraphics[width=\textwidth]{img/Definitions_fonctions_AutoWarhol.png}%
+
+Là où on définit \emph{toutes} nos fonctions.
+
+\alert{Attention !} Ici, pas de code autre que des fonctions !
+
+\end{frame}
+
+\begin{frame}{Anatomie d'un Python - Le \og \texttt{main} \fg}
+
+\includegraphics[width=\textwidth]{img/Main_AutoWarhol.png}%
+
+Là où on \emph{appelle} nos fonctions.
+
+\alert{Attention !} Ici, pas définitions de fonctions !
+
+\end{frame}
+
+
 
 
 \end{document}
