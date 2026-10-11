@@ -121,120 +121,28 @@
 % ==================================================================
 \begin{frame}{Le Wooclap}
   \begin{columns}[c]
-    \begin{column}{0.40\textwidth}
+    \begin{column}{0.6\textwidth}
       \centering
-      \qrcode[height=3.8cm]{https://app.wooclap.com/NYURBT}
-      \par\smallskip
-      {\scriptsize\href{https://app.wooclap.com/NYURBT}{Copier le lien de participation}}
-    \end{column}
-    \begin{column}{0.58\textwidth}
-      \begin{enumerate}
-        \item Allez sur \textbf{wooclap.com}
-        \item Entrez le code d'événement dans le bandeau supérieur
-      \end{enumerate}
+      \qrcode[height=3.8cm]{https://app.wooclap.com/YSJMQIL}
+
       \bigskip
-      \begin{center}
-        \small Code d'événement\\[0.4em]
-        {\Huge\bfseries\color{cmblue} NYURBT}
-      \end{center}
-      \medskip
-      {\scriptsize\itshape Activer les réponses par SMS}
+
+      \url{https://app.wooclap.com/YSJMQIL}
+    \end{column}
+    \begin{column}{0.4\textwidth}
+      \begin{enumerate}
+        \item Allez sur \url{wooclap.com}
+        \item Entrez le code :
+
+        YSJMQIL
+      \end{enumerate}
     \end{column}
   \end{columns}
 \end{frame}
-
-% ==================================================================
-% Dans l'épisode précédent (rappel de deux slides du CM4)
-% ==================================================================
-\begin{frame}{Dans l'épisode précédent\dots}
-  \centering
-  \only<2>{%
-    \begin{tikzpicture}[scale=0.82, transform shape]
-      \fill[black!4] (-5.5,-3.6) rectangle (5.5,3.9);
-      \fill[minibar] (-5.5,3.9) rectangle (5.5,4.9);
-      \node[anchor=west, text=white] at (-5.3,4.4) {Anatomie d'une fonction};
-      \node [draw, rectangle, text width=2cm, minimum height=1.5cm, align=center] (function) at (0,0) {Fonction};
-      \draw[-latex] (-5,0) -- (-1.2,0) node[midway, above, label={below: (paramètres)}] {Entrée};
-      \draw[-latex] (1.2,0) -- (5,0) node[midway, above, label={below: (valeur de retour)}] {Sortie};
-      \draw[decorate, -latex, decoration={snake, segment length=5mm, amplitude=1mm, post length=1mm}] (0,0.75) -- (0,3) node[midway, left] {Affichages};
-      \draw[decorate, -latex, decoration={snake, segment length=5mm, amplitude=1mm, post length=1mm}] (0,-0.75) -- (0,-3) node[midway, left] {Effets de bord} node[midway, right] {(aka : Effets secondaires)};
-    \end{tikzpicture}%
-  }%
-  \only<3>{%
-    \begin{tikzpicture}
-      \fill[black!4] (0,0) rectangle (9.8,-4.9);
-      \fill[minibar] (0,0) rectangle (9.8,0.9);
-      \node[anchor=west, text=white] at (0.3,0.45) {Pile d'appels};
-      \node[anchor=north west, text width=9.3cm, align=left, font=\small] at (0.3,-0.2) {%
-        {\color{LightSkyBlue4}Quand un nouvel appel commence}
-        \begin{itemize}\setlength{\itemsep}{0pt}
-          \item l'exécution de la fonction en cours s'interrompt
-          \item un nouvel espace de noms local est créé
-          \item l'exécution de la fonction appelée commence
-        \end{itemize}
-        {\color{LightSkyBlue4}Quand l'appel en cours se termine}
-        \begin{itemize}\setlength{\itemsep}{0pt}
-          \item son espace de nom est supprimé de la pile
-          \item l'exécution de l'appel précédent reprend
-        \end{itemize}};
-    \end{tikzpicture}%
-  }%
-\end{frame}
-
-% ==================================================================
-% Appels imbriqués
-% ==================================================================
-\begin{frame}{Appels imbriqués - une allégorie}
-  \centering
-  \only<1-2>{\includegraphics[width=0.85\textwidth]{img/poupees.jpg}}%
-\end{frame}
-
-\begin{frame}[fragile]{Appels imbriqués - exemple}
-  \begin{columns}[T]
-    \begin{column}{0.2\textwidth}
-      \includegraphics[width=\linewidth]{img/matriochka.png}
-    \end{column}
-    \begin{column}{0.47\textwidth}
-\begin{minted}[bgcolor=cmmint, fontsize=\fontsize{6}{6.6}\selectfont]{python}
-def f(phrase):
-    phrase = phrase + "petite "
-    return g(h(phrase))
-
-def g(phrase):
-    phrase = phrase + "brise "
-    return h(phrase)
-
-def h(phrase):
-    if phrase[0] == "L":
-        phrase = phrase + "la "
-        return k(phrase)
-    else :
-        return "La " + phrase
-
-def k(phrase):
-    return phrase + "glace."
-
-phrase_test = ""
-phrase_test = f(phrase_test)
-\end{minted}
-    \end{column}
-    \begin{column}{0.27\textwidth}
-      \begin{tikzpicture}
-        \node[fill=cmmint, rounded corners=14pt, text width=2.4cm, minimum height=5.2cm, align=center, text=black!40, font=\footnotesize\bfseries] {ILLUSTRATION DU COMPORTEMENT EN MÉMOIRE SUR PYTHON \href{https://pythontutor.com/}{\underline{TUTOR}}};
-      \end{tikzpicture}
-    \end{column}
-  \end{columns}
-\end{frame}
-
 % ==================================================================
 % Les listes
 % ==================================================================
-\begin{frame}
-  \centering
-  \vfill
-  {\fontsize{40}{44}\selectfont\bfseries\color{cmblue} Les listes~!!!}
-  \vfill
-\end{frame}
+  \section{Les listes}
 
 \begin{frame}{Les listes}
   \begin{tikzpicture}[x=1cm,y=1cm]
