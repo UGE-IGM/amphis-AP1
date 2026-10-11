@@ -54,6 +54,50 @@
   \node[fill=#1, rounded corners=14pt, minimum width=#4cm, minimum height=0.9cm, text width={#4cm-0.3cm}, text=black!45, font=\scriptsize\bfseries, align=center] at (#2,#3) {#5};%
 }
 
+% ------------------------------------------------------------------
+% Macros pour la partie « A revoir » (slices, listes de listes, tuples)
+% ------------------------------------------------------------------
+% rangée de #3 cases de 1,3 cm : #1,#2 = coin haut gauche
+\newcommand{\rangeen}[3]{%
+  \draw[very thick, rounded corners=3pt] (#1,#2) rectangle ({#1+1.3*#3},{#2-0.9});
+  \foreach \i in {1,...,#3}{\ifnum\i<#3 \draw[thick] ({#1+1.3*\i},#2) -- ({#1+1.3*\i},{#2-0.9});\fi}%
+}
+% cadre jaune autour des cases #3 à #4 (incluses) d'une rangée dont le coin haut gauche est (#1,#2)
+\newcommand{\selection}[4]{%
+  \draw[cmgold, very thick, rounded corners=4pt] ({#1+1.3*(#3)-0.07},{#2+0.07}) rectangle ({#1+1.3*(#4+1)+0.07},{#2-0.97});%
+}
+% borne d'une tranche : trait vers le bas + texte ; #1 = abscisse, #2 = texte
+\newcommand{\borne}[2]{%
+  \draw[black!50] (#1,3.35) -- (#1,2.55);
+  \node[anchor=north, font=\itshape\footnotesize, text=black!65] at (#1,2.55) {#2};%
+}
+% plateau de morpion : 3 x 3 cases de 1,05 cm, coin haut gauche en (0.5,5.3)
+\newcommand{\plateau}{%
+  \draw[very thick, rounded corners=3pt] (0.5,2.15) rectangle (3.65,5.3);
+  \draw[very thick] (1.55,2.15) -- (1.55,5.3);
+  \draw[very thick] (2.6,2.15) -- (2.6,5.3);
+  \draw[very thick] (0.5,3.2) -- (3.65,3.2);
+  \draw[very thick] (0.5,4.25) -- (3.65,4.25);%
+}
+\newcommand{\marque}[3]{\node[font=\Huge\bfseries, text=eltcol] at ({0.5+1.05*(#2+0.5)},{5.3-1.05*(#1+0.5)}) {#3};}
+\newcommand{\lignep}[1]{\draw[cmgold, very thick, rounded corners=4pt] (0.4,{5.3-1.05*#1+0.07}) rectangle (3.75,{5.3-1.05*(#1+1)-0.07});}
+\newcommand{\casep}[2]{\draw[cmgold, very thick, rounded corners=4pt] ({0.5+1.05*#2+0.05},{5.3-1.05*#1-0.05}) rectangle ({0.5+1.05*(#2+1)-0.05},{5.3-1.05*(#1+1)+0.05});}
+\newcommand{\numcase}[3]{\node[font=\footnotesize\bfseries, text=black!55] at ({0.5+1.05*(#2+1)-0.17},{5.3-1.05*(#1+1)+0.17}) {#3};}
+% une ligne du plateau vue comme une liste de 3 cases : #1 = numéro de ligne, #2,#3,#4 = contenu
+\newcommand{\sousliste}[4]{%
+  \pgfmathsetmacro{\yc}{5.3-1.05*(#1+0.5)}%
+  \draw[thick, rounded corners=2pt] (5.6,{\yc+0.4}) rectangle (8.9,{\yc-0.4});
+  \draw[thick] (6.7,{\yc+0.4}) -- (6.7,{\yc-0.4});
+  \draw[thick] (7.8,{\yc+0.4}) -- (7.8,{\yc-0.4});
+  \node[font=\ttfamily\small, text=eltcol] at (6.15,\yc) {#2};
+  \node[font=\ttfamily\small, text=eltcol] at (7.25,\yc) {#3};
+  \node[font=\ttfamily\small, text=eltcol] at (8.35,\yc) {#4};
+  \node[anchor=east, font=\large\bfseries, text=idxcol] at (5.4,\yc) {#1};%
+}
+\newcommand{\souslistesel}[1]{\pgfmathsetmacro{\yc}{5.3-1.05*(#1+0.5)}\draw[cmgold, very thick, rounded corners=4pt] (5.5,{\yc+0.5}) rectangle (9.0,{\yc-0.5});}
+\newcommand{\casesouslistesel}[2]{\pgfmathsetmacro{\yc}{5.3-1.05*(#1+0.5)}\draw[cmgold, very thick, rounded corners=3pt] ({5.6+1.1*#2+0.03},{\yc+0.45}) rectangle ({5.6+1.1*(#2+1)-0.03},{\yc-0.45});}
+\newcommand{\colidx}{\foreach \j in {0,1,2}{\node[font=\large\bfseries, text=idxcol] at ({6.15+1.1*\j},5.5) {\j};}}
+
 \hypersetup{
   colorlinks,
   allcolors=.,
@@ -397,6 +441,290 @@ phrase_test = f(phrase_test)
   \only<3>{%
     \vspace{0.6cm}
     \hfill{\color{black}\colorbox{cmgold}{\footnotesize\bfseries Démo Thonny : brouillon\_morpion.py}}}
+\end{frame}
+
+% ==================================================================
+% ==================================================================
+\section{A revoir}
+% ==================================================================
+% ==================================================================
+
+% ------------------------------------------------------------------
+% Les slices de liste
+% ------------------------------------------------------------------
+\begin{frame}{Les listes : les slices}
+  \begin{tikzpicture}[x=1cm,y=1cm]
+    \useasboundingbox (0,0) rectangle (10.6,6.2);
+
+    \node[anchor=east, font=\itshape\large, text=black!65] at (10.5,5.8) {$\sim$~Sous-listes};
+    \node[anchor=west, font=\ttfamily\large] at (0.2,5.0) {lst = ['coucou', 'les', 'gens', '!!!']};
+
+    \rangee{0.1}{4.25}
+    \caseval{0.1}{4.25}{0}{'coucou'}\caseval{0.1}{4.25}{1}{'les'}\caseval{0.1}{4.25}{2}{'gens'}\caseval{0.1}{4.25}{3}{'!!!'}
+    \caseidx{0.1}{4.25}{0}\caseidx{0.1}{4.25}{1}\caseidx{0.1}{4.25}{2}\caseidx{0.1}{4.25}{3}
+
+    % lst[1:3] : de l'indice 1 (inclus) à l'indice 3 (exclu)
+    \only<2-3>{%
+      \selection{0.1}{4.25}{1}{2}
+      \borne{1.4}{indice 1 inclus}\borne{4.0}{indice 3 exclu}
+      \node[anchor=west, font=\ttfamily\large] at (0.2,1.5) {lst[\textcolor{idxcol}{1}:\textcolor{idxcol}{3}]};
+    }
+    \only<3>{%
+      \node at (2.65,1.5) {$\rightarrow$};
+      \rangeen{3.1}{1.95}{2}
+      \caseval{3.1}{1.95}{0}{'les'}\caseval{3.1}{1.95}{1}{'gens'}
+      \caseidx{3.1}{1.95}{0}\caseidx{3.1}{1.95}{1}
+      \node[anchor=west, font=\itshape\footnotesize, text=black!65] at (6.0,1.5) {nouvelle liste};
+    }
+
+    % lst[:2] : depuis le début
+    \only<4>{%
+      \selection{0.1}{4.25}{0}{1}
+      \borne{2.7}{indice 2 exclu}
+      \node[anchor=west, font=\ttfamily\large] at (0.2,1.5) {lst[:\textcolor{idxcol}{2}]};
+      \node at (2.65,1.5) {$\rightarrow$};
+      \rangeen{3.1}{1.95}{2}
+      \caseval{3.1}{1.95}{0}{'coucou'}\caseval{3.1}{1.95}{1}{'les'}
+      \caseidx{3.1}{1.95}{0}\caseidx{3.1}{1.95}{1}
+      \node[anchor=west, font=\itshape\footnotesize, text=black!65] at (6.0,1.5) {nouvelle liste};
+    }
+
+    % lst[2:] : jusqu'à la fin
+    \only<5>{%
+      \selection{0.1}{4.25}{2}{3}
+      \borne{2.7}{indice 2 inclus}
+      \node[anchor=west, font=\ttfamily\large] at (0.2,1.5) {lst[\textcolor{idxcol}{2}:]};
+      \node at (2.65,1.5) {$\rightarrow$};
+      \rangeen{3.1}{1.95}{2}
+      \caseval{3.1}{1.95}{0}{'gens'}\caseval{3.1}{1.95}{1}{'!!!'}
+      \caseidx{3.1}{1.95}{0}\caseidx{3.1}{1.95}{1}
+      \node[anchor=west, font=\itshape\footnotesize, text=black!65] at (6.0,1.5) {nouvelle liste};
+    }
+  \end{tikzpicture}
+\end{frame}
+
+\begin{frame}{Les listes : les slices (suite)}
+  \begin{tikzpicture}[x=1cm,y=1cm]
+    \useasboundingbox (0,0) rectangle (10.6,6.2);
+
+    \node[anchor=east, font=\itshape\large, text=black!65] at (10.5,5.8) {$\sim$~Sous-listes};
+    \node[anchor=west, font=\ttfamily\large] at (0.2,5.0) {lst = ['coucou', 'les', 'gens', '!!!']};
+
+    \rangee{0.1}{4.25}
+    \caseval{0.1}{4.25}{0}{'coucou'}\caseval{0.1}{4.25}{1}{'les'}\caseval{0.1}{4.25}{2}{'gens'}\caseval{0.1}{4.25}{3}{'!!!'}
+    \caseidx{0.1}{4.25}{0}\caseidx{0.1}{4.25}{1}\caseidx{0.1}{4.25}{2}\caseidx{0.1}{4.25}{3}
+    % indices négatifs, au-dessus des cases
+    \foreach \i/\n in {0/-4, 1/-3, 2/-2, 3/-1}{%
+      \node[font=\small\bfseries, text=idxcol!70] at ({0.1+1.3*\i+0.65},4.55) {$\n$};}
+
+    % lst[-2:] : en comptant depuis la fin
+    \only<2>{%
+      \selection{0.1}{4.25}{2}{3}
+      \node[anchor=west, font=\ttfamily\large] at (0.2,1.5) {lst[\textcolor{idxcol}{-2}:]};
+      \node at (2.85,1.5) {$\rightarrow$};
+      \rangeen{3.3}{1.95}{2}
+      \caseval{3.3}{1.95}{0}{'gens'}\caseval{3.3}{1.95}{1}{'!!!'}
+      \caseidx{3.3}{1.95}{0}\caseidx{3.3}{1.95}{1}
+    }
+
+    % lst[::2] : un élément sur deux
+    \only<3>{%
+      \selection{0.1}{4.25}{0}{0}\selection{0.1}{4.25}{2}{2}
+      \node[anchor=west, font=\ttfamily\large] at (0.2,1.5) {lst[::2]};
+      \node at (2.45,1.5) {$\rightarrow$};
+      \rangeen{2.9}{1.95}{2}
+      \caseval{2.9}{1.95}{0}{'coucou'}\caseval{2.9}{1.95}{1}{'gens'}
+      \caseidx{2.9}{1.95}{0}\caseidx{2.9}{1.95}{1}
+      \node[anchor=west, font=\itshape\footnotesize, text=black!65] at (5.8,1.5) {un élément sur deux};
+    }
+
+    % lst[1:10] : pas d'erreur
+    \only<4>{%
+      \selection{0.1}{4.25}{1}{3}
+      \node[anchor=west, font=\ttfamily\large] at (0.2,1.5) {lst[\textcolor{idxcol}{1}:\textcolor{idxcol}{10}]};
+      \node at (2.85,1.5) {$\rightarrow$};
+      \rangeen{3.3}{1.95}{3}
+      \caseval{3.3}{1.95}{0}{'les'}\caseval{3.3}{1.95}{1}{'gens'}\caseval{3.3}{1.95}{2}{'!!!'}
+      \caseidx{3.3}{1.95}{0}\caseidx{3.3}{1.95}{1}\caseidx{3.3}{1.95}{2}
+      \node[anchor=west, font=\itshape\footnotesize, text=black!65, text width=2.6cm] at (7.9,1.5) {pas d'erreur, contrairement à \texttt{lst[10]}};
+    }
+  \end{tikzpicture}
+\end{frame}
+
+% ------------------------------------------------------------------
+% Introduction aux listes de listes : le morpion
+% ------------------------------------------------------------------
+\begin{frame}{Listes de listes : le morpion}
+  \begin{tikzpicture}[x=1cm,y=1cm]
+    \useasboundingbox (0,0) rectangle (10.6,6.2);
+
+    \node[anchor=east, font=\itshape\large, text=black!65] at (10.5,6.1) {$\sim$~Tableaux à deux dimensions};
+
+    % --- le plateau ---
+    \plateau
+    \marque{0}{0}{X}\marque{0}{1}{O}\marque{0}{2}{X}
+    \marque{1}{1}{X}\marque{1}{2}{O}
+    \marque{2}{0}{O}
+
+    % --- chaque ligne est une liste ---
+    \only<2>{\lignep{0}}
+    \only<3>{\lignep{1}}
+    \only<2->{\colidx\sousliste{0}{'X'}{'O'}{'X'}}
+    \only<3->{\sousliste{1}{' '}{'X'}{'O'}}
+    \only<4->{\sousliste{2}{'O'}{' '}{' '}}
+
+    % --- le plateau est une liste de listes ---
+    \only<4>{%
+      \node[anchor=north west, align=left, font=\ttfamily\small] at (0.2,1.75) {plateau = [['X', 'O', 'X'],\\ \phantom{plateau = [}[' ', 'X', 'O'],\\ \phantom{plateau = [}['O', ' ', ' ']]};
+      \node[font=\itshape\footnotesize, text=black!65, text width=3.6cm, align=center] at (8.4,1.2) {une liste dont chaque élément est une liste};
+    }
+  \end{tikzpicture}
+\end{frame}
+
+\begin{frame}{Listes de listes : accéder à une case}
+  \begin{tikzpicture}[x=1cm,y=1cm]
+    \useasboundingbox (0,0) rectangle (10.6,6.2);
+
+    \node[anchor=east, font=\itshape\large, text=black!65] at (10.5,6.1) {$\sim$~Tableaux à deux dimensions};
+
+    % --- le plateau et ses trois lignes ---
+    \plateau
+    \marque{0}{0}{X}\marque{0}{1}{O}\marque{0}{2}{X}
+    \marque{1}{1}{X}\marque{1}{2}{O}
+    \marque{2}{0}{O}
+    \only<4>{\marque{2}{1}{X}}
+    \colidx
+    \sousliste{0}{'X'}{'O'}{'X'}
+    \sousliste{1}{' '}{'X'}{'O'}
+    \only<1-3>{\sousliste{2}{'O'}{' '}{' '}}
+    \only<4>{\sousliste{2}{'O'}{'X'}{' '}}
+
+    % plateau[1] : une ligne
+    \only<2>{%
+      \lignep{1}\souslistesel{1}
+      \node[anchor=west, font=\ttfamily\large] at (0.2,1.3) {plateau[\textcolor{idxcol}{1}]};
+      \node[anchor=west, font=\ttfamily\large, text=eltcol] at (3.1,1.3) {$\rightarrow$ [' ', 'X', 'O']};
+    }
+    % plateau[1][2] : une case
+    \only<3>{%
+      \casep{1}{2}\casesouslistesel{1}{2}
+      \node[anchor=west, font=\ttfamily\large] at (0.2,1.3) {plateau[\textcolor{idxcol}{1}][\textcolor{idxcol}{2}]};
+      \node[anchor=west, font=\ttfamily\large, text=eltcol] at (3.6,1.3) {$\rightarrow$ 'O'};
+    }
+    % plateau[2][1] = 'X' : modifier une case
+    \only<4>{%
+      \casep{2}{1}\casesouslistesel{2}{1}
+      \node[anchor=west, font=\ttfamily\large] at (0.2,1.3) {plateau[\textcolor{idxcol}{2}][\textcolor{idxcol}{1}] = 'X'};
+    }
+  \end{tikzpicture}
+\end{frame}
+
+\begin{frame}{Listes de listes : les parcourir}
+  \begin{tikzpicture}[x=1cm,y=1cm]
+    \useasboundingbox (0,0) rectangle (10.6,6.2);
+
+    \node[anchor=east, font=\itshape\large, text=black!65] at (10.5,6.1) {$\sim$~Tableaux à deux dimensions};
+
+    % --- le plateau ---
+    \plateau
+    \marque{0}{0}{X}\marque{0}{1}{O}\marque{0}{2}{X}
+    \marque{1}{1}{X}\marque{1}{2}{O}
+    \marque{2}{0}{O}
+
+    % --- deux boucles imbriquées ---
+    \node[anchor=north west, align=left, font=\ttfamily\large] at (4.8,4.7) {\textbf{for} ligne \textbf{in} plateau:\\ \hspace{0.9cm}\textbf{for} case \textbf{in} ligne:\\ \hspace{1.8cm}print(case)};
+
+    % --- l'ordre dans lequel les cases sont visitées ---
+    \only<2>{\lignep{0}}
+    \only<3>{\lignep{1}}
+    \only<4>{\lignep{2}}
+    \only<2->{\numcase{0}{0}{1}\numcase{0}{1}{2}\numcase{0}{2}{3}}
+    \only<3->{\numcase{1}{0}{4}\numcase{1}{1}{5}\numcase{1}{2}{6}}
+    \only<4->{\numcase{2}{0}{7}\numcase{2}{1}{8}\numcase{2}{2}{9}}
+  \end{tikzpicture}
+\end{frame}
+
+% ------------------------------------------------------------------
+% À placer plus tard après la slide 9 (« En général : parcours ... NON : ITERABLES ») :
+% les algorithmes vus sur les listes marchent aussi sur les autres itérables
+% ------------------------------------------------------------------
+\begin{frame}[fragile]{Les itérables : les mêmes algorithmes}
+\begin{minted}[fontsize=\small]{python}
+def contient(iterable, cible):
+    for elem in iterable:
+        if elem == cible:
+            return True
+    return False
+\end{minted}
+  \begin{tikzpicture}[x=1cm,y=1cm]
+    \useasboundingbox (0,-0.7) rectangle (10.6,3.0);
+
+    \only<2->{%
+      \node[anchor=west, font=\ttfamily\small] at (0.2,2.5) {contient(['a', 'b', 'c'], 'b')};
+      \node[anchor=west, font=\ttfamily\small, text=eltcol] at (7.4,2.5) {$\rightarrow$ True};
+      \node[anchor=east, font=\itshape\small, text=black!60] at (10.6,2.5) {liste};
+    }
+    \only<3->{%
+      \node[anchor=west, font=\ttfamily\small] at (0.2,1.85) {contient('abc', 'b')};
+      \node[anchor=west, font=\ttfamily\small, text=eltcol] at (7.4,1.85) {$\rightarrow$ True};
+      \node[anchor=east, font=\itshape\small, text=black!60] at (10.5,1.85) {chaîne};
+    }
+    \only<4->{%
+      \node[anchor=west, font=\ttfamily\small] at (0.2,1.2) {contient(('a', 'b', 'c'), 'b')};
+      \node[anchor=west, font=\ttfamily\small, text=eltcol] at (7.4,1.2) {$\rightarrow$ True};
+      \node[anchor=east, font=\itshape\small, text=black!60] at (10.5,1.2) {tuple};
+    }
+    \only<5->{%
+      \node[anchor=west, font=\ttfamily\small] at (0.2,0.55) {contient(\{'a', 'b', 'c'\}, 'b')};
+      \node[anchor=west, font=\ttfamily\small, text=eltcol] at (7.4,0.55) {$\rightarrow$ True};
+      \node[anchor=east, font=\itshape\footnotesize, text=black!60] at (10.6,0.55) {ensemble};
+    }
+    \only<6>{%
+      \node[draw=cmgold, rounded corners=5pt, very thick, inner sep=5pt, font=\large] at (5.3,-0.25) {un seul algorithme, pour tous les itérables};
+    }
+  \end{tikzpicture}
+\end{frame}
+
+% ------------------------------------------------------------------
+% Les tuples : comme des listes, mais non mutables
+% ------------------------------------------------------------------
+\begin{frame}{Les tuples}
+  \begin{tikzpicture}[x=1cm,y=1cm]
+    \useasboundingbox (0,0) rectangle (10.6,6.2);
+
+    \node[anchor=east, font=\itshape\large, text=black!65] at (10.5,5.9) {$\sim$~Listes non mutables};
+    \node[anchor=west, font=\ttfamily\large] at (0.2,5.3) {t = ('coucou', 'les', 'AP1')};
+    \node[anchor=east, font=\itshape\large, text=black!65] at (10.5,5.3) {tuple $\leftarrow$};
+
+    % --- le tuple : trois cases, taille fixée ---
+    \node[font=\fontsize{30}{30}\selectfont, text=black!70] at (0.35,4.1) {(};
+    \rangeen{0.7}{4.55}{3}
+    \node[font=\fontsize{30}{30}\selectfont, text=black!70] at (4.95,4.1) {)};
+    \caseval{0.7}{4.55}{0}{'coucou'}\caseval{0.7}{4.55}{1}{'les'}\caseval{0.7}{4.55}{2}{'AP1'}
+    \caseidx{0.7}{4.55}{0}\caseidx{0.7}{4.55}{1}\caseidx{0.7}{4.55}{2}
+
+    % --- comme une liste : on peut lire et parcourir ---
+    \only<2->{%
+      \node[anchor=west, font=\ttfamily\large] at (0.2,2.4) {t[1]};
+      \node[anchor=west, font=\ttfamily\large, text=eltcol] at (2.0,2.4) {$\rightarrow$ 'les'};
+      \node[anchor=west, font=\ttfamily\large] at (5.4,2.4) {len(t)};
+      \node[anchor=west, font=\ttfamily\large, text=eltcol] at (7.6,2.4) {$\rightarrow$ 3};
+    }
+    \only<3->{%
+      \node[anchor=west, font=\ttfamily\large] at (0.2,1.8) {\textbf{for} elem \textbf{in} t:};
+      \node[anchor=east, font=\itshape\small, text=black!60] at (10.5,1.8) {se parcourt comme une liste};
+    }
+
+    % --- mais on ne peut pas les modifier ---
+    \only<4->{%
+      \node[anchor=west, font=\ttfamily\large] at (0.2,1.1) {t[2] = 'gens'};
+      \node[anchor=west, font=\ttfamily\scriptsize, text=cmred, text width=5.8cm] at (4.6,1.1) {TypeError: 'tuple' object does not support item assignment};
+    }
+    \only<5->{%
+      \node[anchor=west, font=\ttfamily\large] at (0.2,0.3) {t.append('!!!')};
+      \node[anchor=west, font=\ttfamily\scriptsize, text=cmred, text width=5.8cm] at (4.6,0.3) {AttributeError: 'tuple' object has no attribute 'append'};
+    }
+  \end{tikzpicture}
 \end{frame}
 
 \end{document}
