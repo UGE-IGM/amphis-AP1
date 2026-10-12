@@ -149,19 +149,19 @@
     \useasboundingbox (0,0) rectangle (10.6,6.2);
 
     % --- en haut à droite ---
-    \only<2->{\node[anchor=east, font=\itshape\large, text=black!65] at (10.5,5.8) {$\sim$~Tableaux};}
+    % \only<2->{\node[anchor=east, font=\itshape\large, text=black!65] at (10.5,5.8) {$\sim$~Tableaux};}
 
     % --- l'instruction en cours (à gauche) ---
-    \only<3-6>{\node[anchor=west, font=\ttfamily\large] at (0.2,5.0) {lst =};}
+    % \only<3-6>{\node[anchor=west, font=\ttfamily\large] at (0.2,5.0) {lst =};}
     \only<7-10>{\node[anchor=west, font=\ttfamily\large] at (0.2,5.0) {lst = ['coucou', 'les', 'AP1']};}
     \only<11->{\node[anchor=west, font=\ttfamily\large] at (0.2,5.0) {lst[2] = 'gens'};}
 
     % --- « liste ← » et le contenu en petit (à droite) ---
-    \only<3->{\node[anchor=east, font=\itshape\large, text=black!65] at (10.5,5.0) {liste $\leftarrow$};}
-    \only<8->{\node[anchor=east, font=\ttfamily\tiny, text=black!65] at (10.5,4.65) {['coucou', 'les', 'AP1']};}
+    % \only<3->{\node[anchor=east, font=\itshape\large, text=black!65] at (10.5,5.0) {liste $\leftarrow$};}
+    % \only<8->{\node[anchor=east, font=\ttfamily\tiny, text=black!65] at (10.5,4.65) {['coucou', 'les', 'AP1']};}
 
     % --- la rangée de cases ---
-    \only<2-3,7-9,11-23>{\rangee{0.1}{4.25}}
+    \only<7-9,11-23>{\rangee{0.1}{4.25}}
     \only<8-9,11-23>{\caseval{0.1}{4.25}{0}{'coucou'}\caseval{0.1}{4.25}{1}{'les'}}
     \only<8-9,11>{\caseval{0.1}{4.25}{2}{'AP1'}}
     \only<12-23>{\caseval{0.1}{4.25}{2}{'gens'}}
@@ -171,7 +171,9 @@
 
     % --- le meuble à tiroirs (la liste) ---
     \only<4-6,10>{%
-      \node[anchor=north, inner sep=0pt] (commode) at (5.3,5.15) {\includegraphics[height=4.5cm]{img/commode.jpg}};
+      \node[anchor=north, inner sep=0pt] (commode) at (5.3,5.15) {\includegraphics[height=4.5cm]{img/commode.png}};
+    }
+    \only<10>{%
       \node[fill=cmblue, minimum width=1.83cm, minimum height=0.31cm, font=\scriptsize\bfseries, inner sep=0pt]
         at ($(commode.north west)+(0.49*4.5*0.995,-0.92*4.5)$) {LST};
     }
