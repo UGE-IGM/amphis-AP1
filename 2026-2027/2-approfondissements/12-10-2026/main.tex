@@ -152,46 +152,63 @@
     \only<2->{\node[anchor=east, font=\itshape\large, text=black!65] at (10.5,5.8) {$\sim$~Tableaux};}
 
     % --- l'instruction en cours (à gauche) ---
-    \only<3-4>{\node[anchor=west, font=\ttfamily\large] at (0.2,5.0) {lst =};}
-    \only<5-8>{\node[anchor=west, font=\ttfamily\large] at (0.2,5.0) {lst = ['coucou', 'les', 'AP1']};}
-    \only<9->{\node[anchor=west, font=\ttfamily\large] at (0.2,5.0) {lst[2] = 'gens'};}
+    \only<3-6>{\node[anchor=west, font=\ttfamily\large] at (0.2,5.0) {lst =};}
+    \only<7-10>{\node[anchor=west, font=\ttfamily\large] at (0.2,5.0) {lst = ['coucou', 'les', 'AP1']};}
+    \only<11->{\node[anchor=west, font=\ttfamily\large] at (0.2,5.0) {lst[2] = 'gens'};}
 
     % --- « liste ← » et le contenu en petit (à droite) ---
     \only<3->{\node[anchor=east, font=\itshape\large, text=black!65] at (10.5,5.0) {liste $\leftarrow$};}
-    \only<6->{\node[anchor=east, font=\ttfamily\tiny, text=black!65] at (10.5,4.65) {['coucou', 'les', 'AP1']};}
+    \only<8->{\node[anchor=east, font=\ttfamily\tiny, text=black!65] at (10.5,4.65) {['coucou', 'les', 'AP1']};}
 
     % --- la rangée de cases ---
-    \only<2-3,5-7,9-21>{\rangee{0.1}{4.25}}
-    \only<6-7,9-21>{\caseval{0.1}{4.25}{0}{'coucou'}\caseval{0.1}{4.25}{1}{'les'}}
-    \only<6-7,9>{\caseval{0.1}{4.25}{2}{'AP1'}}
-    \only<10-21>{\caseval{0.1}{4.25}{2}{'gens'}}
-    \only<13,15,16,18,20>{\caseval{0.1}{4.25}{3}{'!!!'}}
-    \only<7,9-21>{\caseidx{0.1}{4.25}{0}\caseidx{0.1}{4.25}{1}\caseidx{0.1}{4.25}{2}}
-    \only<13,15,16,18,20>{\caseidx{0.1}{4.25}{3}}
+    \only<2-3,7-9,11-23>{\rangee{0.1}{4.25}}
+    \only<8-9,11-23>{\caseval{0.1}{4.25}{0}{'coucou'}\caseval{0.1}{4.25}{1}{'les'}}
+    \only<8-9,11>{\caseval{0.1}{4.25}{2}{'AP1'}}
+    \only<12-23>{\caseval{0.1}{4.25}{2}{'gens'}}
+    \only<15,17,18,20,22>{\caseval{0.1}{4.25}{3}{'!!!'}}
+    \only<9,11-23>{\caseidx{0.1}{4.25}{0}\caseidx{0.1}{4.25}{1}\caseidx{0.1}{4.25}{2}}
+    \only<15,17,18,20,22>{\caseidx{0.1}{4.25}{3}}
 
     % --- le meuble à tiroirs (la liste) ---
-    \only<4,8>{%
+    \only<4-6,10>{%
       \node[anchor=north, inner sep=0pt] (commode) at (5.3,5.15) {\includegraphics[height=4.5cm]{img/commode.jpg}};
       \node[fill=cmblue, minimum width=1.83cm, minimum height=0.31cm, font=\scriptsize\bfseries, inner sep=0pt]
         at ($(commode.north west)+(0.49*4.5*0.995,-0.92*4.5)$) {LST};
     }
-    \only<8>{%
+    \only<10>{%
       \foreach \j/\px in {0/0.218, 1/0.480, 2/0.744}{
         \node[fill=cmgold, minimum width=0.19cm, minimum height=0.33cm, font=\scriptsize\bfseries, inner sep=0pt]
           at ($(commode.north west)+({\px*4.5*0.995},{-0.173*4.5})$) {\j};
       }
     }
 
+    % --- x0, x1, x2 : trois variables dans des tiroirs à des hauteurs différentes ... ---
+    \only<5>{%
+      \draw[-latex, very thick] ($(commode.north west)+(4.95,-1.697)$) -- ($(commode.north west)+(3.1,-1.697)$);
+      \node[font=\ttfamily\large\bfseries] at ($(commode.north west)+(5.4,-1.697)$) {x0};
+      \draw[-latex, very thick] ($(commode.north west)+(-0.5,-2.579)$) -- ($(commode.north west)+(0.6,-2.579)$);
+      \node[font=\ttfamily\large\bfseries] at ($(commode.north west)+(-0.95,-2.579)$) {x1};
+      \draw[-latex, very thick] ($(commode.north west)+(3.33,-4.6)$) -- ($(commode.north west)+(3.33,-3.62)$);
+      \node[font=\ttfamily\large\bfseries] at ($(commode.north west)+(3.33,-4.95)$) {x2};
+    }
+    % --- ... puis les mêmes flèches, déplacées vers trois tiroirs côte à côte (rangés l'un à côté de l'autre) ---
+    \only<6>{%
+      \foreach \j/\px in {0/0.976, 1/2.150, 2/3.332}{
+        \draw[-latex, very thick] ($(commode.north west)+(\px,0.3)$) -- ($(commode.north west)+(\px,-0.55)$);
+        \node[font=\ttfamily\large\bfseries] at ($(commode.north west)+(\px,0.6)$) {x[\j]};
+      }
+    }
+
     % --- instructions sur les listes (en bas) ---
-    \only<11-17>{\node[anchor=west, font=\ttfamily] at (0.2,2.2) {lst.append('!!!')};}
-    \only<14-17>{\node[anchor=east, font=\itshape\footnotesize, text=black!70] at (10.5,2.2) {Ajouter ‘!!!’ à (la fin de) liste};}
-    \only<16-17>{\node[anchor=west, font=\ttfamily] at (0.2,1.6) {lst.pop()};
+    \only<13-19>{\node[anchor=west, font=\ttfamily] at (0.2,2.2) {lst.append('!!!')};}
+    \only<16-19>{\node[anchor=east, font=\itshape\footnotesize, text=black!70] at (10.5,2.2) {Ajouter ‘!!!’ à (la fin de) liste};}
+    \only<18-19>{\node[anchor=west, font=\ttfamily] at (0.2,1.6) {lst.pop()};
                  \node[anchor=east, font=\itshape\footnotesize, text=black!70] at (10.5,1.6) {Extraire le (dernier) élément de liste};}
-    \only<18-19>{\node[anchor=west, font=\ttfamily] at (0.2,2.2) {lst.extend(lst2)};
+    \only<20-21>{\node[anchor=west, font=\ttfamily] at (0.2,2.2) {lst.extend(lst2)};
                  \node[anchor=east, font=\itshape\footnotesize, text=black!70] at (10.5,2.2) {Ajouter les éléments de lst2 à (la fin de) liste};
                  \node[anchor=west, font=\ttfamily] at (0.2,1.6) {lst.index(elm)};
                  \node[anchor=east, font=\itshape\footnotesize, text=black!70] at (10.5,1.6) {Renvoyer le (premier) indice où se trouve elm};}
-    \only<20-21>{\node[anchor=west, font=\Large, text=cmblue] at (0.2,2.0) {Plus :};
+    \only<22-23>{\node[anchor=west, font=\Large, text=cmblue] at (0.2,2.0) {Plus :};
                  \node[anchor=west, font=\scriptsize\bfseries, align=left] at (1.6,2.0) {\href{https://docs.python.org/fr/3/library/stdtypes.html\#sequence-types-list-tuple-range}{\underline{https://docs.python.org/fr/3/library/stdtypes.html}}\\ \href{https://docs.python.org/fr/3/library/stdtypes.html\#sequence-types-list-tuple-range}{\underline{\#sequence-types-list-tuple-range}}};}
   \end{tikzpicture}
 \end{frame}
@@ -245,6 +262,53 @@
   \end{tikzpicture}
 \end{frame}
 
+\begin{frame}{Les listes : les slices (suite)}
+	\begin{tikzpicture}[x=1cm,y=1cm]
+		\useasboundingbox (0,0) rectangle (10.6,6.2);
+		
+		\node[anchor=east, font=\itshape\large, text=black!65] at (10.5,5.8) {$\sim$~Sous-listes};
+		\node[anchor=west, font=\ttfamily\large] at (0.2,5.0) {lst = ['coucou', 'les', 'gens', '!!!']};
+		
+		\rangee{0.1}{4.25}
+		\caseval{0.1}{4.25}{0}{'coucou'}\caseval{0.1}{4.25}{1}{'les'}\caseval{0.1}{4.25}{2}{'gens'}\caseval{0.1}{4.25}{3}{'!!!'}
+		\caseidx{0.1}{4.25}{0}\caseidx{0.1}{4.25}{1}\caseidx{0.1}{4.25}{2}\caseidx{0.1}{4.25}{3}
+		% indices négatifs, au-dessus des cases
+		\foreach \i/\n in {0/-4, 1/-3, 2/-2, 3/-1}{%
+			\node[font=\small\bfseries, text=idxcol!70] at ({0.1+1.3*\i+0.65},4.55) {$\n$};}
+		
+		% lst[-2:] : en comptant depuis la fin
+		\only<2>{%
+			\selection{0.1}{4.25}{2}{3}
+			\node[anchor=west, font=\ttfamily\large] at (0.2,1.5) {lst[\textcolor{idxcol}{-2}:]};
+			\node at (2.85,1.5) {$\rightarrow$};
+			\rangeen{3.3}{1.95}{2}
+			\caseval{3.3}{1.95}{0}{'gens'}\caseval{3.3}{1.95}{1}{'!!!'}
+			\caseidx{3.3}{1.95}{0}\caseidx{3.3}{1.95}{1}
+		}
+		
+		% lst[::2] : un élément sur deux
+		\only<3>{%
+			\selection{0.1}{4.25}{0}{0}\selection{0.1}{4.25}{2}{2}
+			\node[anchor=west, font=\ttfamily\large] at (0.2,1.5) {lst[::2]};
+			\node at (2.45,1.5) {$\rightarrow$};
+			\rangeen{2.9}{1.95}{2}
+			\caseval{2.9}{1.95}{0}{'coucou'}\caseval{2.9}{1.95}{1}{'gens'}
+			\caseidx{2.9}{1.95}{0}\caseidx{2.9}{1.95}{1}
+			\node[anchor=west, font=\itshape\footnotesize, text=black!65] at (5.8,1.5) {un élément sur deux};
+		}
+		
+		% lst[1:10] : pas d'erreur
+		\only<4>{%
+			\selection{0.1}{4.25}{1}{3}
+			\node[anchor=west, font=\ttfamily\large] at (0.2,1.5) {lst[\textcolor{idxcol}{1}:\textcolor{idxcol}{10}]};
+			\node at (2.85,1.5) {$\rightarrow$};
+			\rangeen{3.3}{1.95}{3}
+			\caseval{3.3}{1.95}{0}{'les'}\caseval{3.3}{1.95}{1}{'gens'}\caseval{3.3}{1.95}{2}{'!!!'}
+			\caseidx{3.3}{1.95}{0}\caseidx{3.3}{1.95}{1}\caseidx{3.3}{1.95}{2}
+			\node[anchor=west, font=\itshape\footnotesize, text=black!65, text width=2.6cm] at (7.9,1.5) {pas d'erreur, contrairement à \texttt{lst[10]}};
+		}
+	\end{tikzpicture}
+\end{frame}
 % ==================================================================
 % Parcours : élément par élément ou indice par indice, pour tous les itérables
 % ==================================================================
@@ -408,56 +472,12 @@
       \caseidx{3.1}{1.95}{0}\caseidx{3.1}{1.95}{1}
       \node[anchor=west, font=\itshape\footnotesize, text=black!65] at (6.0,1.5) {nouvelle liste};
     }
+    
+    %lst[:]
   \end{tikzpicture}
 \end{frame}
 
-\begin{frame}{Les listes : les slices (suite)}
-  \begin{tikzpicture}[x=1cm,y=1cm]
-    \useasboundingbox (0,0) rectangle (10.6,6.2);
 
-    \node[anchor=east, font=\itshape\large, text=black!65] at (10.5,5.8) {$\sim$~Sous-listes};
-    \node[anchor=west, font=\ttfamily\large] at (0.2,5.0) {lst = ['coucou', 'les', 'gens', '!!!']};
-
-    \rangee{0.1}{4.25}
-    \caseval{0.1}{4.25}{0}{'coucou'}\caseval{0.1}{4.25}{1}{'les'}\caseval{0.1}{4.25}{2}{'gens'}\caseval{0.1}{4.25}{3}{'!!!'}
-    \caseidx{0.1}{4.25}{0}\caseidx{0.1}{4.25}{1}\caseidx{0.1}{4.25}{2}\caseidx{0.1}{4.25}{3}
-    % indices négatifs, au-dessus des cases
-    \foreach \i/\n in {0/-4, 1/-3, 2/-2, 3/-1}{%
-      \node[font=\small\bfseries, text=idxcol!70] at ({0.1+1.3*\i+0.65},4.55) {$\n$};}
-
-    % lst[-2:] : en comptant depuis la fin
-    \only<2>{%
-      \selection{0.1}{4.25}{2}{3}
-      \node[anchor=west, font=\ttfamily\large] at (0.2,1.5) {lst[\textcolor{idxcol}{-2}:]};
-      \node at (2.85,1.5) {$\rightarrow$};
-      \rangeen{3.3}{1.95}{2}
-      \caseval{3.3}{1.95}{0}{'gens'}\caseval{3.3}{1.95}{1}{'!!!'}
-      \caseidx{3.3}{1.95}{0}\caseidx{3.3}{1.95}{1}
-    }
-
-    % lst[::2] : un élément sur deux
-    \only<3>{%
-      \selection{0.1}{4.25}{0}{0}\selection{0.1}{4.25}{2}{2}
-      \node[anchor=west, font=\ttfamily\large] at (0.2,1.5) {lst[::2]};
-      \node at (2.45,1.5) {$\rightarrow$};
-      \rangeen{2.9}{1.95}{2}
-      \caseval{2.9}{1.95}{0}{'coucou'}\caseval{2.9}{1.95}{1}{'gens'}
-      \caseidx{2.9}{1.95}{0}\caseidx{2.9}{1.95}{1}
-      \node[anchor=west, font=\itshape\footnotesize, text=black!65] at (5.8,1.5) {un élément sur deux};
-    }
-
-    % lst[1:10] : pas d'erreur
-    \only<4>{%
-      \selection{0.1}{4.25}{1}{3}
-      \node[anchor=west, font=\ttfamily\large] at (0.2,1.5) {lst[\textcolor{idxcol}{1}:\textcolor{idxcol}{10}]};
-      \node at (2.85,1.5) {$\rightarrow$};
-      \rangeen{3.3}{1.95}{3}
-      \caseval{3.3}{1.95}{0}{'les'}\caseval{3.3}{1.95}{1}{'gens'}\caseval{3.3}{1.95}{2}{'!!!'}
-      \caseidx{3.3}{1.95}{0}\caseidx{3.3}{1.95}{1}\caseidx{3.3}{1.95}{2}
-      \node[anchor=west, font=\itshape\footnotesize, text=black!65, text width=2.6cm] at (7.9,1.5) {pas d'erreur, contrairement à \texttt{lst[10]}};
-    }
-  \end{tikzpicture}
-\end{frame}
 
 % ------------------------------------------------------------------
 % Introduction aux listes de listes : le morpion
