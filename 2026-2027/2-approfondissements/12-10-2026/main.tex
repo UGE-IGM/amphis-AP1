@@ -450,13 +450,13 @@
 % les algorithmes vus sur les listes marchent aussi sur les autres itérables
 % ------------------------------------------------------------------
 \begin{frame}[fragile]{Les itérables : les mêmes algorithmes}
-	\begin{minted}[fontsize=\small]{python}
+\begin{minted}[fontsize=\small]{python}
 def contient(iterable, cible):
-	for elem in iterable:
-		if elem == cible:
-			return True
-	return False
-	\end{minted}
+   for elem in iterable:
+      if elem == cible:
+         return True
+   return False
+\end{minted}
 	\begin{tikzpicture}[x=1cm,y=1cm]
 		\useasboundingbox (0,-0.7) rectangle (10.6,3.0);
 		
