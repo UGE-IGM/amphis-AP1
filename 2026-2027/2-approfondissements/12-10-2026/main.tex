@@ -527,9 +527,211 @@ def contient(iterable, cible):
       \bulle{cmmint}{2.3}{0.9}{2.2}{TOUS PAIRS ?}
       \bulle{cmmint}{8.4}{0.9}{2.2}{LISTE PAIRS}
     }
-    \only<7>{\node[fill=cmgold, anchor=north east, font=\footnotesize\bfseries, inner sep=3pt] at (10.5,6.1) {Démo Thonny : cm5\_13\_10\_3025.py};}
+    \only<7>{\node[fill=cmgold, anchor=north east, font=\footnotesize\bfseries, inner sep=3pt] at (10.5,6.1) {Code disponible sur Elearning};}
   \end{tikzpicture}
 \end{frame}
+
+% ------------------------------------------------------------------
+% Exécution pas à pas de liste_pairs
+% ------------------------------------------------------------------
+\begin{frame}{Exécution pas à pas de \texttt{liste\_pairs}}
+  \begin{tikzpicture}[x=1cm,y=1cm]
+    \useasboundingbox (0,0) rectangle (10.6,6.2);
+
+    % --- ligne courante (dessinée avant le code) ---
+    \only<1>{\fill[yellow!45] (0.3,1.38) rectangle (6.20,1.82); \fill[red!70!black] (-0.05,1.72) -- (0.25,1.60) -- (-0.05,1.48) -- cycle;}
+    \only<2>{\fill[yellow!45] (0.3,4.68) rectangle (6.20,5.12); \fill[red!70!black] (-0.05,5.02) -- (0.25,4.90) -- (-0.05,4.78) -- cycle;}
+    \only<3>{\fill[yellow!45] (0.3,4.18) rectangle (6.20,4.62); \fill[red!70!black] (-0.05,4.52) -- (0.25,4.40) -- (-0.05,4.28) -- cycle;}
+    \only<4>{\fill[yellow!45] (0.3,3.68) rectangle (6.20,4.12); \fill[red!70!black] (-0.05,4.02) -- (0.25,3.90) -- (-0.05,3.78) -- cycle;}
+    \only<5>{\fill[yellow!45] (0.3,4.18) rectangle (6.20,4.62); \fill[red!70!black] (-0.05,4.52) -- (0.25,4.40) -- (-0.05,4.28) -- cycle;}
+    \only<6>{\fill[yellow!45] (0.3,3.68) rectangle (6.20,4.12); \fill[red!70!black] (-0.05,4.02) -- (0.25,3.90) -- (-0.05,3.78) -- cycle;}
+    \only<7>{\fill[yellow!45] (0.3,3.18) rectangle (6.20,3.62); \fill[red!70!black] (-0.05,3.52) -- (0.25,3.40) -- (-0.05,3.28) -- cycle;}
+    \only<8>{\fill[yellow!45] (0.3,4.18) rectangle (6.20,4.62); \fill[red!70!black] (-0.05,4.52) -- (0.25,4.40) -- (-0.05,4.28) -- cycle;}
+    \only<9>{\fill[yellow!45] (0.3,3.68) rectangle (6.20,4.12); \fill[red!70!black] (-0.05,4.02) -- (0.25,3.90) -- (-0.05,3.78) -- cycle;}
+    \only<10>{\fill[yellow!45] (0.3,4.18) rectangle (6.20,4.62); \fill[red!70!black] (-0.05,4.52) -- (0.25,4.40) -- (-0.05,4.28) -- cycle;}
+    \only<11>{\fill[yellow!45] (0.3,3.68) rectangle (6.20,4.12); \fill[red!70!black] (-0.05,4.02) -- (0.25,3.90) -- (-0.05,3.78) -- cycle;}
+    \only<12>{\fill[yellow!45] (0.3,3.18) rectangle (6.20,3.62); \fill[red!70!black] (-0.05,3.52) -- (0.25,3.40) -- (-0.05,3.28) -- cycle;}
+    \only<13>{\fill[yellow!45] (0.3,4.18) rectangle (6.20,4.62); \fill[red!70!black] (-0.05,4.52) -- (0.25,4.40) -- (-0.05,4.28) -- cycle;}
+    \only<14>{\fill[yellow!45] (0.3,3.68) rectangle (6.20,4.12); \fill[red!70!black] (-0.05,4.02) -- (0.25,3.90) -- (-0.05,3.78) -- cycle;}
+    \only<15>{\fill[yellow!45] (0.3,4.18) rectangle (6.20,4.62); \fill[red!70!black] (-0.05,4.52) -- (0.25,4.40) -- (-0.05,4.28) -- cycle;}
+    \only<16>{\fill[yellow!45] (0.3,3.68) rectangle (6.20,4.12); \fill[red!70!black] (-0.05,4.02) -- (0.25,3.90) -- (-0.05,3.78) -- cycle;}
+    \only<17>{\fill[yellow!45] (0.3,3.18) rectangle (6.20,3.62); \fill[red!70!black] (-0.05,3.52) -- (0.25,3.40) -- (-0.05,3.28) -- cycle;}
+    \only<18>{\fill[yellow!45] (0.3,2.68) rectangle (6.20,3.12); \fill[red!70!black] (-0.05,3.02) -- (0.25,2.90) -- (-0.05,2.78) -- cycle;}
+
+    % --- le programme ---
+    \node[anchor=west, font=\ttfamily\scriptsize] at (0.40,5.40) {def liste\_pairs(lst):};
+    \node[anchor=west, font=\ttfamily\scriptsize] at (0.70,4.90) {liste\_des\_pairs = []};
+    \node[anchor=west, font=\ttfamily\scriptsize] at (0.70,4.40) {\textbf{for} elt \textbf{in} lst:};
+    \node[anchor=west, font=\ttfamily\scriptsize] at (1.00,3.90) {\textbf{if} elt \% 2 == 0:};
+    \node[anchor=west, font=\ttfamily\scriptsize] at (1.30,3.40) {liste\_des\_pairs.append(elt)};
+    \node[anchor=west, font=\ttfamily\scriptsize] at (0.70,2.90) {\textbf{return} liste\_des\_pairs};
+    \node[anchor=west, font=\ttfamily\scriptsize] at (0.4,1.60) {liste\_pairs([3, 8, 5, 12, 7, 6])};
+
+    % --- la liste lst ---
+    \node[anchor=west, font=\ttfamily\small] at (6.60,5.95) {lst};
+    \draw[thick, rounded corners=2pt] (6.60,5.6) rectangle (10.32,5.0);
+    \draw[thick] (7.22,5.6) -- (7.22,5.0);
+    \draw[thick] (7.84,5.6) -- (7.84,5.0);
+    \draw[thick] (8.46,5.6) -- (8.46,5.0);
+    \draw[thick] (9.08,5.6) -- (9.08,5.0);
+    \draw[thick] (9.70,5.6) -- (9.70,5.0);
+    \node[font=\ttfamily\small, text=eltcol] at (6.91,5.3) {3};
+    \node[font=\ttfamily\small, text=eltcol] at (7.53,5.3) {8};
+    \node[font=\ttfamily\small, text=eltcol] at (8.15,5.3) {5};
+    \node[font=\ttfamily\small, text=eltcol] at (8.77,5.3) {12};
+    \node[font=\ttfamily\small, text=eltcol] at (9.39,5.3) {7};
+    \node[font=\ttfamily\small, text=eltcol] at (10.01,5.3) {6};
+
+    % --- états successifs ---
+    \only<1>{%
+      
+    }
+    \only<2>{%
+      \node[anchor=west, font=\ttfamily\small] at (6.60,3.55) {liste\_des\_pairs};
+      \draw[thick, rounded corners=2pt] (6.60,3.3) rectangle (7.22,2.7); \node[font=\ttfamily\small] at (6.91,3.0) {[\,]};
+    }
+    \only<3>{%
+      \node[anchor=west, font=\ttfamily\small] at (6.60,3.55) {liste\_des\_pairs};
+      \draw[thick, rounded corners=2pt] (6.60,3.3) rectangle (7.22,2.7); \node[font=\ttfamily\small] at (6.91,3.0) {[\,]};
+      \draw[cmgold, very thick, rounded corners=2pt] (6.57,5.65) rectangle (7.25,4.95);
+      \node[anchor=west, font=\ttfamily\small] at (6.60,4.65) {elt = \textcolor{eltcol}{\textbf{3}}};
+    }
+    \only<4>{%
+      \node[anchor=west, font=\ttfamily\small] at (6.60,3.55) {liste\_des\_pairs};
+      \draw[thick, rounded corners=2pt] (6.60,3.3) rectangle (7.22,2.7); \node[font=\ttfamily\small] at (6.91,3.0) {[\,]};
+      \draw[cmgold, very thick, rounded corners=2pt] (6.57,5.65) rectangle (7.25,4.95);
+      \node[anchor=west, font=\ttfamily\small] at (6.60,4.65) {elt = \textcolor{eltcol}{\textbf{3}}};
+      \node[anchor=west, font=\ttfamily\small] at (6.60,4.15) {3 \% 2 == 0 : \textbf{faux}};
+    }
+    \only<5>{%
+      \node[anchor=west, font=\ttfamily\small] at (6.60,3.55) {liste\_des\_pairs};
+      \draw[thick, rounded corners=2pt] (6.60,3.3) rectangle (7.22,2.7); \node[font=\ttfamily\small] at (6.91,3.0) {[\,]};
+      \draw[cmgold, very thick, rounded corners=2pt] (7.19,5.65) rectangle (7.87,4.95);
+      \node[anchor=west, font=\ttfamily\small] at (6.60,4.65) {elt = \textcolor{eltcol}{\textbf{8}}};
+    }
+    \only<6>{%
+      \node[anchor=west, font=\ttfamily\small] at (6.60,3.55) {liste\_des\_pairs};
+      \draw[thick, rounded corners=2pt] (6.60,3.3) rectangle (7.22,2.7); \node[font=\ttfamily\small] at (6.91,3.0) {[\,]};
+      \draw[cmgold, very thick, rounded corners=2pt] (7.19,5.65) rectangle (7.87,4.95);
+      \node[anchor=west, font=\ttfamily\small] at (6.60,4.65) {elt = \textcolor{eltcol}{\textbf{8}}};
+      \node[anchor=west, font=\ttfamily\small] at (6.60,4.15) {8 \% 2 == 0 : \textbf{vrai}};
+    }
+    \only<7>{%
+      \node[anchor=west, font=\ttfamily\small] at (6.60,3.55) {liste\_des\_pairs};
+      \draw[thick, rounded corners=2pt] (6.60,3.3) rectangle (7.22,2.7);
+      \node[font=\ttfamily\small, text=eltcol] at (6.91,3.0) {8};
+      \draw[cmgold, very thick, rounded corners=2pt] (6.57,3.35) rectangle (7.25,2.65);
+      \draw[cmgold, very thick, rounded corners=2pt] (7.19,5.65) rectangle (7.87,4.95);
+      \node[anchor=west, font=\ttfamily\small] at (6.60,4.65) {elt = \textcolor{eltcol}{\textbf{8}}};
+      \node[anchor=west, font=\ttfamily\small] at (6.60,4.15) {8 \% 2 == 0 : \textbf{vrai}};
+    }
+    \only<8>{%
+      \node[anchor=west, font=\ttfamily\small] at (6.60,3.55) {liste\_des\_pairs};
+      \draw[thick, rounded corners=2pt] (6.60,3.3) rectangle (7.22,2.7);
+      \node[font=\ttfamily\small, text=eltcol] at (6.91,3.0) {8};
+      \draw[cmgold, very thick, rounded corners=2pt] (7.81,5.65) rectangle (8.49,4.95);
+      \node[anchor=west, font=\ttfamily\small] at (6.60,4.65) {elt = \textcolor{eltcol}{\textbf{5}}};
+    }
+    \only<9>{%
+      \node[anchor=west, font=\ttfamily\small] at (6.60,3.55) {liste\_des\_pairs};
+      \draw[thick, rounded corners=2pt] (6.60,3.3) rectangle (7.22,2.7);
+      \node[font=\ttfamily\small, text=eltcol] at (6.91,3.0) {8};
+      \draw[cmgold, very thick, rounded corners=2pt] (7.81,5.65) rectangle (8.49,4.95);
+      \node[anchor=west, font=\ttfamily\small] at (6.60,4.65) {elt = \textcolor{eltcol}{\textbf{5}}};
+      \node[anchor=west, font=\ttfamily\small] at (6.60,4.15) {5 \% 2 == 0 : \textbf{faux}};
+    }
+    \only<10>{%
+      \node[anchor=west, font=\ttfamily\small] at (6.60,3.55) {liste\_des\_pairs};
+      \draw[thick, rounded corners=2pt] (6.60,3.3) rectangle (7.22,2.7);
+      \node[font=\ttfamily\small, text=eltcol] at (6.91,3.0) {8};
+      \draw[cmgold, very thick, rounded corners=2pt] (8.43,5.65) rectangle (9.11,4.95);
+      \node[anchor=west, font=\ttfamily\small] at (6.60,4.65) {elt = \textcolor{eltcol}{\textbf{12}}};
+    }
+    \only<11>{%
+      \node[anchor=west, font=\ttfamily\small] at (6.60,3.55) {liste\_des\_pairs};
+      \draw[thick, rounded corners=2pt] (6.60,3.3) rectangle (7.22,2.7);
+      \node[font=\ttfamily\small, text=eltcol] at (6.91,3.0) {8};
+      \draw[cmgold, very thick, rounded corners=2pt] (8.43,5.65) rectangle (9.11,4.95);
+      \node[anchor=west, font=\ttfamily\small] at (6.60,4.65) {elt = \textcolor{eltcol}{\textbf{12}}};
+      \node[anchor=west, font=\ttfamily\small] at (6.60,4.15) {12 \% 2 == 0 : \textbf{vrai}};
+    }
+    \only<12>{%
+      \node[anchor=west, font=\ttfamily\small] at (6.60,3.55) {liste\_des\_pairs};
+      \draw[thick, rounded corners=2pt] (6.60,3.3) rectangle (7.84,2.7);
+      \draw[thick] (7.22,3.3) -- (7.22,2.7);
+      \node[font=\ttfamily\small, text=eltcol] at (6.91,3.0) {8};
+      \node[font=\ttfamily\small, text=eltcol] at (7.53,3.0) {12};
+      \draw[cmgold, very thick, rounded corners=2pt] (7.19,3.35) rectangle (7.87,2.65);
+      \draw[cmgold, very thick, rounded corners=2pt] (8.43,5.65) rectangle (9.11,4.95);
+      \node[anchor=west, font=\ttfamily\small] at (6.60,4.65) {elt = \textcolor{eltcol}{\textbf{12}}};
+      \node[anchor=west, font=\ttfamily\small] at (6.60,4.15) {12 \% 2 == 0 : \textbf{vrai}};
+    }
+    \only<13>{%
+      \node[anchor=west, font=\ttfamily\small] at (6.60,3.55) {liste\_des\_pairs};
+      \draw[thick, rounded corners=2pt] (6.60,3.3) rectangle (7.84,2.7);
+      \draw[thick] (7.22,3.3) -- (7.22,2.7);
+      \node[font=\ttfamily\small, text=eltcol] at (6.91,3.0) {8};
+      \node[font=\ttfamily\small, text=eltcol] at (7.53,3.0) {12};
+      \draw[cmgold, very thick, rounded corners=2pt] (9.05,5.65) rectangle (9.73,4.95);
+      \node[anchor=west, font=\ttfamily\small] at (6.60,4.65) {elt = \textcolor{eltcol}{\textbf{7}}};
+    }
+    \only<14>{%
+      \node[anchor=west, font=\ttfamily\small] at (6.60,3.55) {liste\_des\_pairs};
+      \draw[thick, rounded corners=2pt] (6.60,3.3) rectangle (7.84,2.7);
+      \draw[thick] (7.22,3.3) -- (7.22,2.7);
+      \node[font=\ttfamily\small, text=eltcol] at (6.91,3.0) {8};
+      \node[font=\ttfamily\small, text=eltcol] at (7.53,3.0) {12};
+      \draw[cmgold, very thick, rounded corners=2pt] (9.05,5.65) rectangle (9.73,4.95);
+      \node[anchor=west, font=\ttfamily\small] at (6.60,4.65) {elt = \textcolor{eltcol}{\textbf{7}}};
+      \node[anchor=west, font=\ttfamily\small] at (6.60,4.15) {7 \% 2 == 0 : \textbf{faux}};
+    }
+    \only<15>{%
+      \node[anchor=west, font=\ttfamily\small] at (6.60,3.55) {liste\_des\_pairs};
+      \draw[thick, rounded corners=2pt] (6.60,3.3) rectangle (7.84,2.7);
+      \draw[thick] (7.22,3.3) -- (7.22,2.7);
+      \node[font=\ttfamily\small, text=eltcol] at (6.91,3.0) {8};
+      \node[font=\ttfamily\small, text=eltcol] at (7.53,3.0) {12};
+      \draw[cmgold, very thick, rounded corners=2pt] (9.67,5.65) rectangle (10.35,4.95);
+      \node[anchor=west, font=\ttfamily\small] at (6.60,4.65) {elt = \textcolor{eltcol}{\textbf{6}}};
+    }
+    \only<16>{%
+      \node[anchor=west, font=\ttfamily\small] at (6.60,3.55) {liste\_des\_pairs};
+      \draw[thick, rounded corners=2pt] (6.60,3.3) rectangle (7.84,2.7);
+      \draw[thick] (7.22,3.3) -- (7.22,2.7);
+      \node[font=\ttfamily\small, text=eltcol] at (6.91,3.0) {8};
+      \node[font=\ttfamily\small, text=eltcol] at (7.53,3.0) {12};
+      \draw[cmgold, very thick, rounded corners=2pt] (9.67,5.65) rectangle (10.35,4.95);
+      \node[anchor=west, font=\ttfamily\small] at (6.60,4.65) {elt = \textcolor{eltcol}{\textbf{6}}};
+      \node[anchor=west, font=\ttfamily\small] at (6.60,4.15) {6 \% 2 == 0 : \textbf{vrai}};
+    }
+    \only<17>{%
+      \node[anchor=west, font=\ttfamily\small] at (6.60,3.55) {liste\_des\_pairs};
+      \draw[thick, rounded corners=2pt] (6.60,3.3) rectangle (8.46,2.7);
+      \draw[thick] (7.22,3.3) -- (7.22,2.7);
+      \draw[thick] (7.84,3.3) -- (7.84,2.7);
+      \node[font=\ttfamily\small, text=eltcol] at (6.91,3.0) {8};
+      \node[font=\ttfamily\small, text=eltcol] at (7.53,3.0) {12};
+      \node[font=\ttfamily\small, text=eltcol] at (8.15,3.0) {6};
+      \draw[cmgold, very thick, rounded corners=2pt] (7.81,3.35) rectangle (8.49,2.65);
+      \draw[cmgold, very thick, rounded corners=2pt] (9.67,5.65) rectangle (10.35,4.95);
+      \node[anchor=west, font=\ttfamily\small] at (6.60,4.65) {elt = \textcolor{eltcol}{\textbf{6}}};
+      \node[anchor=west, font=\ttfamily\small] at (6.60,4.15) {6 \% 2 == 0 : \textbf{vrai}};
+    }
+    \only<18>{%
+      \node[anchor=west, font=\ttfamily\small] at (6.60,3.55) {liste\_des\_pairs};
+      \draw[thick, rounded corners=2pt] (6.60,3.3) rectangle (8.46,2.7);
+      \draw[thick] (7.22,3.3) -- (7.22,2.7);
+      \draw[thick] (7.84,3.3) -- (7.84,2.7);
+      \node[font=\ttfamily\small, text=eltcol] at (6.91,3.0) {8};
+      \node[font=\ttfamily\small, text=eltcol] at (7.53,3.0) {12};
+      \node[font=\ttfamily\small, text=eltcol] at (8.15,3.0) {6};
+      \node[anchor=west, font=\ttfamily\small] at (6.60,4.65) {renvoie \textcolor{eltcol}{\textbf{[8, 12, 6]}}};
+    }
+  \end{tikzpicture}
+\end{frame}
+
+
+
 
 % ==================================================================
 % Et sur les chaînes de caractères ?
