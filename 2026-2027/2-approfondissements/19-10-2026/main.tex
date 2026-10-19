@@ -461,6 +461,634 @@ On dit que les listes sont \alert{mutables}.
   \end{tikzpicture}
 \end{frame}
 
+
+
+
+
+
+
+% ===== Fonctions classiques sur les listes (notes de cours p. 19-32) =====
+\section{Les fonctions classiques sur les listes}
+
+\begin{frame}[fragile,t]{Réaffecter n'est pas modifier}
+Une fonction ne peut pas faire pointer \mintinline{python}{lst} vers une autre liste :
+\begin{mdframed}[roundcorner=5pt]
+\begin{minted}[fontsize=\small]{python}
+def essaie_de_modifier_pour_voir_liste_bis(lst):
+    lst = [5]
+
+lst = [12]
+essaie_de_modifier_pour_voir_liste_bis(lst)
+print(lst)
+>>> [12]
+\end{minted}
+\end{mdframed}
+
+\begin{onlyenv}<2>
+\begin{block}{Dans la fonction}
+  \vspace{-0.25em}
+  \begin{itemize}
+    \item \mintinline{python}{lst = [5]} : \alert{réaffecter} le nom local, sans effet dehors
+    \item \mintinline{python}{lst[0] = 5} : \alert{modifier} la liste elle-même, visible dehors
+  \end{itemize}
+\end{block}
+\end{onlyenv}
+\end{frame}
+
+\begin{frame}[fragile,t]{Les chaînes sont immutables}
+\begin{mdframed}[roundcorner=5pt]
+\begin{minted}[fontsize=\small]{python}
+x = "Zoucou les AP1"
+x[0] = "C"
+>>> TypeError: 'str' object does not support
+    item assignment
+\end{minted}
+\end{mdframed}
+
+\begin{onlyenv}<2->
+On peut en revanche \alert{réaffecter} la variable :
+\begin{mdframed}[roundcorner=5pt]
+\begin{minted}[fontsize=\small]{python}
+x = "Zoucou les AP1"
+x = "Coucou les AP1"
+print(x)
+>>> Coucou les AP1
+\end{minted}
+\end{mdframed}
+\end{onlyenv}
+\begin{onlyenv}<3>
+\vspace{-0.5em}
+Un nouvel objet est créé ; l'ancien n'est \alert{pas modifié}.
+\end{onlyenv}
+\end{frame}
+
+\begin{frame}{Les fonctions classiques sur les listes}
+  \begin{block}{À retenir}
+    \vspace{-0.25em}
+    \begin{itemize}
+      \item Ce qui suit n'est \alert{pas à apprendre par c\oe ur}
+      \item Savoir comment elles sont implémentées permet de comprendre leur fonctionnement
+      \item Les méthodes exigibles : voir le récapitulatif
+    \end{itemize}
+  \end{block}
+  \pause
+  \begin{block}{Au programme}
+    \vspace{-0.25em}
+    \begin{itemize}
+      \item étendre, concaténer, répéter, chercher, compter
+      \item vider, renverser, retirer, insérer, trier
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\begin{frame}[fragile,t]{Exercice : étendre une liste}
+\begin{onlyenv}<1>
+\begin{block}{Exercice}
+Une fonction qui ajoute tous les éléments de la seconde liste \alert{à la fin} de la première.
+\end{block}
+\begin{mdframed}[roundcorner=5pt]
+\begin{minted}[fontsize=\footnotesize]{python}
+def etend_liste(une_liste, autre_liste):
+    ...
+\end{minted}
+\end{mdframed}
+\begin{itemize}
+  \item Pas de \mintinline{python}{return} : \mintinline{python}{une_liste} est modifiée \alert{sur place}
+  \item On ne doit pas modifier \mintinline{python}{autre_liste}
+\end{itemize}
+\end{onlyenv}
+\begin{onlyenv}<2>
+\begin{mdframed}[roundcorner=5pt]
+\begin{minted}[fontsize=\small]{python}
+def etend_liste(une_liste, autre_liste):
+    for elem in autre_liste:
+        une_liste.append(elem)
+
+lst = [3, 'toto', 4.5]
+lst2 = [False, None]
+etend_liste(lst, lst2)
+print(lst)
+>>> [3, 'toto', 4.5, False, None]
+print(lst2)
+>>> [False, None]
+\end{minted}
+\end{mdframed}
+\end{onlyenv}
+\begin{onlyenv}<3>
+Cette fonctionnalité existe déjà :
+\begin{mdframed}[roundcorner=5pt]
+\begin{minted}[fontsize=\small]{python}
+une_liste.extend(autre_liste)
+\end{minted}
+\end{mdframed}
+\end{onlyenv}
+\end{frame}
+
+\begin{frame}[fragile,t]{\texttt{extend} modifie, \texttt{+} crée}
+\begin{columns}[T]
+  \begin{column}{0.5\textwidth}
+    \begin{block}{extend : sur place}
+\begin{mdframed}[roundcorner=5pt]
+\begin{minted}[fontsize=\scriptsize]{python}
+lst = [3, 4.5]
+lst_bis = lst
+lst2 = [False, None]
+
+lst.extend(lst2)
+print(lst)
+>>> [3, 4.5, False, None]
+print(lst_bis)
+>>> [3, 4.5, False, None]
+\end{minted}
+\end{mdframed}
+    \end{block}
+  \end{column}
+  \begin{column}{0.5\textwidth}
+    \begin{onlyenv}<2->
+    \begin{block}{+ : nouvelle liste}
+\begin{mdframed}[roundcorner=5pt]
+\begin{minted}[fontsize=\scriptsize]{python}
+lst = [3, 4.5]
+lst_bis = lst
+lst2 = [False, None]
+
+lst = lst + lst2
+print(lst)
+>>> [3, 4.5, False, None]
+print(lst_bis)
+>>> [3, 4.5]
+\end{minted}
+\end{mdframed}
+    \end{block}
+    \end{onlyenv}
+  \end{column}
+\end{columns}
+
+\end{frame}
+
+\begin{frame}[fragile,t]{Exercice : concaténer deux listes}
+\begin{onlyenv}<1>
+\begin{block}{Exercice}
+Une fonction qui \alert{renvoie une nouvelle liste} contenant les éléments de la première suivis de ceux de la seconde, à la manière de l'opérateur \mintinline{python}{+}.
+\end{block}
+\begin{mdframed}[roundcorner=5pt]
+\begin{minted}[fontsize=\footnotesize]{python}
+def concatene(lst1, lst2):
+    ...
+\end{minted}
+\end{mdframed}
+\end{onlyenv}
+\begin{onlyenv}<2>
+Le plus simple : réutiliser la fonction précédente.
+\begin{mdframed}[roundcorner=5pt]
+\begin{minted}[fontsize=\small]{python}
+def concatene(lst1, lst2):
+    res = []
+    res.extend(lst1)
+    res.extend(lst2)
+    return res
+
+concatene([3, 1, 67], [2, 4])
+>>> [3, 1, 67, 2, 4]
+\end{minted}
+\end{mdframed}
+\end{onlyenv}
+\begin{onlyenv}<3>
+Ou avec deux boucles \mintinline{python}{for} :
+\begin{mdframed}[roundcorner=5pt]
+\begin{minted}[fontsize=\small]{python}
+def concatene(lst1, lst2):
+    res = []
+    for elem1 in lst1:
+        res.append(elem1)
+    for elem2 in lst2:
+        res.append(elem2)
+    return res
+\end{minted}
+\end{mdframed}
+\end{onlyenv}
+\end{frame}
+
+\begin{frame}[fragile,t]{Exercice : répéter une liste}
+\begin{onlyenv}<1>
+\begin{block}{Exercice}
+Une fonction qui \alert{renvoie une nouvelle liste} contenant les éléments de \mintinline{python}{lst} répétés \mintinline{python}{n} fois, à la manière de l'opérateur \mintinline{python}{*}.
+\end{block}
+\begin{mdframed}[roundcorner=5pt]
+\begin{minted}[fontsize=\footnotesize]{python}
+def repete(lst, n):
+    ...
+\end{minted}
+\end{mdframed}
+\end{onlyenv}
+\begin{onlyenv}<2>
+Un \mintinline{python}{for} avec \mintinline{python}{range} répète une opération \mintinline{python}{n} fois :
+\begin{mdframed}[roundcorner=5pt]
+\begin{minted}[fontsize=\small]{python}
+def repete(lst, n):
+    res = []
+    for i in range(n):
+        res.extend(lst)
+    return res
+
+repete([4, 5, 6], 3)
+>>> [4, 5, 6, 4, 5, 6, 4, 5, 6]
+\end{minted}
+\end{mdframed}
+\end{onlyenv}
+\end{frame}
+
+\begin{frame}[fragile,t]{Exercice : rechercher la position d'un élément}
+\begin{onlyenv}<1>
+\begin{block}{Exercice}
+Une fonction qui renvoie le \alert{plus petit indice} où apparaît \mintinline{python}{x} dans \mintinline{python}{lst} (\mintinline{python}{None} si \mintinline{python}{x} n'apparaît pas).
+\end{block}
+\begin{mdframed}[roundcorner=5pt]
+\begin{minted}[fontsize=\footnotesize]{python}
+def chercher(lst, x):
+    ...
+\end{minted}
+\end{mdframed}
+\end{onlyenv}
+\begin{onlyenv}<2>
+\begin{mdframed}[roundcorner=5pt]
+\begin{minted}[fontsize=\scriptsize]{python}
+def chercher(lst, val):
+    i = 0
+    while i < len(lst):
+        if lst[i] == val:
+            return i
+        i += 1
+    return None
+
+lst = [3, 'toto', 4.5, False, None, 4.5]
+print(chercher(lst, 4.5))
+>>> 2
+print(chercher(lst, 'AP1'))
+>>> None
+\end{minted}
+\end{mdframed}
+\end{onlyenv}
+\begin{onlyenv}<3>
+Avec un \mintinline{python}{for} : il faut itérer sur les \alert{indices} grâce à \mintinline{python}{range}.
+\begin{mdframed}[roundcorner=5pt]
+\begin{minted}[fontsize=\small]{python}
+def chercher(lst, val):
+    for i in range(len(lst)):
+        if lst[i] == val:
+            return i
+    return None
+\end{minted}
+\end{mdframed}
+\end{onlyenv}
+\begin{onlyenv}<4>
+Cette fonction existe déjà : la méthode \mintinline{python}{index}
+\begin{mdframed}[roundcorner=5pt]
+\begin{minted}[fontsize=\small]{python}
+lst = [3, 'toto', 4.5, False, None, 4.5]
+lst.index(4.5)
+>>> 2
+lst.index(3.5)
+>>> ValueError: 3.5 is not in list
+\end{minted}
+\end{mdframed}
+\alert{Attention} : erreur si l'élément n'est pas dans la liste.
+\end{onlyenv}
+\end{frame}
+
+\begin{frame}[fragile,t]{Exercice : compter les occurrences}
+\begin{onlyenv}<1>
+\begin{block}{Exercice}
+Une fonction qui renvoie le nombre de fois où \mintinline{python}{x} apparaît dans \mintinline{python}{lst}.
+\end{block}
+\begin{mdframed}[roundcorner=5pt]
+\begin{minted}[fontsize=\footnotesize]{python}
+def compter(lst, x):
+    ...
+\end{minted}
+\end{mdframed}
+\end{onlyenv}
+\begin{onlyenv}<2>
+\begin{mdframed}[roundcorner=5pt]
+\begin{minted}[fontsize=\small]{python}
+def compter(lst, x):
+    cpt = 0
+    for elem in lst:
+        if elem == x:
+            cpt += 1
+    return cpt
+
+lst = [3, 'toto', 4.5, False, None, 4.5]
+print(compter(lst, 4.5))
+>>> 2
+\end{minted}
+\end{mdframed}
+\end{onlyenv}
+\begin{onlyenv}<3>
+Cette fonction existe déjà : la méthode \mintinline{python}{count}
+\begin{mdframed}[roundcorner=5pt]
+\begin{minted}[fontsize=\small]{python}
+lst = [3, 'toto', 4.5, False, None, 4.5]
+lst.count(4.5)
+>>> 2
+\end{minted}
+\end{mdframed}
+\end{onlyenv}
+\end{frame}
+
+\begin{frame}[fragile,t]{Exercice : vider une liste}
+\begin{onlyenv}<1>
+\begin{block}{Exercice}
+Une fonction qui supprime \alert{tous} les éléments de \mintinline{python}{lst}.
+\end{block}
+\begin{mdframed}[roundcorner=5pt]
+\begin{minted}[fontsize=\footnotesize]{python}
+def vider(lst):
+    ...
+\end{minted}
+\end{mdframed}
+\end{onlyenv}
+\begin{onlyenv}<2>
+\begin{mdframed}[roundcorner=5pt]
+\begin{minted}[fontsize=\small]{python}
+def vider(lst):
+    while len(lst) > 0:
+        lst.pop()
+
+lst = [3, 'toto', 4.5, False, None, 4.5]
+vider(lst)
+print(lst)
+>>> []
+\end{minted}
+\end{mdframed}
+\end{onlyenv}
+\begin{onlyenv}<3>
+Cette fonction existe déjà : la méthode \mintinline{python}{clear}
+\begin{mdframed}[roundcorner=5pt]
+\begin{minted}[fontsize=\small]{python}
+lst = [3, 'toto', 4.5, False, None, 4.5]
+lst.clear()
+print(lst)
+>>> []
+\end{minted}
+\end{mdframed}
+\end{onlyenv}
+\end{frame}
+
+\begin{frame}[fragile,t]{Et avec un \texttt{for} ?}
+\begin{mdframed}[roundcorner=5pt]
+\begin{minted}[fontsize=\small]{python}
+# ATTENTION : MAUVAISE SOLUTION
+def essaie_de_vider_pour_voir(lst):
+    for i in range(len(lst)):
+        lst.pop(i)
+
+lst = [3, 'toto', 4.5, False, None, 4.5]
+essaie_de_vider_pour_voir(lst)
+>>> IndexError: pop index out of range
+\end{minted}
+\end{mdframed}
+
+\begin{onlyenv}<2>
+La liste raccourcit pendant qu'on la parcourt.
+
+\vspace{0.5em}
+Pour une fonction qui \alert{modifie} la liste donnée en argument, il vaut généralement mieux utiliser un \mintinline{python}{while}.
+\end{onlyenv}
+\end{frame}
+
+\begin{frame}[fragile,t]{Exercice : renverser une liste}
+\begin{onlyenv}<1>
+\begin{block}{Exercice}
+Une fonction qui renverse l'ordre des éléments de \mintinline{python}{lst}.
+\end{block}
+\begin{mdframed}[roundcorner=5pt]
+\begin{minted}[fontsize=\footnotesize]{python}
+def renverser(lst):
+    ...
+\end{minted}
+\end{mdframed}
+\end{onlyenv}
+\begin{onlyenv}<2>
+\begin{mdframed}[roundcorner=5pt]
+\begin{minted}[fontsize=\scriptsize]{python}
+def renverser(lst):
+    i = 0
+    j = len(lst) - 1
+    while i < j:
+        lst[i], lst[j] = lst[j], lst[i]
+        i += 1
+        j -= 1
+
+lst = [3, 'toto', 4.5, False, None, 4.5]
+renverser(lst)
+print(lst)
+>>> [4.5, None, False, 4.5, 'toto', 3]
+\end{minted}
+\end{mdframed}
+\end{onlyenv}
+\begin{onlyenv}<3>
+Cette fonction existe déjà : la méthode \mintinline{python}{reverse}
+\begin{mdframed}[roundcorner=5pt]
+\begin{minted}[fontsize=\small]{python}
+lst = [3, 'toto', 4.5, False, None, 4.5]
+lst.reverse()
+print(lst)
+>>> [4.5, None, False, 4.5, 'toto', 3]
+\end{minted}
+\end{mdframed}
+\end{onlyenv}
+\end{frame}
+
+\begin{frame}[fragile,t]{Exercice : retirer un élément}
+\begin{onlyenv}<1>
+\begin{block}{Exercice}
+Une fonction qui retire la \alert{première occurrence} de \mintinline{python}{x} dans \mintinline{python}{lst} (rien à faire si \mintinline{python}{x} n'y est pas).
+\end{block}
+\begin{mdframed}[roundcorner=5pt]
+\begin{minted}[fontsize=\footnotesize]{python}
+def retirer(lst, x):
+    ...
+\end{minted}
+\end{mdframed}
+\end{onlyenv}
+\begin{onlyenv}<2>
+\begin{mdframed}[roundcorner=5pt]
+\begin{minted}[fontsize=\scriptsize]{python}
+def retirer(lst, x):
+    i = chercher(lst, x)
+    if i is not None:
+        while i < len(lst) - 1:
+            lst[i] = lst[i + 1]
+            i += 1
+        lst.pop()
+
+lst = [3, 'toto', 4.5, False, None, 4.5]
+retirer(lst, 4.5)
+print(lst)
+>>> [3, 'toto', False, None, 4.5]
+\end{minted}
+\end{mdframed}
+\end{onlyenv}
+\begin{onlyenv}<3>
+Ou, avec \mintinline{python}{pop(i)} :
+\begin{mdframed}[roundcorner=5pt]
+\begin{minted}[fontsize=\small]{python}
+def retirer2(lst, x):
+    i = chercher(lst, x)
+    if i is not None:
+        lst.pop(i)
+\end{minted}
+\end{mdframed}
+\end{onlyenv}
+\begin{onlyenv}<4>
+Cette fonction existe déjà : la méthode \mintinline{python}{remove}
+\begin{mdframed}[roundcorner=5pt]
+\begin{minted}[fontsize=\scriptsize]{python}
+lst = [3, 'toto', 4.5, False, None, 4.5]
+lst.remove(4.5)
+print(lst)
+>>> [3, 'toto', False, None, 4.5]
+lst.remove(3.5)
+>>> ValueError: list.remove(x): x not in list
+\end{minted}
+\end{mdframed}
+\alert{Attention} : erreur si l'élément n'est pas dans la liste.
+\end{onlyenv}
+\end{frame}
+
+\begin{frame}[fragile,t]{Exercice : insérer un élément à un indice}
+\begin{onlyenv}<1>
+\begin{block}{Exercice}
+Une fonction qui insère \mintinline{python}{x} à la position \mintinline{python}{i} de \mintinline{python}{lst}.
+\end{block}
+\begin{mdframed}[roundcorner=5pt]
+\begin{minted}[fontsize=\footnotesize]{python}
+def ajouter(lst, i, x):
+    ...
+\end{minted}
+\end{mdframed}
+\begin{itemize}
+  \item \mintinline{python}{i} trop grand : on insère à la fin
+  \item \mintinline{python}{i} trop petit : on insère au début
+\end{itemize}
+\end{onlyenv}
+\begin{onlyenv}<2>
+\begin{mdframed}[roundcorner=5pt]
+\begin{minted}[fontsize=\scriptsize]{python}
+def ajouter(lst, i, x):
+    i = max(0, min(i, len(lst)))   # indice correct
+    lst.append(None)                # une case vide à la fin
+    j = len(lst) - 1
+    while j > i:                    # décalage vers la droite
+        lst[j] = lst[j - 1]
+        j -= 1
+    lst[i] = x
+\end{minted}
+\end{mdframed}
+\end{onlyenv}
+\begin{onlyenv}<3>
+\begin{mdframed}[roundcorner=5pt]
+\begin{minted}[fontsize=\scriptsize]{python}
+lst = [3, 'toto', 4.5, False, None, 4.5]
+ajouter(lst, 3, 79)
+print(lst)
+>>> [3, 'toto', 4.5, 79, False, None, 4.5]
+ajouter(lst, -6, "petit")
+print(lst)
+>>> ['petit', 3, 'toto', 4.5, 79, False, None, 4.5]
+ajouter(lst, 16, "grand")
+print(lst)
+>>> ['petit', 3, 'toto', 4.5, 79, False, None, 4.5, 'grand']
+\end{minted}
+\end{mdframed}
+\end{onlyenv}
+\begin{onlyenv}<4>
+Cette fonction existe déjà : la méthode \mintinline{python}{insert}
+\begin{mdframed}[roundcorner=5pt]
+\begin{minted}[fontsize=\small]{python}
+lst = [3, 'toto', 4.5, False, None, 4.5]
+lst.insert(3, 79)
+print(lst)
+>>> [3, 'toto', 4.5, 79, False, None, 4.5]
+\end{minted}
+\end{mdframed}
+Même comportement : fin si l'indice est trop grand, début s'il est négatif.
+\end{onlyenv}
+\end{frame}
+
+\begin{frame}[fragile,t]{Trier une liste}
+\begin{onlyenv}<1>
+\mintinline{python}{sort} \alert{modifie} la liste ; \mintinline{python}{sorted} \alert{crée} une copie triée :
+\begin{mdframed}[roundcorner=5pt]
+\begin{minted}[fontsize=\small]{python}
+lst = [4, 6.6, 2, -7, 13, -6, 0]
+print(sorted(lst))
+>>> [-7, -6, 0, 2, 4, 6.6, 13]
+print(lst)
+>>> [4, 6.6, 2, -7, 13, -6, 0]
+lst.sort()
+print(lst)
+>>> [-7, -6, 0, 2, 4, 6.6, 13]
+\end{minted}
+\end{mdframed}
+\end{onlyenv}
+\begin{onlyenv}<2>
+\alert{Attention} : il faut que les éléments soient comparables.
+\begin{mdframed}[roundcorner=5pt]
+\begin{minted}[fontsize=\scriptsize]{python}
+[3, 'toto', 4.5].sort()
+>>> TypeError: '<' not supported between instances of
+    'str' and 'int'
+\end{minted}
+\end{mdframed}
+Programmer le tri : objectif du semestre 2.
+\end{onlyenv}
+\end{frame}
+
+\begin{frame}[fragile,t]{Récapitulatif : méthodes qui modifient la liste}
+\footnotesize
+\begin{center}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{@{}ll@{}}
+\textbf{méthode} & \textbf{effet} \\ \hline
+\texttt{lst.append(x)} & ajoute \texttt{x} à la fin \\
+\texttt{lst.extend(lst2)} & ajoute les éléments de \texttt{lst2} à la fin \\
+\texttt{lst.insert(i, x)} & ajoute \texttt{x} à l'indice \texttt{i} \\
+\texttt{lst.remove(x)} & retire la première occurrence de \texttt{x}$^{(1)}$ \\
+\texttt{lst.pop()} & retire et renvoie le dernier élément$^{(2)}$ \\
+\texttt{lst.pop(i)} & retire et renvoie l'élément d'indice \texttt{i}$^{(3)}$ \\
+\texttt{lst.clear()} & vide la liste \\
+\texttt{lst.sort()} & trie la liste$^{(4)}$ \\
+\texttt{lst.reverse()} & renverse la liste \\
+\end{tabular}
+\end{center}
+\scriptsize $^{(1)}$ erreur si \texttt{x} n'est pas dans \texttt{lst} \quad $^{(2)}$ si \texttt{lst} est vide \quad $^{(3)}$ si \texttt{i} n'est pas un indice \quad $^{(4)}$ si éléments incomparables
+
+\end{frame}
+
+\begin{frame}[fragile,t]{Récapitulatif : ce qui ne modifie pas la liste}
+\footnotesize
+\begin{center}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{@{}ll@{}}
+\textbf{méthode / opérateur} & \textbf{effet} \\ \hline
+\texttt{lst.index(x)} & indice de la première occurrence de \texttt{x}$^{(1)}$ \\
+\texttt{lst.count(x)} & nombre d'occurrences de \texttt{x} \\
+\texttt{lst.copy()} & copie \emph{superficielle} de \texttt{lst} \\
+\texttt{len(lst)} & longueur de \texttt{lst} \\
+\texttt{min(lst), max(lst)} & plus petit, plus grand élément$^{(2)}$ \\
+\texttt{sum(lst)} & somme des éléments (nombres) \\
+\texttt{sorted(lst)} & copie triée de \texttt{lst}$^{(3)}$ \\
+\texttt{lst1 + lst2} & concaténation (nouvelle liste) \\
+\texttt{lst * n} & répétition (nouvelle liste) \\
+\texttt{x in lst} & \texttt{True} si \texttt{x} apparaît dans \texttt{lst} \\
+\end{tabular}
+\end{center}
+\scriptsize $^{(1)}$ erreur si \texttt{x} n'est pas dans \texttt{lst} \quad $^{(2)}$ si \texttt{lst} est vide ou contient des éléments incomparables \quad $^{(3)}$ si éléments incomparables
+
+\end{frame}
+
 \end{document}
 
 
