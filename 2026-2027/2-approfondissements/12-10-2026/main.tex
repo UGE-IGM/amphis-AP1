@@ -558,7 +558,49 @@ def contient(iterable, cible):
     \only<3-5>{\bulle{cmmint}{7.3}{3.0}{2.6}{EN MAJUSCULES ?}}
     \only<4-5>{\bulle{cmmint}{6.4}{1.9}{2.2}{NOMBRE DE MAJUSCULES}\bulle{cmpeach}{8.7}{1.9}{2.2}{PASSER EN MAJUSCULE}}
 
-    \only<6>{\node[fill=cmgold, font=\Large\bfseries, inner sep=4pt] at (5.3,2.6) {Démo Thonny : cm5\_chaines\_13\_10\_3025.py};}
+    \only<6>{\node[fill=cmgold, font=\Large\bfseries, inner sep=4pt] at (5.3,2.6) {Démo sur Thonny};}
+  \end{tikzpicture}
+\end{frame}
+
+% ------------------------------------------------------------------
+% Les chaînes de caractères : le type str
+% ------------------------------------------------------------------
+\begin{frame}{Les chaînes de caractères : le type \texttt{str}}
+  \begin{tikzpicture}[x=1cm,y=1cm]
+    \useasboundingbox (0,0) rectangle (10.6,6.2);
+
+    % --- str ---
+    \node[anchor=west, font=\normalsize\bfseries, text=black!70] at (0.2,5.4) {\tiret Le type \texttt{str}};
+    \node[anchor=west, font=\ttfamily\large] at (6.0,5.4) {s = "AP1"};
+
+    % --- itérables ---
+    \only<2->{%
+      \node[anchor=west, font=\normalsize\bfseries, text=black!70] at (0.2,4.35) {\tiret Itérables};
+      \node[anchor=west, font=\itshape\footnotesize, text=black!60] at (0.7,3.95) {on peut les parcourir avec une boucle \texttt{for}};
+      \node[anchor=west, font=\ttfamily\large] at (6.0,4.35) {\textbf{for} c \textbf{in} s:};
+    }
+
+    % --- non mutables ---
+    \only<3->{%
+      \node[anchor=west, font=\normalsize\bfseries, text=black!70] at (0.2,3.05) {\tiret Non mutables};
+      \node[anchor=west, font=\itshape\footnotesize, text=black!60] at (0.7,2.65) {on ne peut pas modifier une case};
+      \node[anchor=west, font=\ttfamily\large] (aff) at (6.0,3.05) {s[0] = "a"};
+      \node[anchor=west, font=\bfseries, text=cmred] at ($(aff.east)+(0.3,0)$) {\Large $\times$};
+    }
+
+    % --- leurs méthodes ---
+    \only<4->{%
+      \node[anchor=west, font=\normalsize\bfseries, text=black!70] at (0.2,1.8) {\tiret Ont leurs méthodes propres};
+      \node[anchor=west, font=\ttfamily\large] at (6.0,1.95) {s.isupper()};
+      \node[anchor=west, font=\ttfamily\large] at (6.0,1.4) {s.islower()};
+    }
+
+    % --- il en existe d'autres ---
+    \only<5->{%
+      \node[anchor=west, font=\normalsize\bfseries, text=black!70] at (0.2,0.7) {\tiret Il en existe bien d'autres};
+      \node[anchor=west, font=\ttfamily\large] at (6.0,0.7) {join, split, \dots};
+      \node[anchor=east, font=\scriptsize] at (10.5,0.05) {\href{https://docs.python.org/fr/3/library/stdtypes.html\#string-methods}{\underline{docs.python.org/fr/3/library/stdtypes.html\#string-methods}}};
+    }
   \end{tikzpicture}
 \end{frame}
 
