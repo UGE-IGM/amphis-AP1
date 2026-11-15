@@ -1,0 +1,787 @@
+% !TEX program = xelatex
+% !TeX TXS-program:compile = txs:///xelatex/[-shell-escape]
+\documentclass[x11names,svgnames,usepdftitle=false]{beamer}
+
+\usetheme{metropolis}
+\setbeamertemplate{caption}{\raggedright\insertcaption\par}
+\setbeamercolor{block title}{fg=LightSkyBlue4}
+\newenvironment<>{importantblock}[1]{%
+  \begin{actionenv}#2%
+    \def\insertblocktitle{#1}%
+    \par%
+    \mode<presentation>{%
+      \setbeamercolor{block title}{%
+        use=normal text,
+        fg=normal text.fg,
+        bg=normal text.bg!80!fg
+      }
+      \setbeamercolor{block body}{
+        use={block title, normal text},
+        bg=block title.bg!50!normal text.bg
+      }
+    }%
+    \usebeamertemplate{block begin}}
+  {\par\usebeamertemplate{block end}\end{actionenv}}
+\newenvironment<>{decisionblock}[1][Statement of the problem]{%
+  \begin{actionenv}#2%
+    \def\insertblocktitle{#1}%
+    \par%
+    \mode<presentation>{%
+      \setbeamercolor{block title}{%
+        use=normal text,
+        fg=normal text.fg,
+        bg=normal text.bg!80!fg
+      }
+      \setbeamercolor{block body}{
+        use={block title, normal text},
+        bg=block title.bg!50!normal text.bg
+      }
+    }%
+    \usebeamertemplate{block begin}}
+  {\par\usebeamertemplate{block end}\end{actionenv}}
+\usepackage{fontspec}
+\usepackage[french, frenchkw]{algorithm2e}
+\SetKwFor{Pc}{Pour chaque}{faire}{fin}
+\SetKwProg{Fn}{Fonction}{:}{}
+\usepackage{textcomp}
+\usepackage{minted}
+\usepackage[framemethod=TikZ]{mdframed}
+\usepackage{pdfpages}
+\usepackage{qrcode}
+\usepackage[francais]{babel}
+\providecommand{\og}{«\,}
+\providecommand{\fg}{\,»}
+\usepackage{xspace}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{pifont}% http://ctan.org/pkg/pifont
+\newcommand{\cmark}{\ding{51}}%
+\newcommand{\xmark}{\ding{55}}%
+\usepackage{marvosym}
+\usepackage{tikz}
+\usetikzlibrary{calc, positioning, arrows, automata, fadings, decorations.pathmorphing, shapes, patterns, tikzmark, fit, chains, snakes, shapes.multipart}
+\setminted{fontsize=\small}
+% ------------------------------------------------------------------
+% Couleurs et puces (mêmes conventions que les séances précédentes)
+% ------------------------------------------------------------------
+\definecolor{cmblue}{RGB}{86, 185, 238}
+\definecolor{cmgold}{RGB}{244, 197, 66}
+\definecolor{cmmint}{RGB}{224, 245, 240}
+\colorlet{idxcol}{blue!60!black}% indice / position
+\colorlet{eltcol}{red!70!black}% élément / valeur d'une case
+% puce : tiret bleu
+\newcommand{\tiret}{\textcolor{cmblue}{\rule[0.35ex]{0.8em}{0.4ex}}\hspace{0.5em}}
+
+% tableau « type | exemple | valeur » en TikZ (les lignes apparaissent une à une)
+\newcommand{\tabtete}[3]{%
+  \node[anchor=west, font=\bfseries, text=black!70] at (0.2,4.95) {#1};
+  \node[anchor=west, font=\bfseries, text=black!70] at (3.5,4.95) {#2};
+  \node[anchor=west, font=\bfseries, text=black!70] at (7.8,4.95) {#3};
+  \draw[cmblue, very thick] (0,4.6) -- (10.6,4.6);}
+\newcommand{\tabligne}[4]{% y, type, exemple, valeur
+  \node[anchor=west] at (0.2,#1) {#2};
+  \node[anchor=west, text width=4.1cm] at (3.5,#1) {#3};
+  \node[anchor=west, font=\ttfamily, text=eltcol] at (7.8,#1) {#4};
+  \draw[black!25] (0,{#1-0.5}) -- (10.6,{#1-0.5});}
+
+% une rangée de cases : #1,#2 = coin haut gauche, #3 = largeur d'une case, #4 = éléments (séparés par des virgules) ; indices en bleu, éléments en rouge
+\newcommand{\bande}[4]{%
+  \foreach \e [count=\k from 0] in {#4}{%
+    \draw[thick] ({#1+#3*\k},#2) rectangle ({#1+#3*(\k+1)},{#2-0.7});
+    \node[font=\ttfamily\small, text=eltcol] at ({#1+#3*(\k+0.5)},{#2-0.35}) {\e};
+    \node[font=\small\bfseries, text=idxcol] at ({#1+#3*(\k+0.5)},{#2+0.25}) {\k};}}
+% mise en valeur d'une case : #1,#2 = coin haut gauche de la rangée, #3 = largeur d'une case, #4 = indice de la case
+\newcommand{\sel}[4]{\draw[cmgold, very thick, rounded corners=2pt] ({#1+#3*#4-0.03},{#2+0.03}) rectangle ({#1+#3*(#4+1)+0.03},{#2-0.73});}
+% illustration de code, en gris et plus petite : #1,#2 = position, #3 = code
+\newcommand{\codegris}[3]{\node[anchor=west, font=\ttfamily\footnotesize, text=black!50] at (#1,#2) {#3};}
+% une propriété : tiret bleu + texte
+\newcommand{\prop}[2]{\node[anchor=west, font=\Large] at (0.2,#1) {\tiret #2};}
+
+% question du CC1 : image de la question, puis (animation) la bonne réponse noircie
+\newcommand{\questioncc}[1]{%
+  \begin{frame}[c]{CC1 -- Question #1}
+    \centering
+    \only<1>{\includegraphics[width=\linewidth, height=0.8\textheight, keepaspectratio]{img/cc1_q#1_blanc.png}}%
+    \only<2>{\includegraphics[width=\linewidth, height=0.8\textheight, keepaspectratio]{img/cc1_q#1_rep.png}}%
+  \end{frame}}
+
+% https://tex.stackexchange.com/questions/401884/how-do-i-change-hyperlinks-color-only
+\hypersetup{
+  colorlinks,
+  allcolors=.,
+  urlcolor=DarkBlue,
+  pdftitle=Algorithmique et Programmation 1 - CM7
+}
+
+
+\author{}
+\date{Lundi 16 novembre 2026}
+
+\title{\includegraphics[width=0.75\textwidth]{img/logo-igm.png} \\ Algorithmique et Programmation 1}
+\institute{L1 Mathématiques - L1 Informatique \\ Semestre 1}
+
+\begin{document}
+
+\maketitle
+
+\section{Correction du CC1}
+
+\questioncc{01}
+\questioncc{02}
+\questioncc{03}
+\questioncc{04}
+\questioncc{05}
+\questioncc{06}
+\questioncc{07}
+\questioncc{08}
+\questioncc{09}
+\questioncc{10}
+\questioncc{11}
+\questioncc{12}
+
+\section{Les structures de données}
+
+\begin{frame}{Les données}
+  \begin{tikzpicture}[x=1cm,y=1cm]
+    \useasboundingbox (0,0) rectangle (10.6,6.2);
+    \node[font=\normalsize] at (5.3,5.8) {\textbf{Données} : nombres entiers, nombres réels, booléens, lettres, \dots};
+    \only<2->{\tabtete{Type de donnée}{Exemple}{Valeur}}
+    \only<3->{\tabligne{4.1}{nombre entier}{durée en minutes}{27}}
+    \only<4->{\tabligne{3.3}{nombre réel}{note sur 20}{16.4}}
+    \only<5->{\tabligne{2.5}{booléen}{réussite à un examen}{True}}
+    \only<6->{\tabligne{1.7}{lettre}{initiale d'un prénom}{"A"}}
+  \end{tikzpicture}
+\end{frame}
+
+\begin{frame}{Les structures de données}
+  \begin{tikzpicture}[x=1cm,y=1cm]
+    \useasboundingbox (0,0) rectangle (10.6,6.2);
+    \node[font=\Large, align=center, text width=10cm] at (5.3,4.6) {Pour organiser ces données, on utilise des \textbf{structures de données}};
+    \only<2>{\node[fill=cmmint, draw=cmblue, very thick, rounded corners=6pt, text width=9.4cm, inner sep=10pt, font=\large, align=center] at (5.3,2.1) {\textbf{Structure de données} : une manière d'organiser des données afin qu'elles puissent être utilisées par un programme informatique de façon \textbf{efficace}.};}
+  \end{tikzpicture}
+\end{frame}
+
+\begin{frame}{Exemples de structures de données}
+  \begin{tikzpicture}[x=1cm,y=1cm]
+    \useasboundingbox (0,0) rectangle (10.6,6.2);
+    \tabtete{Structure}{Exemple}{Valeur}
+    \only<2->{\tabligne{4.1}{liste}{plusieurs durées en minutes}{[16, 24, 31]}}
+    \only<3->{\tabligne{3.0}{tuple}{un nombre d'heures et de minutes}{(2, 43)}}
+    \only<4->{%
+      \node[anchor=west] at (0.2,1.65) {liste de listes};
+      \node[anchor=west, text width=2.9cm] at (3.5,1.65) {un plateau de morpion};
+      \draw[black!25] (0,0.7) -- (10.6,0.7);
+    }
+    \only<4>{%
+      \draw[thick] (7.8,2.4) rectangle (9.3,0.9);
+      \draw[thick] (8.3,2.4) -- (8.3,0.9) (8.8,2.4) -- (8.8,0.9) (7.8,1.9) -- (9.3,1.9) (7.8,1.4) -- (9.3,1.4);
+      \foreach \s [count=\k from 0] in {X,O,{},{},X,O,{},{},X}{%
+        \pgfmathtruncatemacro{\r}{int(\k/3)}\pgfmathtruncatemacro{\c}{mod(\k,3)}%
+        \node[font=\ttfamily\large\bfseries, text=eltcol] at ({8.05+0.5*\c},{2.15-0.5*\r}) {\s};}
+    }
+    \only<5>{%
+      \node[anchor=west, font=\ttfamily\small, text=eltcol] at (6.6,2.15) {[["X", "O", " "],};
+      \node[anchor=west, font=\ttfamily\small, text=eltcol] at (6.6,1.65) {\ [" ", "X", "O"],};
+      \node[anchor=west, font=\ttfamily\small, text=eltcol] at (6.6,1.15) {\ [" ", " ", "X"]]};
+    }
+  \end{tikzpicture}
+\end{frame}
+
+
+
+% ===== Rappels : listes, tuples, ensembles =====
+\begin{frame}{Les listes}
+  \begin{tikzpicture}[x=1cm,y=1cm]
+    \useasboundingbox (0,0) rectangle (10.6,6.2);
+    \node[anchor=west, font=\ttfamily\large] at (0.2,5.6) {lst = ['coucou', 'les', 'AP1']};
+    \only<1>{%
+      \bande{0.2}{4.4}{1.7}{{'coucou'},{'les'},{'AP1'}}
+    }
+    \only<2>{%
+      \bande{0.2}{4.4}{1.7}{{'coucou'},{'les'},{'AP1'}}
+      \sel{0.2}{4.4}{1.7}{1}
+      \prop{3.0}{ordonnée : accès par indice}
+      \codegris{7.3}{3.0}{lst[1]}
+    }
+    \only<3>{%
+      \bande{0.2}{4.4}{1.7}{{'Salut'},{'les'},{'AP1'}}
+      \sel{0.2}{4.4}{1.7}{0}
+      \prop{3.0}{ordonnée : accès par indice}
+      \prop{2.3}{modifiable}
+      \codegris{7.3}{2.3}{lst[0] = "Salut"}
+    }
+    \only<4>{%
+      \bande{0.2}{4.4}{1.7}{{'Salut'},{'les'},{'AP1'}}
+      \prop{3.0}{ordonnée : accès par indice}
+      \prop{2.3}{modifiable}
+      \prop{1.6}{itérable}
+      \codegris{7.3}{1.6}{for elt in lst}
+    }
+    \only<5>{%
+      \bande{0.2}{4.4}{1.7}{{'Salut'},{'les'},{'AP1'},{'!'},{'!'}}
+      \prop{3.0}{ordonnée : accès par indice}
+      \prop{2.3}{modifiable}
+      \prop{1.6}{itérable}
+      \prop{0.9}{avec doublons}
+    }
+  \end{tikzpicture}
+\end{frame}
+
+\begin{frame}{Les tuples}
+  \begin{tikzpicture}[x=1cm,y=1cm]
+    \useasboundingbox (0,0) rectangle (10.6,6.2);
+    \node[anchor=west, font=\ttfamily\large] at (0.2,5.6) {triplet = ('pas', 'touche', '!')};
+    \only<1>{%
+      \bande{0.2}{4.4}{1.7}{{'pas'},{'touche'},{'!'}}
+    }
+    \only<2>{%
+      \bande{0.2}{4.4}{1.7}{{'pas'},{'touche'},{'!'}}
+      \sel{0.2}{4.4}{1.7}{1}
+      \prop{3.0}{ordonné : accès par indice}
+      \codegris{7.3}{3.0}{triplet[1]}
+    }
+    \only<3>{%
+      \bande{0.2}{4.4}{1.7}{{'pas'},{'touche'},{'!'}}
+      \sel{0.2}{4.4}{1.7}{2}
+      \prop{3.0}{ordonné : accès par indice}
+      \prop{2.3}{\alert{non modifiable}}
+      \codegris{7.3}{2.3}{\sout{triplet[2] = "?"}}
+    }
+    \only<4>{%
+      \bande{0.2}{4.4}{1.7}{{'pas'},{'touche'},{'!'}}
+      \prop{3.0}{ordonné : accès par indice}
+      \prop{2.3}{\alert{non modifiable}}
+      \prop{1.6}{itérable}
+      \codegris{7.3}{1.6}{for elt in triplet}
+    }
+    \only<5>{%
+      \bande{0.2}{4.4}{1.7}{{'pas'},{'touche'},{'!'},{'!'},{'!'}}
+      \prop{3.0}{ordonné : accès par indice}
+      \prop{2.3}{\alert{non modifiable}}
+      \prop{1.6}{itérable}
+      \prop{0.9}{avec doublons}
+    }
+  \end{tikzpicture}
+\end{frame}
+
+\begin{frame}{Les ensembles (\texttt{set})}
+  \begin{tikzpicture}[x=1cm,y=1cm]
+    \useasboundingbox (0,0) rectangle (10.6,6.2);
+    \only<1>{\node at (5.3,3.1) {\includegraphics[height=5.4cm]{img/new.png}};}
+    \only<2->{%
+      \node[anchor=west, font=\ttfamily\large] at (0.2,5.6) {coffre = \{'collier', 'montre'\}};
+      \draw[thick, rounded corners=12pt] (0.2,4.9) rectangle (4.9,3.7);
+      \node[font=\ttfamily\small, text=eltcol] at (1.45,4.3) {'collier'};
+      \node[font=\ttfamily\small, text=eltcol] at (3.55,4.3) {'montre'};
+    }
+    \only<3->{\prop{3.0}{\alert{non ordonné} : pas d'indice}}
+    \only<4->{\prop{2.3}{modifiable}}
+    \only<5->{\prop{1.6}{itérable}}
+    \only<6->{\prop{0.9}{\alert{pas de doublons}}}
+  \end{tikzpicture}
+\end{frame}
+
+\begin{frame}{Les ensembles (\texttt{set})}
+  \begin{tikzpicture}[x=1cm,y=1cm]
+    \useasboundingbox (0,0) rectangle (10.6,6.2);
+    \only<1>{%
+      \node[anchor=west, font=\ttfamily\large] (l0) at (0.4,5.4) {coffre = set()};
+      \draw[thick, rounded corners=12pt] (6.4,5.5) rectangle (10.5,4.3);
+    }
+    \only<2>{%
+      \node[anchor=west, font=\ttfamily\large] (l0) at (0.4,5.4) {coffre = set()};
+      \node[anchor=west, font=\ttfamily\large] (l1) at (0.4,4.4) {coffre.\textbf{add}('collier')};
+      \draw[thick, rounded corners=12pt] (6.4,5.5) rectangle (10.5,4.3); \node[font=\ttfamily\small, text=eltcol] at (7.5,4.9) {'collier'};
+    }
+    \only<3>{%
+      \node[anchor=west, font=\ttfamily\large] (l0) at (0.4,5.4) {coffre = set()};
+      \node[anchor=west, font=\ttfamily\large] (l1) at (0.4,4.4) {coffre.\textbf{add}('collier')};
+      \node[anchor=west, font=\ttfamily\large] (l2) at (0.4,3.4) {coffre.\textbf{add}('montre')};
+      \draw[thick, rounded corners=12pt] (6.4,5.5) rectangle (10.5,4.3); \node[font=\ttfamily\small, text=eltcol] at (7.5,4.9) {'collier'}; \node[font=\ttfamily\small, text=eltcol] at (9.5,4.9) {'montre'};
+    }
+    \only<4>{%
+      \node[anchor=west, font=\ttfamily\large] (l0) at (0.4,5.4) {coffre = set()};
+      \node[anchor=west, font=\ttfamily\large] (l1) at (0.4,4.4) {coffre.\textbf{add}('collier')};
+      \node[anchor=west, font=\ttfamily\large] (l2) at (0.4,3.4) {coffre.\textbf{add}('montre')};
+      \node[anchor=west, font=\ttfamily\large] (l3) at (0.4,2.4) {coffre.\textbf{add}('collier')};
+      \node[anchor=west, font=\ttfamily\large, text=eltcol] at (l3.east) {\ \# rien ne se passe};
+      \draw[thick, rounded corners=12pt] (6.4,5.5) rectangle (10.5,4.3); \node[font=\ttfamily\small, text=eltcol] at (7.5,4.9) {'collier'}; \node[font=\ttfamily\small, text=eltcol] at (9.5,4.9) {'montre'};
+    }
+  \end{tikzpicture}
+\end{frame}
+
+\begin{frame}{Quand utiliser des ensembles ?}
+  \begin{tikzpicture}[x=1cm,y=1cm]
+    \useasboundingbox (0,0) rectangle (10.6,6.2);
+    \only<1->{\prop{5.0}{Quand on veut lister des éléments}}
+    \only<2->{\prop{4.0}{Que l'ordre n'est pas important}}
+    \only<3->{\prop{3.0}{Mais qu'on ne veut pas avoir de doublons}}
+    \only<4->{\node[fill=cmmint, draw=cmblue, very thick, rounded corners=6pt, text width=9.4cm, inner sep=8pt, font=\normalsize, align=left] at (5.3,1.3) {\textbf{NB} : On peut utiliser toutes les opérations usuelles sur les ensembles : union, intersection, \dots};}
+  \end{tikzpicture}
+\end{frame}
+
+
+% ===== Les dictionnaires =====
+\section{Les dictionnaires}
+
+\begin{frame}[fragile,t]{Regrouper les informations d'un joueur}
+On veut modéliser un jeu à plusieurs joueurs, où les joueurs ont :
+
+\begin{onlyenv}<1-2>
+\begin{itemize}
+  \item un pseudo
+  \item une couleur
+  \item un score
+\end{itemize}
+\end{onlyenv}
+\begin{onlyenv}<2->
+\vspace{-0.5em}
+On peut bien sûr utiliser des listes :
+\begin{mdframed}[roundcorner=5pt]
+\begin{minted}[fontsize=\footnotesize]{python}
+pseudos = ["aze89", "yoplait", "azareth"]
+couleurs = ["red", "yellow", "green"]
+scores = [0, 0, 0]
+\end{minted}
+\end{mdframed}
+\end{onlyenv}
+\begin{onlyenv}<3>
+\vspace{-0.5em}
+Mais :
+\begin{itemize}
+  \item il faut se trimballer trois listes
+  \item et ne pas se planter quand on ajoute un joueur
+  \item ou une caractéristique
+\end{itemize}
+\end{onlyenv}
+\end{frame}
+
+\begin{frame}[fragile,t]{Groupons par joueur}
+\begin{mdframed}[roundcorner=5pt]
+\begin{minted}[fontsize=\footnotesize]{python}
+joueur1 = ["qsdf89", "red", 25]
+joueur2 = ["yoplait", "yellow", 20]
+joueur3 = ["azareth", "green", 28]
+joueurs = [joueur1, joueur2, joueur3]
+\end{minted}
+\end{mdframed}
+
+\begin{onlyenv}<2->
+\vspace{-0.5em}
+Mais il faut se rappeler que :
+\begin{itemize}
+  \item 0 correspond au pseudo
+  \item 1 correspond à la couleur
+  \item 2 correspond au score
+\end{itemize}
+\end{onlyenv}
+\begin{onlyenv}<3>
+On aimerait donc donner un nom à chaque indice !
+\end{onlyenv}
+\end{frame}
+
+\begin{frame}[fragile,t]{Les dictionnaires}
+C'est précisément ce que font les dictionnaires !
+\begin{mdframed}[roundcorner=5pt]
+\begin{minted}[fontsize=\scriptsize]{python}
+joueur1 = {'pseudo': 'qsdf89',
+           'couleur': 'red',
+           'score': 25}
+joueur2 = {'pseudo': 'yoplait',
+           'couleur': 'yellow',
+           'score': 20}
+joueur3 = {'pseudo': 'azareth',
+           'couleur': 'green',
+           'score': 28}
+joueurs = [joueur1, joueur2, joueur3]
+\end{minted}
+\end{mdframed}
+
+\begin{onlyenv}<2>
+Les dictionnaires permettent ainsi de rassembler plusieurs informations concernant une personne.
+\end{onlyenv}
+\end{frame}
+
+% DICO-A-BEGIN
+\begin{frame}{Représentation d'un dictionnaire}
+  \begin{tikzpicture}[x=1cm,y=1cm]
+    \useasboundingbox (0,0) rectangle (10.6,6.2);
+    \only<1>{%
+      \node[anchor=west, font=\ttfamily\footnotesize] at (0.2,4.6) {joueur1 = \{'pseudo': 'qsdf89',};
+      \draw[thick, rounded corners=14pt] (6.4,5.4) rectangle (10.7,2.0000000000000004);
+      \draw[thick] (6.60,4.45) rectangle (8.20,3.85);
+      \node[font=\ttfamily\footnotesize, text=eltcol] at (7.40,4.15) {'qsdf89'};
+      \node[font=\ttfamily\scriptsize\bfseries, text=idxcol] at (7.40,4.75) {'pseudo'};
+    }
+    \only<2>{%
+      \node[anchor=west, font=\ttfamily\footnotesize] at (0.2,4.6) {joueur1 = \{'pseudo': 'qsdf89',};
+      \node[anchor=west, font=\ttfamily\footnotesize] at (0.2,4.1) {\phantom{joueur1 = \{}'couleur': 'red',};
+      \draw[thick, rounded corners=14pt] (6.4,5.4) rectangle (10.7,2.0000000000000004);
+      \draw[thick] (6.60,4.45) rectangle (8.20,3.85);
+      \node[font=\ttfamily\footnotesize, text=eltcol] at (7.40,4.15) {'qsdf89'};
+      \node[font=\ttfamily\scriptsize\bfseries, text=idxcol] at (7.40,4.75) {'pseudo'};
+      \draw[thick] (8.90,4.15) rectangle (10.50,3.55);
+      \node[font=\ttfamily\footnotesize, text=eltcol] at (9.70,3.85) {'red'};
+      \node[font=\ttfamily\scriptsize\bfseries, text=idxcol] at (9.70,4.45) {'couleur'};
+    }
+    \only<3>{%
+      \node[anchor=west, font=\ttfamily\footnotesize] at (0.2,4.6) {joueur1 = \{'pseudo': 'qsdf89',};
+      \node[anchor=west, font=\ttfamily\footnotesize] at (0.2,4.1) {\phantom{joueur1 = \{}'couleur': 'red',};
+      \node[anchor=west, font=\ttfamily\footnotesize] at (0.2,3.6) {\phantom{joueur1 = \{}'score': 25\}};
+      \draw[thick, rounded corners=14pt] (6.4,5.4) rectangle (10.7,2.0000000000000004);
+      \draw[thick] (6.60,4.45) rectangle (8.20,3.85);
+      \node[font=\ttfamily\footnotesize, text=eltcol] at (7.40,4.15) {'qsdf89'};
+      \node[font=\ttfamily\scriptsize\bfseries, text=idxcol] at (7.40,4.75) {'pseudo'};
+      \draw[thick] (8.90,4.15) rectangle (10.50,3.55);
+      \node[font=\ttfamily\footnotesize, text=eltcol] at (9.70,3.85) {'red'};
+      \node[font=\ttfamily\scriptsize\bfseries, text=idxcol] at (9.70,4.45) {'couleur'};
+      \draw[thick] (6.90,2.95) rectangle (8.50,2.35);
+      \node[font=\ttfamily\footnotesize, text=eltcol] at (7.70,2.65) {25};
+      \node[font=\ttfamily\scriptsize\bfseries, text=idxcol] at (7.70,3.25) {'score'};
+    }
+  \end{tikzpicture}
+\end{frame}
+% DICO-A-END
+
+\begin{frame}[fragile,t]{Dictionnaire : définition}
+\textbf{Dictionnaire} : objet associant une liste de \alert{clés} à des \alert{valeurs}.
+\begin{itemize}
+  \item Entrées/clés (\textit{keys}) : d'un type de base \textit{immutable}
+  \item Valeurs associées (\textit{values}) : de n'importe quel type
+  \item Les paires (clé, valeur) sont appelées \textit{objets} (\textit{items})
+\end{itemize}
+
+\begin{onlyenv}<2>
+Un objet de type \mintinline{python}{dict} est :
+\begin{itemize}
+  \item une \textbf{collection}
+  \item \textbf{mutable} (= modifiable)
+  \item \textbf{hétérogène} (peut contenir des types différents)
+  \item \textbf{itérable} (utilisable dans un \mintinline{python}{for})
+\end{itemize}
+\end{onlyenv}
+\end{frame}
+
+\begin{frame}[fragile,t]{Créer, accéder, modifier}
+\begin{block}{Créer un dictionnaire}
+\begin{mdframed}[roundcorner=5pt]
+\begin{minted}[fontsize=\footnotesize]{python}
+# Pour créer un dictionnaire vide
+dictionnaire = dict()  # Ou bien
+dictionnaire = {}
+# Pour l'initialiser avec des valeurs :
+# voir précédemment
+\end{minted}
+\end{mdframed}
+\end{block}
+
+\begin{onlyenv}<2->
+\begin{block}{Accéder à une valeur via sa clé}
+\begin{mdframed}[roundcorner=5pt]
+\begin{minted}[fontsize=\footnotesize]{python}
+dictionnaire[cle]
+\end{minted}
+\end{mdframed}
+\end{block}
+\end{onlyenv}
+\begin{onlyenv}<3>
+\begin{block}{Modifier une valeur}
+\begin{mdframed}[roundcorner=5pt]
+\begin{minted}[fontsize=\footnotesize]{python}
+dictionnaire[cle] = valeur
+\end{minted}
+\end{mdframed}
+\end{block}
+\end{onlyenv}
+\end{frame}
+
+\begin{frame}[fragile,t]{Exemple}
+\begin{mdframed}[roundcorner=5pt]
+\begin{minted}[fontsize=\small]{python}
+joueur1 = {'pseudo': 'qsdf89',
+           'couleur': 'red',
+           'score': 25}
+print(joueur1['couleur'])  # red
+joueur1['score'] += 3
+print(joueur1['score'])  # 28
+\end{minted}
+\end{mdframed}
+
+\begin{onlyenv}<2>
+\begin{mdframed}[roundcorner=5pt]
+\begin{minted}[fontsize=\small]{python}
+joueur1['ville'] = 'Champs'
+print(joueur1)
+# {'pseudo': 'qsdf89', 'couleur': 'red',
+#  'score': 28, 'ville': 'Champs'}
+\end{minted}
+\end{mdframed}
+\end{onlyenv}
+\end{frame}
+
+% DICO-B-BEGIN
+\begin{frame}{Exemple : le dictionnaire en dessin}
+  \begin{tikzpicture}[x=1cm,y=1cm]
+    \useasboundingbox (0,0) rectangle (10.6,6.2);
+    \only<1>{%
+      \node[anchor=west, font=\ttfamily\footnotesize] at (0.2,4.6) {joueur1 = \{...\}};
+      \draw[thick, rounded corners=14pt] (6.4,5.4) rectangle (10.7,2.0000000000000004);
+      \draw[thick] (6.60,4.45) rectangle (8.20,3.85);
+      \node[font=\ttfamily\footnotesize, text=eltcol] at (7.40,4.15) {'qsdf89'};
+      \node[font=\ttfamily\scriptsize\bfseries, text=idxcol] at (7.40,4.75) {'pseudo'};
+      \draw[thick] (8.90,4.15) rectangle (10.50,3.55);
+      \node[font=\ttfamily\footnotesize, text=eltcol] at (9.70,3.85) {'red'};
+      \node[font=\ttfamily\scriptsize\bfseries, text=idxcol] at (9.70,4.45) {'couleur'};
+      \draw[thick] (6.90,2.95) rectangle (8.50,2.35);
+      \node[font=\ttfamily\footnotesize, text=eltcol] at (7.70,2.65) {25};
+      \node[font=\ttfamily\scriptsize\bfseries, text=idxcol] at (7.70,3.25) {'score'};
+    }
+    \only<2>{%
+      \node[anchor=west, font=\ttfamily\footnotesize] at (0.2,4.6) {joueur1 = \{...\}};
+      \node[anchor=west, font=\ttfamily\footnotesize] at (0.2,4.0) {print(joueur1['couleur'])  \# red};
+      \draw[thick, rounded corners=14pt] (6.4,5.4) rectangle (10.7,2.0000000000000004);
+      \draw[thick] (6.60,4.45) rectangle (8.20,3.85);
+      \node[font=\ttfamily\footnotesize, text=eltcol] at (7.40,4.15) {'qsdf89'};
+      \node[font=\ttfamily\scriptsize\bfseries, text=idxcol] at (7.40,4.75) {'pseudo'};
+      \draw[thick] (8.90,4.15) rectangle (10.50,3.55);
+      \node[font=\ttfamily\footnotesize, text=eltcol] at (9.70,3.85) {'red'};
+      \node[font=\ttfamily\scriptsize\bfseries, text=idxcol] at (9.70,4.45) {'couleur'};
+      \draw[cmgold, very thick, rounded corners=3pt] (8.85,4.20) rectangle (10.55,3.50);
+      \draw[thick] (6.90,2.95) rectangle (8.50,2.35);
+      \node[font=\ttfamily\footnotesize, text=eltcol] at (7.70,2.65) {25};
+      \node[font=\ttfamily\scriptsize\bfseries, text=idxcol] at (7.70,3.25) {'score'};
+    }
+    \only<3>{%
+      \node[anchor=west, font=\ttfamily\footnotesize] at (0.2,4.6) {joueur1 = \{...\}};
+      \node[anchor=west, font=\ttfamily\footnotesize] at (0.2,4.0) {print(joueur1['couleur'])  \# red};
+      \node[anchor=west, font=\ttfamily\footnotesize] at (0.2,3.4) {joueur1['score'] += 3};
+      \draw[thick, rounded corners=14pt] (6.4,5.4) rectangle (10.7,2.0000000000000004);
+      \draw[thick] (6.60,4.45) rectangle (8.20,3.85);
+      \node[font=\ttfamily\footnotesize, text=eltcol] at (7.40,4.15) {'qsdf89'};
+      \node[font=\ttfamily\scriptsize\bfseries, text=idxcol] at (7.40,4.75) {'pseudo'};
+      \draw[thick] (8.90,4.15) rectangle (10.50,3.55);
+      \node[font=\ttfamily\footnotesize, text=eltcol] at (9.70,3.85) {'red'};
+      \node[font=\ttfamily\scriptsize\bfseries, text=idxcol] at (9.70,4.45) {'couleur'};
+      \draw[thick] (6.90,2.95) rectangle (8.50,2.35);
+      \node[font=\ttfamily\footnotesize, text=eltcol] at (7.70,2.65) {28};
+      \node[font=\ttfamily\scriptsize\bfseries, text=idxcol] at (7.70,3.25) {'score'};
+      \draw[cmgold, very thick, rounded corners=3pt] (6.85,3.00) rectangle (8.55,2.30);
+    }
+    \only<4>{%
+      \node[anchor=west, font=\ttfamily\footnotesize] at (0.2,4.6) {joueur1 = \{...\}};
+      \node[anchor=west, font=\ttfamily\footnotesize] at (0.2,4.0) {print(joueur1['couleur'])  \# red};
+      \node[anchor=west, font=\ttfamily\footnotesize] at (0.2,3.4) {joueur1['score'] += 3};
+      \node[anchor=west, font=\ttfamily\footnotesize] at (0.2,2.8) {print(joueur1['score'])  \# 28};
+      \draw[thick, rounded corners=14pt] (6.4,5.4) rectangle (10.7,2.0000000000000004);
+      \draw[thick] (6.60,4.45) rectangle (8.20,3.85);
+      \node[font=\ttfamily\footnotesize, text=eltcol] at (7.40,4.15) {'qsdf89'};
+      \node[font=\ttfamily\scriptsize\bfseries, text=idxcol] at (7.40,4.75) {'pseudo'};
+      \draw[thick] (8.90,4.15) rectangle (10.50,3.55);
+      \node[font=\ttfamily\footnotesize, text=eltcol] at (9.70,3.85) {'red'};
+      \node[font=\ttfamily\scriptsize\bfseries, text=idxcol] at (9.70,4.45) {'couleur'};
+      \draw[thick] (6.90,2.95) rectangle (8.50,2.35);
+      \node[font=\ttfamily\footnotesize, text=eltcol] at (7.70,2.65) {28};
+      \node[font=\ttfamily\scriptsize\bfseries, text=idxcol] at (7.70,3.25) {'score'};
+      \draw[cmgold, very thick, rounded corners=3pt] (6.85,3.00) rectangle (8.55,2.30);
+    }
+    \only<5>{%
+      \node[anchor=west, font=\ttfamily\footnotesize] at (0.2,4.6) {joueur1 = \{...\}};
+      \node[anchor=west, font=\ttfamily\footnotesize] at (0.2,4.0) {print(joueur1['couleur'])  \# red};
+      \node[anchor=west, font=\ttfamily\footnotesize] at (0.2,3.4) {joueur1['score'] += 3};
+      \node[anchor=west, font=\ttfamily\footnotesize] at (0.2,2.8) {print(joueur1['score'])  \# 28};
+      \node[anchor=west, font=\ttfamily\footnotesize] at (0.2,2.2) {joueur1['ville'] = 'Champs'};
+      \draw[thick, rounded corners=14pt] (6.4,5.4) rectangle (10.7,2.0000000000000004);
+      \draw[thick] (6.60,4.45) rectangle (8.20,3.85);
+      \node[font=\ttfamily\footnotesize, text=eltcol] at (7.40,4.15) {'qsdf89'};
+      \node[font=\ttfamily\scriptsize\bfseries, text=idxcol] at (7.40,4.75) {'pseudo'};
+      \draw[thick] (8.90,4.15) rectangle (10.50,3.55);
+      \node[font=\ttfamily\footnotesize, text=eltcol] at (9.70,3.85) {'red'};
+      \node[font=\ttfamily\scriptsize\bfseries, text=idxcol] at (9.70,4.45) {'couleur'};
+      \draw[thick] (6.90,2.95) rectangle (8.50,2.35);
+      \node[font=\ttfamily\footnotesize, text=eltcol] at (7.70,2.65) {28};
+      \node[font=\ttfamily\scriptsize\bfseries, text=idxcol] at (7.70,3.25) {'score'};
+      \draw[thick] (9.00,2.85) rectangle (10.60,2.25);
+      \node[font=\ttfamily\footnotesize, text=eltcol] at (9.80,2.55) {'Champs'};
+      \node[font=\ttfamily\scriptsize\bfseries, text=idxcol] at (9.80,3.15) {'ville'};
+      \draw[cmgold, very thick, rounded corners=3pt] (8.95,2.90) rectangle (10.65,2.20);
+    }
+  \end{tikzpicture}
+\end{frame}
+
+\begin{frame}{Les éléments d'un dictionnaire}
+  \begin{tikzpicture}[x=1cm,y=1cm]
+    \useasboundingbox (0,0) rectangle (10.6,6.2);
+    \only<1>{%
+      \draw[thick, rounded corners=14pt] (6.4,5.4) rectangle (10.7,2.0000000000000004);
+      \draw[thick] (6.60,4.45) rectangle (8.20,3.85);
+      \node[font=\ttfamily\footnotesize, text=eltcol] at (7.40,4.15) {'qsdf89'};
+      \node[font=\ttfamily\scriptsize\bfseries, text=idxcol] at (7.40,4.75) {'pseudo'};
+      \draw[thick] (8.90,4.15) rectangle (10.50,3.55);
+      \node[font=\ttfamily\footnotesize, text=eltcol] at (9.70,3.85) {'red'};
+      \node[font=\ttfamily\scriptsize\bfseries, text=idxcol] at (9.70,4.45) {'couleur'};
+      \draw[thick] (6.90,2.95) rectangle (8.50,2.35);
+      \node[font=\ttfamily\footnotesize, text=eltcol] at (7.70,2.65) {25};
+      \node[font=\ttfamily\scriptsize\bfseries, text=idxcol] at (7.70,3.25) {'score'};
+    }
+    \only<2>{%
+      \node[anchor=west, font=\ttfamily\small] at (0.2,4.0) {dictionnaire.keys()};
+      \draw[thick, rounded corners=14pt] (6.4,5.4) rectangle (10.7,2.0000000000000004);
+      \draw[thick] (6.60,4.45) rectangle (8.20,3.85);
+      \node[font=\ttfamily\footnotesize, text=eltcol] at (7.40,4.15) {'qsdf89'};
+      \node[font=\ttfamily\scriptsize\bfseries, text=idxcol] at (7.40,4.75) {'pseudo'};
+      \draw[cmgold, very thick, rounded corners=3pt] (6.78,4.58) rectangle (8.02,4.93);
+      \draw[thick] (8.90,4.15) rectangle (10.50,3.55);
+      \node[font=\ttfamily\footnotesize, text=eltcol] at (9.70,3.85) {'red'};
+      \node[font=\ttfamily\scriptsize\bfseries, text=idxcol] at (9.70,4.45) {'couleur'};
+      \draw[cmgold, very thick, rounded corners=3pt] (9.08,4.28) rectangle (10.32,4.63);
+      \draw[thick] (6.90,2.95) rectangle (8.50,2.35);
+      \node[font=\ttfamily\footnotesize, text=eltcol] at (7.70,2.65) {25};
+      \node[font=\ttfamily\scriptsize\bfseries, text=idxcol] at (7.70,3.25) {'score'};
+      \draw[cmgold, very thick, rounded corners=3pt] (7.08,3.08) rectangle (8.32,3.43);
+    }
+    \only<3>{%
+      \node[anchor=west, font=\ttfamily\small] at (0.2,4.0) {dictionnaire.values()};
+      \draw[thick, rounded corners=14pt] (6.4,5.4) rectangle (10.7,2.0000000000000004);
+      \draw[thick] (6.60,4.45) rectangle (8.20,3.85);
+      \node[font=\ttfamily\footnotesize, text=eltcol] at (7.40,4.15) {'qsdf89'};
+      \node[font=\ttfamily\scriptsize\bfseries, text=idxcol] at (7.40,4.75) {'pseudo'};
+      \draw[cmgold, very thick, rounded corners=3pt] (6.55,4.50) rectangle (8.25,3.80);
+      \draw[thick] (8.90,4.15) rectangle (10.50,3.55);
+      \node[font=\ttfamily\footnotesize, text=eltcol] at (9.70,3.85) {'red'};
+      \node[font=\ttfamily\scriptsize\bfseries, text=idxcol] at (9.70,4.45) {'couleur'};
+      \draw[cmgold, very thick, rounded corners=3pt] (8.85,4.20) rectangle (10.55,3.50);
+      \draw[thick] (6.90,2.95) rectangle (8.50,2.35);
+      \node[font=\ttfamily\footnotesize, text=eltcol] at (7.70,2.65) {25};
+      \node[font=\ttfamily\scriptsize\bfseries, text=idxcol] at (7.70,3.25) {'score'};
+      \draw[cmgold, very thick, rounded corners=3pt] (6.85,3.00) rectangle (8.55,2.30);
+    }
+    \only<4>{%
+      \node[anchor=west, font=\ttfamily\small] at (0.2,4.0) {dictionnaire.items()};
+      \draw[thick, rounded corners=14pt] (6.4,5.4) rectangle (10.7,2.0000000000000004);
+      \draw[thick] (6.60,4.45) rectangle (8.20,3.85);
+      \node[font=\ttfamily\footnotesize, text=eltcol] at (7.40,4.15) {'qsdf89'};
+      \node[font=\ttfamily\scriptsize\bfseries, text=idxcol] at (7.40,4.75) {'pseudo'};
+      \draw[cmgold, very thick, rounded corners=3pt] (6.52,5.05) rectangle (8.28,3.77);
+      \draw[thick] (8.90,4.15) rectangle (10.50,3.55);
+      \node[font=\ttfamily\footnotesize, text=eltcol] at (9.70,3.85) {'red'};
+      \node[font=\ttfamily\scriptsize\bfseries, text=idxcol] at (9.70,4.45) {'couleur'};
+      \draw[cmgold, very thick, rounded corners=3pt] (8.82,4.75) rectangle (10.58,3.47);
+      \draw[thick] (6.90,2.95) rectangle (8.50,2.35);
+      \node[font=\ttfamily\footnotesize, text=eltcol] at (7.70,2.65) {25};
+      \node[font=\ttfamily\scriptsize\bfseries, text=idxcol] at (7.70,3.25) {'score'};
+      \draw[cmgold, very thick, rounded corners=3pt] (6.82,3.55) rectangle (8.58,2.27);
+    }
+  \end{tikzpicture}
+\end{frame}
+% DICO-B-END
+
+\begin{frame}[fragile,t]{Les clés (\textit{keys})}
+On peut accéder à l'ensemble des clés du dictionnaire :
+\begin{mdframed}[roundcorner=5pt]
+\begin{minted}[fontsize=\small]{python}
+dictionnaire.keys()
+\end{minted}
+\end{mdframed}
+
+\begin{onlyenv}<2->
+On peut donc tester si une clé est dans le dictionnaire :
+\begin{mdframed}[roundcorner=5pt]
+\begin{minted}[fontsize=\small]{python}
+if cle in dictionnaire.keys():
+\end{minted}
+\end{mdframed}
+\end{onlyenv}
+\begin{onlyenv}<3->
+C'est la même chose d'écrire (et on préfère) :
+\begin{mdframed}[roundcorner=5pt]
+\begin{minted}[fontsize=\small]{python}
+if cle in dictionnaire:
+\end{minted}
+\end{mdframed}
+\end{onlyenv}
+\begin{onlyenv}<4>
+On peut aussi \alert{itérer} sur le dictionnaire :
+\begin{mdframed}[roundcorner=5pt]
+\begin{minted}[fontsize=\small]{python}
+for cle in dictionnaire:
+# C'est pareil que (mais on préfère la version courte) :
+for cle in dictionnaire.keys():
+\end{minted}
+\end{mdframed}
+\end{onlyenv}
+\end{frame}
+
+\begin{frame}[fragile,t]{Les valeurs (\textit{values})}
+On peut accéder à l'ensemble des valeurs du dictionnaire :
+\begin{mdframed}[roundcorner=5pt]
+\begin{minted}[fontsize=\small]{python}
+dictionnaire.values()
+\end{minted}
+\end{mdframed}
+
+\begin{onlyenv}<2->
+On peut donc tester si une valeur est dans le dictionnaire :
+\begin{mdframed}[roundcorner=5pt]
+\begin{minted}[fontsize=\small]{python}
+if valeur in dictionnaire.values():
+\end{minted}
+\end{mdframed}
+\end{onlyenv}
+\begin{onlyenv}<3>
+On peut aussi \alert{itérer} sur \textit{les valeurs} du dictionnaire :
+\begin{mdframed}[roundcorner=5pt]
+\begin{minted}[fontsize=\small]{python}
+for valeur in dictionnaire.values():
+\end{minted}
+\end{mdframed}
+\end{onlyenv}
+\end{frame}
+
+\begin{frame}[fragile,t]{Les objets (\textit{items})}
+On peut accéder à l'ensemble des objets du dictionnaire :
+\begin{mdframed}[roundcorner=5pt]
+\begin{minted}[fontsize=\small]{python}
+dictionnaire.items()
+\end{minted}
+\end{mdframed}
+
+\begin{onlyenv}<2->
+On peut donc tester si un couple (clé, valeur) est dans le dictionnaire :
+\begin{mdframed}[roundcorner=5pt]
+\begin{minted}[fontsize=\small]{python}
+if (cle, valeur) in dictionnaire.items():
+# C'est pareil que (et on préfère) :
+if dictionnaire[cle] == valeur:
+\end{minted}
+\end{mdframed}
+\end{onlyenv}
+\begin{onlyenv}<3>
+On peut aussi \alert{itérer} sur \textit{les objets} du dictionnaire :
+\begin{mdframed}[roundcorner=5pt]
+\begin{minted}[fontsize=\small]{python}
+for (cle, valeur) in dictionnaire.items():
+\end{minted}
+\end{mdframed}
+\end{onlyenv}
+\end{frame}
+
+\begin{frame}{Les dictionnaires : propriétés}
+  \begin{tikzpicture}[x=1cm,y=1cm]
+    \useasboundingbox (0,0) rectangle (10.6,6.2);
+    \only<1->{\prop{5.3}{ordre d'insertion}}
+    \only<2->{\prop{4.5}{modifiable}}
+    \only<3->{\prop{3.7}{itérable}}
+    \only<4->{\prop{2.9}{clé $\rightarrow$ valeur}}
+    \only<5->{\node[fill=cmmint, draw=cmblue, very thick, rounded corners=6pt, text width=9.4cm, inner sep=8pt, font=\large, align=center] at (5.3,1.6) {\textbf{Attention !} Les clés ne doivent pas être modifiables (mutables) !};}
+    \only<6->{\node[anchor=west, font=\large] at (0.2,0.4) {$\rightarrow$ pourquoi ?};}
+  \end{tikzpicture}
+\end{frame}
+
+\end{document}
+
+
+%%% Local Variables:
+%%% TeX-engine: xetex
+%%% TeX-command-extra-options: "-shell-escape"
+%%% End:
